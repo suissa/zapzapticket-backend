@@ -12,6 +12,7 @@ import {
 } from "@nestjs/common";
 import { EvolutionService } from "../service/evolution.service";
 import { CreateEvolutionDto } from "../dto/create-evolution.dto";
+import { CreateMessageDto } from "../dto/create-message.dto";
 import axios from "axios";
 
 @Controller("evolution")
@@ -43,9 +44,22 @@ export class EvolutionController {
     return this.evolutionService.findOne(instanceName);
   }
 
-  // @Delete(":id")
-  // @HttpCode(HttpStatus.OK)
-  // delete(@Param("id") id: string) {
-  //   return this.evolutionService.delete(id);
-  // }
+  @Delete("instances/logout/:instanceName")
+  @HttpCode(HttpStatus.OK)
+  logout(@Param("instanceName") instanceName: string) {
+    return this.evolutionService.delete(instanceName);
+  }
+
+  @Delete("instances/delete/:instanceName")
+  @HttpCode(HttpStatus.OK)
+  delete(@Param("instanceName") instanceName: string) {
+    return this.evolutionService.delete(instanceName);
+  }
+
+  @Post("messages/send/:instanceName")
+  @HttpCode(HttpStatus.OK)
+  post(@Body() request: CreateMessageDto, @Param("instanceName") instanceName: string) {
+    return this.evolutionService.sendMessage(request, instanceName);
+  }
+
 }

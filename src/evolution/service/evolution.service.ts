@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Evolution } from '../schema/evolution.schema';
 import mongoose, { Model } from 'mongoose';
 import { CreateEvolutionDto } from '../dto/create-evolution.dto';
+import { CreateMessageDto } from '../dto/create-message.dto';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 const SERVER_EVOLUTION = "http://localhost:6666";
@@ -83,14 +84,39 @@ export class EvolutionService {
     return result.data;
   }
 
-  // async update(id: string, request: UpdateEvolutionDto) {
-  //   // return await this.evolutionModel.findByIdAndUpdate(id, request, {
-  //   //   new: true,
-  //   //   runValidators: true,
-  //   // });
-  // }
+  async logout(instanceName: string) {
+    const apiKey = this.configService.get<string>('APIKEY');
+    const headers = {
+      headers: {
+        apikey: apiKey
+      }
+    }
+    const result = await axios.delete(`${SERVER_EVOLUTION}/instance/logout/${instanceName}`, headers);
 
-  async delete(id: string) {
-    // return await this.evolutionModel.findByIdAndDelete(id);
+    return result.data;
+  }
+
+  async delete(instanceName: string) {
+    const apiKey = this.configService.get<string>('APIKEY');
+    const headers = {
+      headers: {
+        apikey: apiKey
+      }
+    }
+    const result = await axios.delete(`${SERVER_EVOLUTION}/instance/delete/${instanceName}`, headers);
+
+    return result.data;
+  }
+
+  async sendMessage(request: CreateMessageDto, instanceName: string) {
+    const apiKey = this.configService.get<string>('APIKEY');
+    const headers = {
+      headers: {
+        apikey: apiKey
+      }
+    }
+    const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
+
+    return result.data;
   }
 }
