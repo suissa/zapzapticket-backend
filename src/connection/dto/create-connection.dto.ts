@@ -5,12 +5,11 @@ export class CreateConnectionDto {
   name: string;
 
   @IsNotEmpty()
-  @Min(0)
   phone: string;
 
   @IsOptional()
-  instanceName: string;
+  instanceName: string = "";
 
   @IsOptional()
-  instanceStatus: boolean;
+  instanceStatus: boolean = false;
 }
