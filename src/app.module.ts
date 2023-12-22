@@ -22,7 +22,6 @@ import { UserModule } from './user/user.module';
     EvolutionModule,
     ConnectionModule,
     ContactModule,
-    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
