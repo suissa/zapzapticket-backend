@@ -1,5 +1,4 @@
 import { IsString, IsNotEmpty, IsArray, IsOptional, IsBoolean } from 'class-validator';
-import { Type } from 'class-transformer';
 
 class BadgeDto {
   @IsString()
