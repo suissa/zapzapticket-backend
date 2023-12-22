@@ -16,7 +16,7 @@ export class ConnectionService {
     }
 
   private async init() {
-    await this.findInstancesInitiated();
+    await this.findInitiatedConnections();
   }
 
   async create(request: CreateConnectionDto): Promise<Connection> {
@@ -44,68 +44,55 @@ export class ConnectionService {
     });
   }
 
+  async updateAll(request: UpdateConnectionDto) {
+    return await this.connectionModel.updateMany({}, request);
+  }
+
+  async resetAll() {
+    return await this.connectionModel.updateMany(
+      {},
+      { instanceName: "", instanceStatus: false });
+  }
+
   async delete(id: string) {
     return await this.connectionModel.findByIdAndDelete(id);
   }
 
-  async findInstancesInitiated() {
+  async findInitiatedConnections() {
+    await this.resetAll();
     const instances = await this.evolutionService.findAll();
-    console.log("findInstancesInitiated instances: ", instances)
-  //   instances.forEach(async ({instance}) => {
-  //   console.log("findInstancesInitiated ___instance:", instance);
-  //   if (!instance.owner){
-  //     // deleta instancia q ta close
-  //     if (instance.status == "close") {
-  //       const { data } = await axios.delete(`${SERVER}/instance/delete/${instance.instanceName}`, {
-  //         headers: {
-  //           "apikey": GLOBAL_KEY,
-  //           'Content-Type': 'application/json',
-  //         }
-  //       });
-  //       console.log("DELETADA data:", data);
-  //     }
-  //     return false;
-  //   }
-  //   _instances.push(instance);
-  //   const { instanceName } = instance;
-  //   console.log("findInstancesInitiated instanceName:", instanceName);
-  //   const phone = instanceName.split("-")[1];
-  //   const result = await Numero.updateOne({ phone }, { instancia_status: true, instancia: instanceName });
-    
-  //   console.log("findInstancesInitiated result:", result);
-  // });
+
+    // instances.forEach(async (el: GetInstanceDto) => {
+    for(const { instance } of instances){
+      console.log("instance: ", instance)
+
+      const { instanceName, owner, status } = instance;
+      if (!owner){
+        if (status == "close") {
+          const data = this.evolutionService.delete(instanceName)
+          console.log("DELETADA:", data);
+        }
+        return false;
+      }
+
+      const [ name, phone ] = instanceName.split("-");
+      const filter = { phone: phone }
+      const update = {
+        $set: {
+          name: name.replace("_", " "),
+          instanceStatus: true,
+          instanceName: instanceName
+        }
+      };
+      const options = {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true
+      };
+
+      const result = await this.connectionModel.findOneAndUpdate(filter, update, options);
+      console.log("findInitiatedConnections result: ", result)
+    // });
+  }
   }
 }
-
-// async findInstancesInitiated() {
-//   let _instances = [];
-//   const numerosUpdate = await Numero.updateMany({}, {instancia_status: false, instancia: ""});
-//   console.log("findInstancesInitiated numerosUpdate:", numerosUpdate);
-//   const instances = await instancesList();
-//   console.log("findInstancesInitiated instances:", instances);
-//   instances.forEach(async ({instance}) => {
-//     console.log("findInstancesInitiated ___instance:", instance);
-//     if (!instance.owner){
-//       // deleta instancia q ta close
-//       if (instance.status == "close") {
-//         const { data } = await axios.delete(`${SERVER}/instance/delete/${instance.instanceName}`, {
-//           headers: {
-//             "apikey": GLOBAL_KEY,
-//             'Content-Type': 'application/json',
-//           }
-//         });
-//         console.log("DELETADA data:", data);
-//       }
-//       return false;
-//     }
-//     _instances.push(instance);
-//     const { instanceName } = instance;
-//     console.log("findInstancesInitiated instanceName:", instanceName);
-//     const phone = instanceName.split("-")[1];
-//     const result = await Numero.updateOne({ phone }, { instancia_status: true, instancia: instanceName });
-    
-//     console.log("findInstancesInitiated result:", result);
-//   });
-//   console.log("findInstancesInitiated _instances:", _instances)
-//   return _instances;
-// }

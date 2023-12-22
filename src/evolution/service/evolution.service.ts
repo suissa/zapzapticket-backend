@@ -2,8 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Evolution } from '../schema/evolution.schema';
 import mongoose, { Model } from 'mongoose';
-import { CreateEvolutionDto } from '../dto/create-evolution.dto';
+import { CreateEvolutionDto } from '../dto/create-instance.dto';
 import { CreateMessageDto } from '../dto/create-message.dto';
+import { GetInstanceDto } from '../dto/get-instance.dto';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 const SERVER_EVOLUTION = "http://localhost:6666";
@@ -85,7 +86,7 @@ export class EvolutionService {
     }
   }
 
-  async findAll(): Promise<Evolution[]> {
+  async findAll(): Promise<GetInstanceDto[]> {
     const apiKey = this.configService.get<string>('APIKEY');
     const headers = {
       headers: {

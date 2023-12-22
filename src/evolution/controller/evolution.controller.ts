@@ -11,7 +11,7 @@ import {
   Res,
 } from "@nestjs/common";
 import { EvolutionService } from "../service/evolution.service";
-import { CreateEvolutionDto } from "../dto/create-evolution.dto";
+import { CreateEvolutionDto } from "../dto/create-instance.dto";
 import { CreateMessageDto } from "../dto/create-message.dto";
 import axios from "axios";
 
