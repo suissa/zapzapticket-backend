@@ -63,7 +63,7 @@ export class ConnectionService {
     const instances = await this.evolutionService.findAll();
 
     for(const { instance } of instances){
-      console.log("instance: ", instance)
+      // console.log("instance: ", instance)
 
       const { instanceName, owner, status } = instance;
       if (!owner){
