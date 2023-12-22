@@ -7,7 +7,7 @@ import { EvolutionModule } from './evolution/evolution.module';
 import { ConnectionModule } from './connection/connection.module';
 import { ContactModule } from './contact/contact.module';
 import { UserModule } from './user/user.module';
-
+// console.log("UserModule", UserModule)
 
 @Module({
   imports: [
@@ -22,6 +22,7 @@ import { UserModule } from './user/user.module';
     EvolutionModule,
     ConnectionModule,
     ContactModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
