@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConnectionService } from './service/connection.service';
-import { ConnectionController } from './controller/connection.controller';
+import { UserService } from './service/user.service';
+import { UserController } from './controller/user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Connection, ConnectionSchema } from './schema/connection.schema';
-import { EvolutionModule } from "../evolution/evolution.module"
-import { EvolutionService } from 'src/evolution/service/evolution.service';
+import { User, UserSchema } from './schema/user.schema';
+
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Connection.name, schema: ConnectionSchema }]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
-  controllers: [ConnectionController],
-  providers: [ConnectionService, EvolutionService],
+  controllers: [UserController],
+  providers: [UserService,],
 })
-export class ConnectionModule {}
+export class UserModule {}
