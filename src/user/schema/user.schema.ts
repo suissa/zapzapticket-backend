@@ -38,15 +38,6 @@ export class User {
   @Prop()
   isConnected: boolean = false;
 
-  @Prop({ default: "inativo"})
-  ticketStatus: string;
-
-  @Prop()
-  ticketCreatedAt: string;
-
-  @Prop()
-  ticketClosedAt: string;
-
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
