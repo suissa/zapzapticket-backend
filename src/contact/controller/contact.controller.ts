@@ -9,42 +9,42 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ConnectionService } from '../service/connection.service';
-import { CreateConnectionDto } from '../dto/create-connection.dto';
-import { UpdateConnectionDto } from '../dto/update-connection.dto';
+import { ContactService } from '../service/contact.service';
+import { CreateContactDto } from '../dto/create-contact.dto';
+import { UpdateContactDto } from '../dto/update-contact.dto';
 
-@Controller('connections')
-export class ConnectionController {
-  constructor(private readonly connectionService: ConnectionService) {}
+@Controller('contacts')
+export class ContactController {
+  constructor(private readonly contactService: ContactService) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
-  create(@Body() request: CreateConnectionDto) {
-    return this.connectionService.create(request);
+  create(@Body() request: CreateContactDto) {
+    return this.contactService.create(request);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
     console.log('findAll');
-    return this.connectionService.findAll();
+    return this.contactService.findAll();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
-    return this.connectionService.findOne(id);
+    return this.contactService.findOne(id);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: string, @Body() request: UpdateConnectionDto) {
-    return this.connectionService.update(id, request);
+  update(@Param('id') id: string, @Body() request: UpdateContactDto) {
+    return this.contactService.update(id, request);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   delete(@Param('id') id: string) {
-    return this.connectionService.delete(id);
+    return this.contactService.delete(id);
   }
 }
