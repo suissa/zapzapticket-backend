@@ -7,6 +7,7 @@ import { EvolutionModule } from './evolution/evolution.module';
 import { ConnectionModule } from './connection/connection.module';
 import { ContactModule } from './contact/contact.module';
 import { UserModule } from './user/user.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UserModule } from './user/user.module';
     EvolutionModule,
     ConnectionModule,
     ContactModule,
+    MessageModule,
     UserModule
   ],
   controllers: [AppController],
