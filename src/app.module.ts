@@ -8,8 +8,6 @@ import { ConnectionModule } from './connection/connection.module';
 import { ContactModule } from './contact/contact.module';
 import { UserModule } from './user/user.module';
 
-process.env.TZ = 'UTC';
-
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
