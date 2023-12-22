@@ -7,7 +7,8 @@ import { EvolutionModule } from './evolution/evolution.module';
 import { ConnectionModule } from './connection/connection.module';
 import { ContactModule } from './contact/contact.module';
 import { UserModule } from './user/user.module';
-// console.log("UserModule", UserModule)
+
+process.env.TZ = 'UTC';
 
 @Module({
   imports: [
