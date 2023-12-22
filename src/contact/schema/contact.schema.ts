@@ -12,9 +12,6 @@ class Message {
   @Prop({ default: 'text' })
   type: string;
 
-  @Prop({ default: 'text' })
-  typeMessage: string;
-
   @Prop()
   text: string;
 
