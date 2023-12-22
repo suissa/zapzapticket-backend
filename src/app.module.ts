@@ -6,6 +6,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EvolutionModule } from './evolution/evolution.module';
 import { ConnectionModule } from './connection/connection.module';
 import { ContactModule } from './contact/contact.module';
+import { UserModule } from './user/user.module';
+
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { ContactModule } from './contact/contact.module';
     EvolutionModule,
     ConnectionModule,
     ContactModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
