@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 
 export type UserDocument = HydratedDocument<User>;
@@ -7,28 +7,6 @@ export type UserDocument = HydratedDocument<User>;
 export enum LevelEnum {
   NORMAL = "normal",
   ADMIN = "admin",
-}
-
-class Badge {
-  @Prop()
-  type: string;
-}
-
-class Message {
-  @Prop()
-  phoneReply: string;
-
-  @Prop({ default: 'text' })
-  type: string;
-
-  @Prop()
-  text: string;
-
-  @Prop()
-  url: string;
-
-  @Prop({ type: Date, default: Date.now })
-  createdAt: Date;
 }
 
 @Schema({ timestamps: true })
@@ -55,12 +33,12 @@ export class User {
   level: LevelEnum;
 
   @Prop()
-  isActive: boolean = false;
+  isActive: boolean = true;
 
   @Prop()
   isConnected: boolean = false;
 
-  @Prop()
+  @Prop({ default: "inativo"})
   ticketStatus: string;
 
   @Prop()
@@ -69,11 +47,6 @@ export class User {
   @Prop()
   ticketClosedAt: string;
 
-  @Prop({ type: [Badge] })
-  badges: Types.Array<Badge>;
-
-  @Prop({ type: [Message] })
-  messages: Types.Array<Message>;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
