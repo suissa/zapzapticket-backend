@@ -45,7 +45,7 @@ export class Contact {
   @Prop()
   country: string;
 
-  @Prop()
+  @Prop({ default: "inativo"})
   ticketStatus: string;
 
   @Prop()
@@ -54,8 +54,8 @@ export class Contact {
   @Prop()
   ticketClosedAt: string;
 
-  @Prop({ type: [Badge] })
-  badges: Types.Array<Badge>;
+  @Prop({ type: [String] })
+  badges: Types.Array<string>;
 
   @Prop({ type: [Message] })
   messages: Types.Array<Message>;
