@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsOptional, IsUrl, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class InstanceDetails {
+export class GetContactDto {
   @IsNotEmpty()
   @IsString()
   instanceName: string;
@@ -31,10 +31,4 @@ class InstanceDetails {
   @IsNotEmpty()
   @IsString()
   apikey: string;
-}
-
-export class GetInstanceDto {
-  @ValidateNested()
-  @Type(() => InstanceDetails)
-  instance: InstanceDetails;
 }
