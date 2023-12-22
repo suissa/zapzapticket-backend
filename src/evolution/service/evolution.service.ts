@@ -49,6 +49,41 @@ export class EvolutionService {
       throw error; // Lançar o erro para cima
     }
   }
+  async createAndReturnQRCode (request: CreateEvolutionDto): Promise<Evolution> {
+    console.log("create request", request)
+    // const data = {
+    //   "instanceName": "instanceNest01",
+    //   "token": "tokenAOIEKdjnj1701477826237",
+    //   "qrcode": true
+    // }
+
+    const apiKey = this.configService.get<string>('APIKEY');
+    const headers = {
+      headers: {
+        apikey: apiKey
+      }
+    }
+    try {
+      const result = await axios.post(`${SERVER_EVOLUTION}/instance/create`, request, headers);
+      console.log(result);
+      return result.data && result.data.qrcode && result.data.qrcode.base64;
+    } catch (error) {
+      if (error.response) {
+        // A solicitação foi feita e o servidor respondeu com um status fora do intervalo 2xx
+        console.error('Error data:', error.response.data);
+        console.error('Error status:', error.response.status);
+        console.error('Error headers:', error.response.headers);
+      } else if (error.request) {
+        // A solicitação foi feita, mas nenhuma resposta foi recebida
+        console.error('No response:', error.request);
+      } else {
+        // Algo aconteceu ao configurar a solicitação e desencadeou um erro
+        console.error('Error message:', error.message);
+      }
+      console.log(error)
+      throw error; // Lançar o erro para cima
+    }
+  }
 
   async findAll(): Promise<Evolution[]> {
     const apiKey = this.configService.get<string>('APIKEY');

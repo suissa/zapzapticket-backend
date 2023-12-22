@@ -25,6 +25,12 @@ export class EvolutionController {
     return this.evolutionService.create(request);
   }
 
+  @Post("instances/qrcode")
+  @HttpCode(HttpStatus.OK)
+  createAndReturnQRCode(@Body() request: CreateEvolutionDto) {
+    return this.evolutionService.create(request);
+  }
+
   @Get("instances")
   @HttpCode(HttpStatus.OK)
   findAll() {
