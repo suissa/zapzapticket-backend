@@ -24,7 +24,7 @@ class MessageDto {
   phoneReply: string;
 }
 
-export class CreateContactDto {
+export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   name: string;
