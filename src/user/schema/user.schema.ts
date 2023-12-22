@@ -15,20 +15,20 @@ class Badge {
 }
 
 class Message {
-  @Prop({ default: 'text' })
-  type: string;
+  @Prop()
+  phoneReply: string;
 
   @Prop({ default: 'text' })
-  typeMessage: string;
+  type: string;
 
   @Prop()
   text: string;
 
+  @Prop()
+  url: string;
+
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
-
-  @Prop()
-  phoneReply: string;
 }
 
 @Schema({ timestamps: true })
@@ -39,8 +39,8 @@ export class User {
   @Prop()
   phone: string;
 
-  @Prop()
-  status: string = "Lista fria";
+  @Prop({ default: "Lista fria"})
+  status: string;
 
   @Prop()
   city: string;
