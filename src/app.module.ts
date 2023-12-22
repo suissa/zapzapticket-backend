@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EvolutionModule } from './evolution/evolution.module';
 import { ConnectionModule } from './connection/connection.module';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ConnectionModule } from './connection/connection.module';
     }),
     EvolutionModule,
     ConnectionModule,
+    ContactModule,
   ],
   controllers: [AppController],
   providers: [AppService],
