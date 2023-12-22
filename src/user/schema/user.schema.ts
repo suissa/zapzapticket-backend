@@ -14,7 +14,7 @@ export class User {
   @Prop()
   name: string;
 
-  @Prop()
+  @Prop({ set: (phone: string) => phone && phone.replace(/\D/g, '') })
   phone: string;
 
   @Prop({ default: "Lista fria"})
