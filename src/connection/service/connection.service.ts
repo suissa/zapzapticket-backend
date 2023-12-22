@@ -62,7 +62,6 @@ export class ConnectionService {
     await this.resetAll();
     const instances = await this.evolutionService.findAll();
 
-    // instances.forEach(async (el: GetInstanceDto) => {
     for(const { instance } of instances){
       console.log("instance: ", instance)
 
@@ -92,7 +91,6 @@ export class ConnectionService {
 
       const result = await this.connectionModel.findOneAndUpdate(filter, update, options);
       console.log("findInitiatedConnections result: ", result)
-    // });
-  }
+    }
   }
 }
