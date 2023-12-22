@@ -51,25 +51,13 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  ticketStatus: string;
+  level: string;
 
   @IsString()
   @IsOptional()
-  ticketCreatedAt: string;
+  isActive: boolean = true;
 
   @IsString()
   @IsOptional()
-  ticketClosedAt: string;
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => BadgeDto)
-  @IsOptional()
-  badges: BadgeDto[];
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => MessageDto)
-  @IsOptional()
-  messages: MessageDto[];
+  isConnected: boolean = false;
 }
