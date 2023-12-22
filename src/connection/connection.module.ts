@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Connection, ConnectionSchema } from './schema/connection.schema';
 import { EvolutionModule } from "../evolution/evolution.module"
 import { EvolutionService } from 'src/evolution/service/evolution.service';
+
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Connection.name, schema: ConnectionSchema }]),
