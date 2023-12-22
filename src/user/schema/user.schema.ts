@@ -4,6 +4,11 @@ import { HydratedDocument, Types } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
+export enum LevelEnum {
+  NORMAL = "normal",
+  ADMIN = "admin",
+}
+
 class Badge {
   @Prop()
   type: string;
@@ -45,6 +50,15 @@ export class User {
 
   @Prop()
   country: string;
+
+  @Prop({ enum: LevelEnum, default: LevelEnum.NORMAL })
+  level: LevelEnum;
+
+  @Prop()
+  isActive: boolean = false;
+
+  @Prop()
+  isConnected: boolean = false;
 
   @Prop()
   ticketStatus: string;
