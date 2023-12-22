@@ -4,14 +4,12 @@ import { User } from '../schema/user.schema';
 import mongoose, { Model } from 'mongoose';
 import { UpdateUsertDto } from '../dto/update-user.dto';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { EvolutionService } from "../../evolution/service/evolution.service"
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name)
-    private userModel: Model<User>,
-    private evolutionService: EvolutionService) {}
+    private userModel: Model<User>) {}
 
   async create(request: CreateUserDto): Promise<User> {
     return await this.userModel.create(request);
