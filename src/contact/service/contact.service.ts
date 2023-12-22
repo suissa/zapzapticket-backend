@@ -4,14 +4,12 @@ import { Contact } from '../schema/contact.schema';
 import mongoose, { Model } from 'mongoose';
 import { UpdateContactDto } from '../dto/update-contact.dto';
 import { CreateContactDto } from '../dto/create-contact.dto';
-import { EvolutionService } from "../../evolution/service/evolution.service"
 
 @Injectable()
 export class ContactService {
   constructor(
     @InjectModel(Contact.name)
-    private contactModel: Model<Contact>,
-    private evolutionService: EvolutionService) {}
+    private contactModel: Model<Contact>) {}
 
   async create(request: CreateContactDto): Promise<Contact> {
     return await this.contactModel.create(request);
