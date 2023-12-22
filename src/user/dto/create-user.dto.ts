@@ -11,9 +11,6 @@ class MessageDto {
   @IsOptional()
   type: string = 'text';
 
-  @IsString()
-  @IsOptional()
-  typeMessage: string = 'text';
 
   @IsString()
   text: string;
