@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EvolutionModule } from './evolution/evolution.module';
+import { ConnectionModule } from './connection/connection.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EvolutionModule } from './evolution/evolution.module';
       inject: [ConfigService],
     }),
     EvolutionModule,
+    ConnectionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
