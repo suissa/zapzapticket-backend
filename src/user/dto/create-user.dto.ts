@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsArray, IsOptional, ValidateNested } from 'class-validator';
+import { IsString, IsNotEmpty, IsArray, IsOptional, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class BadgeDto {
@@ -53,11 +53,11 @@ export class CreateUserDto {
   @IsOptional()
   level: string;
 
-  @IsString()
+  @IsBoolean()
   @IsOptional()
   isActive: boolean = true;
 
-  @IsString()
+  @IsBoolean()
   @IsOptional()
   isConnected: boolean = false;
 }
