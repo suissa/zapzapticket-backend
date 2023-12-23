@@ -1,27 +1,5 @@
 import { IsString, IsNotEmpty, IsArray, IsOptional, IsBoolean } from 'class-validator';
 
-class BadgeDto {
-  @IsString()
-  type: string;
-}
-
-class MessageDto {
-  @IsString()
-  @IsOptional()
-  type: string = 'text';
-
-
-  @IsString()
-  text: string;
-
-  @IsString()
-  @IsOptional()
-  createdAt: Date;
-
-  @IsString()
-  @IsOptional()
-  phoneReply: string;
-}
 
 export class CreateUserDto {
   @IsNotEmpty()
