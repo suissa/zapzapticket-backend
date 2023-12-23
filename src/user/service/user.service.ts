@@ -12,11 +12,14 @@ export class UserService {
     private userModel: Model<User>) {}
 
   async create(request: CreateUserDto): Promise<User> {
-    console.log("create request", request)
     return await this.userModel.create(request);
   }
 
   async findAll(): Promise<User[]> {
+    return await this.userModel.find({ isActive: true });
+  }
+
+  async findAllWithNoActive(): Promise<User[]> {
     return await this.userModel.find();
   }
 
@@ -44,4 +47,12 @@ export class UserService {
   async delete(id: string) {
     return await this.userModel.findByIdAndDelete(id);
   }
+
+  async softDelete(id: string) {
+    const request = { isActive: false }
+    console.log("softDelete id", id)
+    console.log("softDelete request", request)
+    return await this.userModel.findByIdAndUpdate(id, request);
+  }
+
 }
