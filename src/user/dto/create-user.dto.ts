@@ -30,6 +30,10 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
   phone: string;
 
   @IsNotEmpty()
