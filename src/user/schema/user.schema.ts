@@ -7,6 +7,7 @@ export type UserDocument = HydratedDocument<User>;
 export enum LevelEnum {
   NORMAL = "normal",
   ADMIN = "admin",
+  MASTER = "master"
 }
 
 @Schema({ timestamps: true })
