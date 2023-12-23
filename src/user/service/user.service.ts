@@ -12,6 +12,7 @@ export class UserService {
     private userModel: Model<User>) {}
 
   async create(request: CreateUserDto): Promise<User> {
+    console.log("create request", request)
     return await this.userModel.create(request);
   }
 
