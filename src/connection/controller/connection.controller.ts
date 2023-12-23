@@ -26,7 +26,6 @@ export class ConnectionController {
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
-    console.log('findAll');
     return this.connectionService.findAll();
   }
 
