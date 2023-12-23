@@ -30,6 +30,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  @Get("/all")
+  @HttpCode(HttpStatus.OK)
+  findAllWithNoActive() {
+    console.log('findAllWithNoActive');
+    return this.userService.findAllWithNoActive();
+  }
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
@@ -46,5 +52,11 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   delete(@Param('id') id: string) {
     return this.userService.delete(id);
+  }
+
+  @Delete('soft/:id')
+  @HttpCode(HttpStatus.OK)
+  softDelete(@Param('id') id: string) {
+    return this.userService.softDelete(id);
   }
 }
