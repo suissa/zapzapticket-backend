@@ -32,7 +32,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  level: string;
+  level: string = "normal";
 
   @IsBoolean()
   @IsOptional()
