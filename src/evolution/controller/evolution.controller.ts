@@ -61,11 +61,11 @@ export class EvolutionController {
     return this.evolutionService.delete(instanceName);
   }
 
-  @Post("messages/send/batch")
-  @HttpCode(HttpStatus.OK)
-  sendBatchMessages(@Body() request: CreateMessageDto) {
-    return this.evolutionService.sendBatchMessages(request);
-  }
+  // @Post("messages/send/batch")
+  // @HttpCode(HttpStatus.OK)
+  // sendBatchMessages(@Body() request: CreateMessageDto) {
+  //   return this.evolutionService.sendBatchMessages(request);
+  // }
 
   @Post("messages/send/:instanceName")
   @HttpCode(HttpStatus.OK)

@@ -2,9 +2,6 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Evolution } from '../schema/evolution.schema';
 import mongoose, { Model } from 'mongoose';
-import { ConnectionService } from '../../connection/service/connection.service';
-import { ContactService } from '../../contact/service/contact.service';
-import { MessageService } from '../../message/service/message.service';
 import { CreateEvolutionDto } from '../dto/create-instance.dto';
 import { CreateMessageDto } from '../dto/create-message.dto';
 import { GetInstanceDto } from '../dto/get-instance.dto';
@@ -15,11 +12,7 @@ const SERVER_EVOLUTION = "http://localhost:6666";
 @Injectable()
 export class EvolutionService {
   // constructor(@InjectModel(Evolution.name) private evolutionModel: Model<Evolution>) {}
-  constructor(
-    private configService: ConfigService,
-    private connectionService: ConnectionService,
-    private contactService: ContactService,
-    private messageService: MessageService) { }
+  constructor(private configService: ConfigService) {}
 
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
@@ -57,7 +50,7 @@ export class EvolutionService {
       throw error; // Lançar o erro para cima
     }
   }
-  async createAndReturnQRCode(request: CreateEvolutionDto): Promise<Evolution> {
+  async createAndReturnQRCode (request: CreateEvolutionDto): Promise<Evolution> {
     console.log("create request", request)
     // const data = {
     //   "instanceName": "instanceNest01",
@@ -162,25 +155,5 @@ export class EvolutionService {
     const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
 
     return result.data;
-  }
-
-  async sendBatchMessages(request: any) {
-    const connection = await this.connectionService.findOne(request.connectionId)
-    const message = await this.messageService.findOne(request.messageId)
-    const contacts = await this.contactService.findAllById(request.contactIds)
-    for (const contact of contacts) {
-      const data = {
-        "number": contact.phone,
-        "options": {
-          "delay": 1200,
-          "presence": "composing",
-          "linkPreview": false
-        },
-        "textMessage": {
-          "text": message.text
-        }
-      }
-      await this.sendMessage(data, connection.instanceName)
-    }
   }
 }
