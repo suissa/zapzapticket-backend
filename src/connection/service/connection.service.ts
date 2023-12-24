@@ -58,6 +58,11 @@ export class ConnectionService {
     return await this.connectionModel.findByIdAndDelete(id);
   }
 
+  async shutDown(instanceName: string) {
+    await this.evolutionService.logout(instanceName);
+    return await this.evolutionService.delete(instanceName);
+  }
+
   async findInitiatedConnections() {
     await this.resetAll();
     const instances = await this.evolutionService.findAll();
