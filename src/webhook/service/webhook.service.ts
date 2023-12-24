@@ -10,10 +10,10 @@ export class WebhookService {
     private webhookModel: Model<Webhook>) {}
 
   async receive(request: any): Promise<Webhook> {
-    console.log(request);
-    // return await this.webhookModel.create(request);
+    return await this.webhookModel.create(request);
   }
 }
+
 
 // event: 'messages.upsert',
 // instance: 'Criptou_Onboarding-5511994649923',
