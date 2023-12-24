@@ -8,6 +8,7 @@ import { ConnectionModule } from './connection/connection.module';
 import { ContactModule } from './contact/contact.module';
 import { UserModule } from './user/user.module';
 import { MessageModule } from './message/message.module';
+import { WebhookModule } from './webhook/webhook.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { MessageModule } from './message/message.module';
     ConnectionModule,
     ContactModule,
     MessageModule,
-    UserModule
+    UserModule,
+    WebhookModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,16 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Webhook } from '../schema/webhook.schema';
-import mongoose, { Model } from 'mongoose';
 
 @Injectable()
 export class WebhookService {
-  constructor(
-    @InjectModel(Webhook.name)
-    private webhookModel: Model<Webhook>) {}
 
-  async receiveWebhook(request: any): Promise<Webhook> {
-    return await this.webhookModel.create(request);
+  async receiveWebhook(request: any): Promise<any> {
+    try {
+      // Processar os dados do webhook aqui.
+      // Por exemplo, você pode registrar os dados ou executar alguma ação com base neles.
+
+      // Retornar uma resposta apropriada
+      return { message: 'Webhook recebido com sucesso' };
+    } catch (error) {
+      // Tratar erros que podem ocorrer durante o processamento
+      throw new BadRequestException('Erro ao processar webhook', error.message);
+    }
   }
 }
 
