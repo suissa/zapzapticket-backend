@@ -8,8 +8,15 @@ export class WebhookService {
       const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
       const { remoteJid, fromMe, id } = key;
       const { conversation, messageContextInfo } = message;
-      console.log("saveMessage conversation: ", conversation);
-      // Retornar uma resposta apropriada
+      console.log("\n\nsaveMessage conversation: ", conversation);
+
+      if (fromMe) {
+        console.log("Mensagem enviada por mim");
+        return { message: "Mensagem enviada por mim" };
+      } else {
+        console.log("Mensagem recebida");
+      }
+      console.log("\n\n\n");
       return { message: "Webhook recebido com sucesso" };
     } catch (error) {
       // Tratar erros que podem ocorrer durante o processamento
