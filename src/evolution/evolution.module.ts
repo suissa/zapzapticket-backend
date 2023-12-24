@@ -10,5 +10,6 @@ import { Evolution, EvolutionSchema } from './schema/evolution.schema';
   ],
   controllers: [EvolutionController],
   providers: [EvolutionService],
+  exports: [EvolutionService],
 })
 export class EvolutionModule {}

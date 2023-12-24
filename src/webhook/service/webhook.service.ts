@@ -1,7 +1,11 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
+import {ContactService} from '../../contact/service/contact.service';
 
 @Injectable()
 export class WebhookService {
+
+  constructor(
+    private contactService: ContactService) {}
   async saveMessage(request: any): Promise<any> {
     try {
       const { instance, data, sender } = request;

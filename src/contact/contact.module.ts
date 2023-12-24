@@ -10,5 +10,6 @@ import { Contact, ContactSchema } from './schema/contact.schema';
   ],
   controllers: [ContactController],
   providers: [ContactService],
+  exports: [ContactService, MongooseModule],
 })
 export class ContactModule {}
