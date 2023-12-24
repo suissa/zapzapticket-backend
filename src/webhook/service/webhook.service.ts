@@ -1,11 +1,13 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import {ContactService} from '../../contact/service/contact.service';
+import { ContactService } from '../../contact/service/contact.service';
+import { ConnectionService } from '../../connection/service/connection.service';
 
 @Injectable()
 export class WebhookService {
 
   constructor(
-    private contactService: ContactService) {}
+    private contactService: ContactService,
+    private connectionService: ConnectionService) {}
 
   getPhoneByInstanceName(instanceName: string): string {
     const phone = instanceName.split("-")[1];
@@ -39,7 +41,7 @@ export class WebhookService {
       message: conversation,
       phoneReply: this.getPhoneByFromWhatsapp(sender)
     }
-    const result = await this.contactService.saveSentTextMessage(dataSave);
+    const result = await this.contactService.saveReceivedTextMessage(dataSave);
     return result;
   }
 
@@ -53,6 +55,7 @@ export class WebhookService {
 
       if (fromMe) {
         console.log("Mensagem enviada por mim");
+        this.saveReceivedTextMessageInContact(request);
         return { message: "Mensagem enviada por mim" };
       } else {
         console.log("Mensagem recebida");
@@ -69,7 +72,7 @@ export class WebhookService {
     try {
       // Processar os dados do webhook aqui.
       // Por exemplo, você pode registrar os dados ou executar alguma ação com base neles.
-      console.log("receiveWebhook: ", request);
+      // console.log("receiveWebhook: ", request);
       if (request.event === "messages.upsert") {
         console.log("messages.upsert: ", request);
         this.saveMessage(request)

@@ -12,5 +12,6 @@ import { EvolutionService } from 'src/evolution/service/evolution.service';
   ],
   controllers: [ConnectionController],
   providers: [ConnectionService, EvolutionService],
+  exports: [ConnectionService, MongooseModule],
 })
 export class ConnectionModule {}
