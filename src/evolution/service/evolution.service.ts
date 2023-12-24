@@ -19,7 +19,7 @@ export class EvolutionService {
     private configService: ConfigService,
     private connectionService: ConnectionService,
     private contactService: ContactService,
-    private messageService: MessageService) {}
+    private messageService: MessageService) { }
 
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
@@ -57,7 +57,7 @@ export class EvolutionService {
       throw error; // Lançar o erro para cima
     }
   }
-  async createAndReturnQRCode (request: CreateEvolutionDto): Promise<Evolution> {
+  async createAndReturnQRCode(request: CreateEvolutionDto): Promise<Evolution> {
     console.log("create request", request)
     // const data = {
     //   "instanceName": "instanceNest01",
@@ -165,6 +165,22 @@ export class EvolutionService {
   }
 
   async sendBatchMessages(request: any) {
-    const connection = await
+    const connection = await this.connectionService.findOne(request.connectionId)
+    const message = await this.messageService.findOne(request.messageId)
+    const contacts = await this.contactService.findAllById(request.contactIds)
+    for (const contact of contacts) {
+      const data = {
+        "number": contact.phone,
+        "options": {
+          "delay": 1200,
+          "presence": "composing",
+          "linkPreview": false
+        },
+        "textMessage": {
+          "text": message.text
+        }
+      }
+      await this.sendMessage(data, connection.instanceName)
+    }
   }
 }
