@@ -49,7 +49,6 @@ export class ContactService {
     console.log("request: ", request);
     const contact = await this.contactModel.findOne({ phone: request.phone });
 
-    console.log("contact: ", contact);
     if (!contact) {
       throw new NotFoundException(`Contact with phone ${request.phone} not found`);
     }
@@ -61,7 +60,6 @@ export class ContactService {
       phone: request.phoneReply,
     }
     contact.messages.push(message);
-    console.log("contact depois: ", contact);
     return await contact.save();
   }
 
