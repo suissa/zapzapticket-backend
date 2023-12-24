@@ -106,10 +106,10 @@ export class ConnectionService {
 
   async saveSentTextMessage(request: any): Promise<any> {
     console.log("request: ", request);
-    const contact = await this.connectionModel.findOne({ phone: request.phone });
+    const connection = await this.connectionModel.findOne({ phone: request.phone });
 
-    console.log("contact: ", contact);
-    if (!contact) {
+    console.log("connection: ", connection);
+    if (!connection) {
       throw new NotFoundException(`Contact with phone ${request.phone} not found`);
     }
     const message = {
@@ -119,17 +119,17 @@ export class ConnectionService {
       createdAt: new Date(),
       phone: request.phoneReply,
     }
-    contact.messages.push(message);
-    console.log("contact depois: ", contact);
-    return await contact.save();
+    connection.messages.push(message);
+    console.log("connection depois: ", connection);
+    return await connection.save();
   }
 
   async saveReceivedTextMessage(request: any): Promise<any> {
     console.log("request: ", request);
-    const contact = await this.connectionModel.findOne({ phone: request.phone });
+    const connection = await this.connectionModel.findOne({ phone: request.phone });
 
-    console.log("contact: ", contact);
-    if (!contact) {
+    console.log("connection: ", connection);
+    if (!connection) {
       throw new NotFoundException(`Contact with phone ${request.phone} not found`);
     }
     const message = {
@@ -139,8 +139,8 @@ export class ConnectionService {
       createdAt: new Date(),
       phone: request.phoneReply,
     }
-    contact.messages.push(message);
-    console.log("contact depois: ", contact);
-    return await contact.save();
+    connection.messages.push(message);
+    console.log("connection depois: ", connection);
+    return await connection.save();
   }
 }
