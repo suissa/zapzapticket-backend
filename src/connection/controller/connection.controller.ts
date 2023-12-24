@@ -50,6 +50,7 @@ export class ConnectionController {
   @Delete('/shutdown/:instanceName')
   @HttpCode(HttpStatus.OK)
   shutdown(@Param('instanceName') instanceName: string) {
+    console.log("shutdown controller: ", instanceName)
     return this.connectionService.shutDown(instanceName);
   }
 }
