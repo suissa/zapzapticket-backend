@@ -49,9 +49,8 @@ export class ConnectionService {
   }
 
   async resetAll() {
-    return await this.connectionModel.updateMany(
-      {},
-      { instanceName: "", instanceStatus: false });
+    const request =  { instanceStatus: false };
+    return await this.connectionModel.updateMany({}, request);
   }
 
   async delete(id: string) {
@@ -59,14 +58,18 @@ export class ConnectionService {
   }
 
   async shutDown(instanceName: string) {
-    await this.evolutionService.logout(instanceName);
-    return await this.evolutionService.delete(instanceName);
+    console.log("shutDown instanceName: ", instanceName)
+    const resultLogout = await this.evolutionService.logout(instanceName);
+    // const resultDelete = await this.evolutionService.delete(instanceName);
+    console.log(resultLogout)
+    // console.log(resultDelete)
+    // return await this.connectionModel.findOneAndUpdate({instanceName}, {instanceStatus: false})
   }
 
   async findInitiatedConnections() {
     await this.resetAll();
     const instances = await this.evolutionService.findAll();
-
+    console.log("instances: ", instances)
     for(const { instance } of instances){
       // console.log("instance: ", instance)
 
