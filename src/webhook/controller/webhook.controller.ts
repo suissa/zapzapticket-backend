@@ -18,8 +18,9 @@ export class WebhookController {
   @Post()
   @HttpCode(HttpStatus.OK)
   receiveWebhook(@Body() body: any) {
-    console.log(body);
+    // console.log(body);
     // Faça algo com o body
+    this.webhookService.receiveWebhook(body);
     return { message: 'Webhook recebido!' };
   }
 }
