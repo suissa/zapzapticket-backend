@@ -9,6 +9,7 @@ import { ContactModule } from './contact/contact.module';
 import { UserModule } from './user/user.module';
 import { MessageModule } from './message/message.module';
 import { WebhookModule } from './webhook/webhook.module';
+import { MessageGateway }  from "./gateways/message.gateway";
 
 @Module({
   imports: [
@@ -28,6 +29,6 @@ import { WebhookModule } from './webhook/webhook.module';
     WebhookModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, MessageGateway],
 })
 export class AppModule {}
