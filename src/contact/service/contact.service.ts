@@ -19,6 +19,10 @@ export class ContactService {
     return await this.contactModel.find();
   }
 
+  async findAllById(request: string[]): Promise<Contact[]> {
+    return await this.contactModel.find({ _id: { $in: request } }).exec();
+  }
+
   async findOne(id: string): Promise<Contact> {
     const isValidId = mongoose.isValidObjectId(id);
 
