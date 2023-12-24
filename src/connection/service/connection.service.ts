@@ -100,7 +100,7 @@ export class ConnectionService {
       };
 
       const result = await this.connectionModel.findOneAndUpdate(filter, update, options);
-      console.log("findInitiatedConnections result: ", result)
+      // console.log("findInitiatedConnections result: ", result)
     });
   }
 
