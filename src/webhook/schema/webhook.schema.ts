@@ -1,30 +1,51 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export type WebhookDocument = HydratedDocument<Webhook>;
-
+export type WebhookDocument = Document & Webhook;
 
 @Schema({ timestamps: true })
 export class Webhook {
-  @Prop()
+  @Prop({ required: true })
   event: string;
 
-  @Prop()
-  data: object;
+  @Prop(
+    raw({
+      key: {
+        remoteJid: { type: String },
+        fromMe: { type: Boolean, default: false },
+        id: { type: String }
+      },
+      pushName: { type: String, required: false },
+      message: {
+        conversation: { type: String, required: false },
+        messageContextInfo: { type: Object, required: false }
+      },
+      messageType: { type: String },
+      messageTimestamp: { type: Number, required: false },
+      owner: { type: String, required: false },
+      source: { type: String, required: false }
+    })
+  )
+  data: Record<string, any>;
 
-  @Prop()
+  @Prop({ required: true })
   instance: string;
 
-  @Prop()
+  @Prop({ required: true })
   date_time: string;
 
-  @Prop()
+  @Prop({ required: true })
   sender: string;
 
-  @Prop()
+  @Prop({ required: true })
   apikey: string;
+
+  @Prop({ required: false })
+  server_url: string;
 }
+
 export const WebhookSchema = SchemaFactory.createForClass(Webhook);
+
 
 // event: 'messages.upsert',
 // instance: 'Criptou_Onboarding-5511994649923',
