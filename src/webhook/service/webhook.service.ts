@@ -42,6 +42,7 @@ export class WebhookService {
       message: conversation,
       phoneReply: this.getPhoneByFromWhatsapp(sender)
     }
+    console.log("saveReceivedTextMessageInContact dataSave: ", dataSave);
     const result = await this.contactService.saveReceivedTextMessage(dataSave);
     return result;
   }
@@ -52,9 +53,9 @@ export class WebhookService {
     const { remoteJid, fromMe, id } = key;
     const { conversation, messageContextInfo } = message;
     const dataSave = {
-      phone: this.getPhoneByFromWhatsapp(remoteJid),
+      phone: this.getPhoneByFromWhatsapp(sender),
       message: conversation,
-      phoneReply: this.getPhoneByFromWhatsapp(sender)
+      phoneReply: this.getPhoneByFromWhatsapp(remoteJid)
     }
     const result = await this.connectionService.saveSentTextMessage(dataSave);
     return result;
@@ -66,9 +67,9 @@ export class WebhookService {
     const { remoteJid, fromMe, id } = key;
     const { conversation, messageContextInfo } = message;
     const dataSave = {
-      phone: this.getPhoneByFromWhatsapp(remoteJid),
+      phone: this.getPhoneByFromWhatsapp(sender),
       message: conversation,
-      phoneReply: this.getPhoneByFromWhatsapp(sender)
+      phoneReply: this.getPhoneByFromWhatsapp(remoteJid)
     }
     const result = await this.connectionService.saveReceivedTextMessage(dataSave);
     return result;
