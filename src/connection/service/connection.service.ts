@@ -68,7 +68,7 @@ export class ConnectionService {
   }
 
   async findInitiatedConnections() {
-    await this.resetAll();
+    // await this.resetAll();
     const instances = await this.evolutionService.findAll();
     console.log("instances: ", instances)
 
