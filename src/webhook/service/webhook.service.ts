@@ -9,7 +9,7 @@ export class WebhookService {
     @InjectModel(Webhook.name)
     private webhookModel: Model<Webhook>) {}
 
-  async receive(request: any): Promise<Webhook> {
+  async receiveWebhook(request: any): Promise<Webhook> {
     return await this.webhookModel.create(request);
   }
 }
