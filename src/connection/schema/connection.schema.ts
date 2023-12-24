@@ -34,8 +34,9 @@ export class Connection {
   @Prop()
   instanceStatus: boolean;
 
-  @Prop({ default: false })
+  @Prop({ default: true })
   isActive: boolean
+
   @Prop({ type: [Message] })
   messages: Types.Array<Message>;
 }
