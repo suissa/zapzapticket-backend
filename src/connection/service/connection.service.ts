@@ -25,7 +25,7 @@ export class ConnectionService {
 
   async findAll(): Promise<Connection[]> {
     await this.findInitiatedConnections();
-    return await this.connectionModel.find();
+    return await this.connectionModel.find().sort({ name: 1 });
   }
 
   async findOne(id: string): Promise<Connection> {
