@@ -7,7 +7,7 @@ export class WebhookService {
     try {
       // Processar os dados do webhook aqui.
       // Por exemplo, você pode registrar os dados ou executar alguma ação com base neles.
-
+      console.log("receiveWebhook: ", request);
       // Retornar uma resposta apropriada
       return { message: 'Webhook recebido com sucesso' };
     } catch (error) {
