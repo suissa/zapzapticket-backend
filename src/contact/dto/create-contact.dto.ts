@@ -9,7 +9,11 @@ class BadgeDto {
 class MessageDto {
   @IsString()
   @IsOptional()
-  type: string = 'text';
+  type: string = 'sent';
+
+  @IsString()
+  @IsOptional()
+  typeMessage: string = 'text';
 
   @IsString()
   @IsOptional()
