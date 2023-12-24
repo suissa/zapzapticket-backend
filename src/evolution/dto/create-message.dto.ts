@@ -3,15 +3,15 @@ import { IsNotEmpty, IsBoolean, IsOptional, IsString, IsNumber } from 'class-val
 class OptionsDto {
   @IsNotEmpty()
   @IsNumber()
-  delay: number = 1200;
+  delay: number;
 
   @IsOptional()
   @IsString()
-  presence: string = 'composing';
+  presence: string;
 
   @IsOptional()
   @IsBoolean()
-  linkPreview: boolean = false;
+  linkPreview: boolean;
 }
 
 class TextMessageDto {
@@ -26,7 +26,7 @@ export class CreateMessageDto {
   number: string;
 
   @IsOptional()
-  options: OptionsDto = { delay: 1200, presence: 'composing', linkPreview: false };
+  options: OptionsDto;
 
   @IsNotEmpty()
   textMessage: TextMessageDto;
