@@ -127,7 +127,8 @@ export class EvolutionService {
         apikey: apiKey
       }
     }
-    const result = await axios.delete(`${SERVER_EVOLUTION}/instance/logout/${instanceName}`, headers);
+    const url = `${SERVER_EVOLUTION}/instance/logout/${instanceName}`
+    const result = await axios.delete(url, headers);
 
     return result.data;
   }
