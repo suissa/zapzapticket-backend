@@ -46,4 +46,10 @@ export class ConnectionController {
   delete(@Param('id') id: string) {
     return this.connectionService.delete(id);
   }
+
+  @Delete('/shutdown/:instanceName')
+  @HttpCode(HttpStatus.OK)
+  shutdown(@Param('instanceName') instanceName: string) {
+    return this.connectionService.shutDown(instanceName);
+  }
 }
