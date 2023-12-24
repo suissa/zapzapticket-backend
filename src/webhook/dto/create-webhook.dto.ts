@@ -1,72 +1,73 @@
-import { IsString, IsNotEmpty, IsArray, IsOptional, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsString, IsObject, IsOptional, IsBoolean, IsNumber } from 'class-validator';
 
-class BadgeDto {
+class WebhookKeyDto {
   @IsString()
-  type: string;
+  remoteJid: string;
+
+  @IsOptional()
+  @IsBoolean()
+  fromMe?: boolean;
+
+  @IsString()
+  id: string;
 }
 
-class MessageDto {
-  @IsString()
+class WebhookMessageDto {
   @IsOptional()
-  type: string = 'text';
+  @IsString()
+  conversation?: string;
 
-  @IsString()
   @IsOptional()
-  text: string;
-
-  @IsString()
-  @IsOptional()
-  createdAt: Date;
-
-  @IsString()
-  @IsOptional()
-  phoneReply: string;
+  messageContextInfo?: any; // Você pode querer definir um tipo mais específico
 }
 
-export class CreateContactDto {
-  @IsNotEmpty()
-  @IsString()
-  name: string;
+class WebhookDataDto {
+  @IsObject()
+  key: WebhookKeyDto;
 
-  @IsNotEmpty()
-  @IsString()
-  phone: string;
-
-  @IsString()
-  status: string = "Lista fria";
-
-  @IsString()
   @IsOptional()
-  city: string;
+  @IsString()
+  pushName?: string;
+
+  @IsObject()
+  message: WebhookMessageDto;
 
   @IsString()
+  messageType: string;
+
   @IsOptional()
-  state: string;
+  @IsNumber()
+  messageTimestamp?: number;
+
+  @IsOptional()
+  @IsString()
+  owner?: string;
+
+  @IsOptional()
+  @IsString()
+  source?: string;
+}
+
+export class CreateWebhookDto {
+  @IsString()
+  event: string;
+
+  @IsObject()
+  data: WebhookDataDto;
 
   @IsString()
-  @IsOptional()
-  country: string;
+  instance: string;
 
   @IsString()
-  ticketStatus: string = "inativo";
+  date_time: string;
 
   @IsString()
-  @IsOptional()
-  ticketCreatedAt: string;
+  sender: string;
 
   @IsString()
-  @IsOptional()
-  ticketClosedAt: string;
+  apikey: string;
 
-  @IsArray()
-  @IsString({ each: true })
   @IsOptional()
-  badges: string[];
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => MessageDto)
-  @IsOptional()
-  messages: MessageDto[];
+  @IsString()
+  server_url?: string; // Adicionado campo server_url
 }
