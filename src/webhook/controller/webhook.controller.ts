@@ -8,19 +8,17 @@ import {
   Param,
   Patch,
   Post,
-} from '@nestjs/common';
-import { WebhookService } from '../service/webhook.service';
+} from "@nestjs/common";
+import { WebhookService } from "../service/webhook.service";
 
-@Controller('webhook')
+@Controller("webhook")
 export class WebhookController {
   constructor(private readonly webhookService: WebhookService) {}
 
   @Post()
   @HttpCode(HttpStatus.OK)
   receiveWebhook(@Body() body: any) {
-    // console.log(body);
-    // Faça algo com o body
     this.webhookService.receiveWebhook(body);
-    return { message: 'Webhook recebido!' };
+    return { message: "Webhook recebido!" };
   }
 }
