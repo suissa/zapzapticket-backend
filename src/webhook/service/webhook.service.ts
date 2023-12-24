@@ -7,7 +7,8 @@ export class WebhookService {
 
   constructor(
     private contactService: ContactService,
-    private connectionService: ConnectionService) {}
+    private connectionService: ConnectionService
+  ) {}
 
   getPhoneByInstanceName(instanceName: string): string {
     const phone = instanceName.split("-")[1];
@@ -64,22 +65,17 @@ export class WebhookService {
       console.log("\n\n\n");
       return { message: "Webhook recebido com sucesso" };
     } catch (error) {
-      // Tratar erros que podem ocorrer durante o processamento
       throw new BadRequestException("Erro ao processar saveMessage", error.message);
     }
   }
   async receiveWebhook(request: any): Promise<any> {
     try {
-      // Processar os dados do webhook aqui.
-      // Por exemplo, você pode registrar os dados ou executar alguma ação com base neles.
-      // console.log("receiveWebhook: ", request);
       if (request.event === "messages.upsert") {
         console.log("messages.upsert: ", request);
         this.saveMessage(request)
       }
       return { message: "Webhook recebido com sucesso" };
     } catch (error) {
-      // Tratar erros que podem ocorrer durante o processamento
       throw new BadRequestException("Erro ao processar webhook", error.message);
     }
   }
