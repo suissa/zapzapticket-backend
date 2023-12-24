@@ -2,6 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Evolution } from '../schema/evolution.schema';
 import mongoose, { Model } from 'mongoose';
+import { ConnectionService } from '../../connection/service/connection.service';
+import { ContactService } from '../../contact/service/contact.service';
+import { MessageService } from '../../message/service/message.service';
 import { CreateEvolutionDto } from '../dto/create-instance.dto';
 import { CreateMessageDto } from '../dto/create-message.dto';
 import { GetInstanceDto } from '../dto/get-instance.dto';
@@ -12,7 +15,11 @@ const SERVER_EVOLUTION = "http://localhost:6666";
 @Injectable()
 export class EvolutionService {
   // constructor(@InjectModel(Evolution.name) private evolutionModel: Model<Evolution>) {}
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private connectionService: ConnectionService,
+    private contactService: ContactService,
+    private messageService: MessageService) {}
 
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
@@ -155,5 +162,9 @@ export class EvolutionService {
     const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
 
     return result.data;
+  }
+
+  async sendBatchMessages(request: any) {
+    const connection = await
   }
 }
