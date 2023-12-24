@@ -4,20 +4,20 @@ import { HydratedDocument, Types } from 'mongoose';
 export type ConnectionDocument = HydratedDocument<Connection>;
 
 class Message {
-  @Prop()
-  phoneReply: string;
+  @Prop({ default: 'sent' })
+  type: string;
 
   @Prop({ default: 'text' })
-  type: string;
+  typeMessage: string;
 
   @Prop()
   text: string;
 
-  @Prop()
-  url: string;
-
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
+
+  @Prop()
+  phone: string;
 }
 
 @Schema({ timestamps: true })
