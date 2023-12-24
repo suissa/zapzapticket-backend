@@ -46,6 +46,34 @@ export class WebhookService {
     return result;
   }
 
+  async saveSentTextMessageInConnection(request: any): Promise<any> {
+    const { instance, data, sender } = request;
+    const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
+    const { remoteJid, fromMe, id } = key;
+    const { conversation, messageContextInfo } = message;
+    const dataSave = {
+      phone: this.getPhoneByFromWhatsapp(remoteJid),
+      message: conversation,
+      phoneReply: this.getPhoneByFromWhatsapp(sender)
+    }
+    const result = await this.connectionService.saveSentTextMessage(dataSave);
+    return result;
+  }
+
+  async saveReceivedTextMessageInConnection(request: any): Promise<any> {
+    const { instance, data, sender } = request;
+    const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
+    const { remoteJid, fromMe, id } = key;
+    const { conversation, messageContextInfo } = message;
+    const dataSave = {
+      phone: this.getPhoneByFromWhatsapp(remoteJid),
+      message: conversation,
+      phoneReply: this.getPhoneByFromWhatsapp(sender)
+    }
+    const result = await this.connectionService.saveReceivedTextMessage(dataSave);
+    return result;
+  }
+
   async saveMessage(request: any): Promise<any> {
     try {
       const { instance, data, sender } = request;
@@ -57,10 +85,12 @@ export class WebhookService {
       if (fromMe) {
         console.log("Mensagem enviada por mim");
         this.saveReceivedTextMessageInContact(request);
+        this.saveSentTextMessageInConnection(request);
         return { message: "Mensagem enviada por mim" };
       } else {
         console.log("Mensagem recebida");
         this.saveSentTextMessageInContact(request);
+        this.saveReceivedTextMessageInConnection(request);
       }
       console.log("\n\n\n");
       return { message: "Webhook recebido com sucesso" };
