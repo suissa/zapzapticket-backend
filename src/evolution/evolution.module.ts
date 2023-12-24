@@ -12,6 +12,7 @@ import { Evolution, EvolutionSchema } from './schema/evolution.schema';
     MongooseModule.forFeature([{ name: Evolution.name, schema: EvolutionSchema }]),
   ],
   controllers: [EvolutionController],
-  providers: [EvolutionService, ConnectionService, ContactService, MessageService],
+  providers: [EvolutionService],
+  exports: [EvolutionService],
 })
 export class EvolutionModule {}

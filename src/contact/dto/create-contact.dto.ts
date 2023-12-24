@@ -9,7 +9,11 @@ class BadgeDto {
 class MessageDto {
   @IsString()
   @IsOptional()
-  type: string = 'text';
+  type: string = 'sent';
+
+  @IsString()
+  @IsOptional()
+  typeMessage: string = 'text';
 
   @IsString()
   @IsOptional()
@@ -21,7 +25,7 @@ class MessageDto {
 
   @IsString()
   @IsOptional()
-  phoneReply: string;
+  phone: string;
 }
 
 export class CreateContactDto {

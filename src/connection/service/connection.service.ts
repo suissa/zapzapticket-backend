@@ -68,11 +68,12 @@ export class ConnectionService {
   }
 
   async findInitiatedConnections() {
-    await this.resetAll();
+    // await this.resetAll();
     const instances = await this.evolutionService.findAll();
     console.log("instances: ", instances)
-    for(const { instance } of instances){
-      // console.log("instance: ", instance)
+
+    instances.forEach(async ({instance}) => {
+      console.log("instance: ", instance)
 
       const { instanceName, owner, status } = instance;
       if (!owner){
@@ -100,6 +101,6 @@ export class ConnectionService {
 
       const result = await this.connectionModel.findOneAndUpdate(filter, update, options);
       console.log("findInitiatedConnections result: ", result)
-    }
+    });
   }
 }

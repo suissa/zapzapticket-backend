@@ -155,5 +155,46 @@ export class EvolutionService {
     const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
 
     return result.data;
+
   }
+
+  async sendBatchMessages(request: any) {
+    const connection = request.instanceName
+    const message = request.text
+    const phones = request.phones
+    for (const phone of phones) {
+      const data = {
+        "number": phone,
+        "options": {
+          "delay": 1200,
+          "presence": "composing",
+          "linkPreview": false
+        },
+        "textMessage": {
+          "text": message
+        }
+      }
+      await this.sendMessage(data, connection.instanceName)
+    }
+  }
+
+  // async sendBatchMessagesModules(request: any) {
+  //   const connection = await this.connectionService.findOne(request.connectionId)
+  //   const message = await this.messageService.findOne(request.messageId)
+  //   const contacts = await this.contactService.findAllById(request.contactIds)
+  //   for (const contact of contacts) {
+  //     const data = {
+  //       "number": contact.phone,
+  //       "options": {
+  //         "delay": 1200,
+  //         "presence": "composing",
+  //         "linkPreview": false
+  //       },
+  //       "textMessage": {
+  //         "text": message.text
+  //       }
+  //     }
+  //     await this.sendMessage(data, connection.instanceName)
+  //   }
+  // }
 }

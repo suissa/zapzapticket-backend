@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, NotFoundException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Contact } from '../schema/contact.schema';
 import mongoose, { Model } from 'mongoose';
@@ -46,5 +46,46 @@ export class ContactService {
 
   async delete(id: string) {
     return await this.contactModel.findByIdAndDelete(id);
+  }
+
+
+  async saveSentTextMessage(request: any): Promise<any> {
+    console.log("request: ", request);
+    const contact = await this.contactModel.findOne({ phone: request.phone });
+
+    console.log("contact: ", contact);
+    if (!contact) {
+      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+    }
+    const message = {
+      type: "sent",
+      typeMessage: "text",
+      text: request.message,
+      createdAt: new Date(),
+      phone: request.phoneReply,
+    }
+    contact.messages.push(message);
+    console.log("contact depois: ", contact);
+    return await contact.save();
+  }
+
+  async saveReceivedTextMessage(request: any): Promise<any> {
+    console.log("request: ", request);
+    const contact = await this.contactModel.findOne({ phone: request.phone });
+
+    console.log("contact: ", contact);
+    if (!contact) {
+      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+    }
+    const message = {
+      type: "received",
+      typeMessage: "text",
+      text: request.message,
+      createdAt: new Date(),
+      phone: request.phoneReply,
+    }
+    contact.messages.push(message);
+    console.log("contact depois: ", contact);
+    return await contact.save();
   }
 }

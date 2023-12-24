@@ -9,8 +9,11 @@ class Badge {
 }
 
 class Message {
-  @Prop({ default: 'text' })
+  @Prop({ default: 'sent' })
   type: string;
+
+  @Prop({ default: 'text' })
+  typeMessage: string;
 
   @Prop()
   text: string;
@@ -19,7 +22,7 @@ class Message {
   createdAt: Date;
 
   @Prop()
-  phoneReply: string;
+  phone: string;
 }
 
 @Schema({ timestamps: true })
