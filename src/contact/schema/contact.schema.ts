@@ -22,7 +22,7 @@ class Message {
   createdAt: Date;
 
   @Prop()
-  phoneReply: string;
+  phone: string;
 }
 
 @Schema({ timestamps: true })

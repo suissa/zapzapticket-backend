@@ -25,7 +25,7 @@ class MessageDto {
 
   @IsString()
   @IsOptional()
-  phoneReply: string;
+  phone: string;
 }
 
 export class CreateContactDto {
