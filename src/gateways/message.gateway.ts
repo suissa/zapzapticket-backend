@@ -3,17 +3,22 @@ import {
   SubscribeMessage,
   MessageBody,
   WebSocketServer,
-} from '@nestjs/websockets';
-import { Server } from 'socket.io';
+} from "@nestjs/websockets";
+import { Server } from "socket.io";
 
-@WebSocketGateway({ /* opcionalmente, configurações como a porta */ })
+@WebSocketGateway({ 
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+ })
 export class MessageGateway {
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('your-message-event')
+  @SubscribeMessage("message")
   handleMessage(@MessageBody() data: any): void {
     // Lógica para lidar com a mensagem recebida
-    this.server.emit('response-event', { /* dados de resposta */ });
+    this.server.emit("response-event", { /* dados de resposta */ });
   }
 }
