@@ -70,10 +70,10 @@ export class ConnectionService {
   async findInitiatedConnections() {
     // await this.resetAll();
     const instances = await this.evolutionService.findAll();
-    console.log("instances: ", instances)
+    // console.log("instances: ", instances)
 
     instances.forEach(async ({instance}) => {
-      console.log("instance: ", instance)
+      // console.log("instance: ", instance)
 
       const { instanceName, owner, status } = instance;
       if (!owner){

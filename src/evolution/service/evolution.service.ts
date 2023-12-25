@@ -1,12 +1,16 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, Inject } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
+// import mongoose, { Model } from "mongoose";
+import { ConfigService } from "@nestjs/config";
+import { MessagePattern, Payload, ClientProxy } from '@nestjs/microservices';
+
 import { Evolution } from "../schema/evolution.schema";
-import mongoose, { Model } from "mongoose";
 import { MessageGateway } from "../../gateways/message.gateway";
+import { RabbitmqService } from "./rabbitmq.service";
 import { CreateEvolutionDto } from "../dto/create-instance.dto";
 import { CreateMessageDto } from "../dto/create-message.dto";
 import { GetInstanceDto } from "../dto/get-instance.dto";
-import { ConfigService } from "@nestjs/config";
+import * as amqp from 'amqplib';
 import axios from "axios";
 
 const SERVER_EVOLUTION = "http://localhost:6666";
@@ -16,7 +20,8 @@ export class EvolutionService {
   // constructor(@InjectModel(Evolution.name) private evolutionModel: Model<Evolution>) {}
   constructor(
     private configService: ConfigService,
-    private messageGateway: MessageGateway
+    private messageGateway: MessageGateway,
+    private rabbitmqService: RabbitmqService
   ) {}
 
 
@@ -150,6 +155,10 @@ export class EvolutionService {
     return result.data;
   }
 
+  async sendMessagesToQueue(request: any) {
+    console.log("sendMessagesToQueue: ", request)
+  }
+
   async sendMessage(request: CreateMessageDto, instanceName: string) {
     const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
@@ -158,19 +167,67 @@ export class EvolutionService {
       }
     }
 
-    this.messageGateway.server.emit('message:sent', "Enviou a mensagem pela Evolution");
+    setTimeout(() => {
+      this.messageGateway.server.emit("message:received", request.number);
+    }, 10000);
+    this.messageGateway.server.emit("message:sent", request);
 
-    // const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
+    const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
 
-    // return result.data;
+    return result.data;
 
   }
 
+  async sendMessageSimple(phone: string, text: string, instanceName: string) {
+    const apiKey = this.configService.get<string>("APIKEY");
+    const headers = {
+      headers: {
+        apikey: apiKey
+      }
+    }
+
+      const data = {
+      "number": phone,
+      "options": {
+        "delay": 1200,
+        "presence": "composing",
+        "linkPreview": false
+      },
+      "textMessage": {
+        "text": text
+      }
+    }
+
+    // setTimeout(() => {
+    //   this.messageGateway.server.emit("message:received", request.number);
+    // }, 10000);
+    // this.messageGateway.server.emit("message:sent", request);
+
+    const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, data, headers);
+
+    return result.data;
+
+  }
+
+  uniquePhones(data: string[]): string[] {
+    const unique = new Set<string>();
+    const uniqueData = data.filter(phone => {
+      if (!unique.has(phone)) {
+        unique.add(phone);
+        return true;
+      }
+      return false;
+    });
+    return uniqueData;
+  }
+
   async sendBatchMessages(request: any) {
-    const connection = request.instanceName
-    const message = request.text
-    const phones = request.phones
-    for (const phone of phones) {
+    console.log("sendBatchMessages: ", request)
+    const { instanceName, text, phones } = request
+
+  const uniquePhones = this.uniquePhones(phones);
+  console.log("uniquePhones: ", uniquePhones)
+    for (const phone of uniquePhones) {
       const data = {
         "number": phone,
         "options": {
@@ -179,30 +236,56 @@ export class EvolutionService {
           "linkPreview": false
         },
         "textMessage": {
-          "text": message
+          "text": text
         }
       }
-      await this.sendMessage(data, connection.instanceName)
+
+      this.messageGateway.server.emit("message:received", {phone, text, instanceName});
+
+      
+    const connection = await amqp.connect('amqp://localhost');
+    const channel = await connection.createChannel();
+
+    // Declare a queue to consume from
+    const queueName = 'messages_queue';
+    await channel.assertQueue(queueName, { durable: false });
+
+    // Consume messages from the queue
+    channel.consume(queueName, (msg) => {
+      console.log("consume msg: ", msg)
+      if (msg !== null) {
+        const data = JSON.parse(msg.content);
+        console.log('Received in Evolution Service:', data);
+        // Process the message here
+        channel.ack(msg);
+      }
+    });
+
+      await this.sendMessageSimple(phone, text, instanceName)
+      console.log("data: ", data, instanceName)
     }
   }
 
-  // async sendBatchMessagesModules(request: any) {
-  //   const connection = await this.connectionService.findOne(request.connectionId)
-  //   const message = await this.messageService.findOne(request.messageId)
-  //   const contacts = await this.contactService.findAllById(request.contactIds)
-  //   for (const contact of contacts) {
-  //     const data = {
-  //       "number": contact.phone,
-  //       "options": {
-  //         "delay": 1200,
-  //         "presence": "composing",
-  //         "linkPreview": false
-  //       },
-  //       "textMessage": {
-  //         "text": message.text
-  //       }
-  //     }
-  //     await this.sendMessage(data, connection.instanceName)
-  //   }
-  // }
+
+  async sendBatchMessagesModules(request: any) {
+    console.log("sendBatchMessagesModules: ", request)
+    // const connection = await this.connectionService.findOne(request.connectionId)
+    // const message = await this.messageService.findOne(request.messageId)
+    // const contacts = await this.contactService.findAllById(request.contactIds)
+    // for (const contact of contacts) {
+    //   const data = {
+    //     "number": contact.phone,
+    //     "options": {
+    //       "delay": 1200,
+    //       "presence": "composing",
+    //       "linkPreview": false
+    //     },
+    //     "textMessage": {
+    //       "text": message.text
+    //     }
+    //   }
+    //   await this.sendMessage(data, connection.instanceName)
+    // }
+  }
+
 }

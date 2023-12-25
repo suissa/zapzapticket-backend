@@ -61,10 +61,22 @@ export class EvolutionController {
     return this.evolutionService.delete(instanceName);
   }
 
+  // @Post("messages/send/batch")
+  // @HttpCode(HttpStatus.OK)
+  // sendBatchMessages(@Body() request: any) {
+  //   console.log("controller request: ", request)
+  //   return this.evolutionService.sendBatchMessages(request);
+  // }
+
+  @Post("messages/send/queue")
+  @HttpCode(HttpStatus.OK)
+  sendMessagesToQueue(@Body() request: any, @Res() res: any) {
+    return this.evolutionService.sendBatchMessages(request);
+  }
+
   @Post("messages/send/:instanceName")
   @HttpCode(HttpStatus.OK)
   post(@Body() request: CreateMessageDto, @Param("instanceName") instanceName: string) {
     return this.evolutionService.sendMessage(request, instanceName);
   }
-
 }
