@@ -26,7 +26,8 @@ import { MessageGateway }  from "./gateways/message.gateway";
     ContactModule,
     MessageModule,
     UserModule,
-    WebhookModule
+    WebhookModule,
+    MessageGateway
   ],
   controllers: [AppController],
   providers: [AppService, MessageGateway],

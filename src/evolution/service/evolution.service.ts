@@ -1,18 +1,23 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Evolution } from '../schema/evolution.schema';
-import mongoose, { Model } from 'mongoose';
-import { CreateEvolutionDto } from '../dto/create-instance.dto';
-import { CreateMessageDto } from '../dto/create-message.dto';
-import { GetInstanceDto } from '../dto/get-instance.dto';
-import { ConfigService } from '@nestjs/config';
-import axios from 'axios';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Evolution } from "../schema/evolution.schema";
+import mongoose, { Model } from "mongoose";
+import { MessageGateway } from "../../gateways/message.gateway";
+import { CreateEvolutionDto } from "../dto/create-instance.dto";
+import { CreateMessageDto } from "../dto/create-message.dto";
+import { GetInstanceDto } from "../dto/get-instance.dto";
+import { ConfigService } from "@nestjs/config";
+import axios from "axios";
+
 const SERVER_EVOLUTION = "http://localhost:6666";
 
 @Injectable()
 export class EvolutionService {
   // constructor(@InjectModel(Evolution.name) private evolutionModel: Model<Evolution>) {}
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    private messageGateway: MessageGateway
+  ) {}
 
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
@@ -23,7 +28,7 @@ export class EvolutionService {
     //   "qrcode": true
     // }
 
-    const apiKey = this.configService.get<string>('APIKEY');
+    const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
         apikey: apiKey
@@ -36,15 +41,15 @@ export class EvolutionService {
     } catch (error) {
       if (error.response) {
         // A solicitação foi feita e o servidor respondeu com um status fora do intervalo 2xx
-        console.error('Error data:', error.response.data);
-        console.error('Error status:', error.response.status);
-        console.error('Error headers:', error.response.headers);
+        console.error("Error data:", error.response.data);
+        console.error("Error status:", error.response.status);
+        console.error("Error headers:", error.response.headers);
       } else if (error.request) {
         // A solicitação foi feita, mas nenhuma resposta foi recebida
-        console.error('No response:', error.request);
+        console.error("No response:", error.request);
       } else {
         // Algo aconteceu ao configurar a solicitação e desencadeou um erro
-        console.error('Error message:', error.message);
+        console.error("Error message:", error.message);
       }
       console.log(error)
       throw error; // Lançar o erro para cima
@@ -58,7 +63,7 @@ export class EvolutionService {
     //   "qrcode": true
     // }
 
-    const apiKey = this.configService.get<string>('APIKEY');
+    const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
         apikey: apiKey
@@ -71,15 +76,15 @@ export class EvolutionService {
     } catch (error) {
       if (error.response) {
         // A solicitação foi feita e o servidor respondeu com um status fora do intervalo 2xx
-        console.error('Error data:', error.response.data);
-        console.error('Error status:', error.response.status);
-        console.error('Error headers:', error.response.headers);
+        console.error("Error data:", error.response.data);
+        console.error("Error status:", error.response.status);
+        console.error("Error headers:", error.response.headers);
       } else if (error.request) {
         // A solicitação foi feita, mas nenhuma resposta foi recebida
-        console.error('No response:', error.request);
+        console.error("No response:", error.request);
       } else {
         // Algo aconteceu ao configurar a solicitação e desencadeou um erro
-        console.error('Error message:', error.message);
+        console.error("Error message:", error.message);
       }
       console.log(error)
       throw error; // Lançar o erro para cima
@@ -87,7 +92,7 @@ export class EvolutionService {
   }
 
   async findAll(): Promise<GetInstanceDto[]> {
-    const apiKey = this.configService.get<string>('APIKEY');
+    const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
         apikey: apiKey
@@ -109,7 +114,7 @@ export class EvolutionService {
   }
 
   async findOne(instanceName: string): Promise<Evolution> {
-    const apiKey = this.configService.get<string>('APIKEY');
+    const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
         apikey: apiKey
@@ -121,7 +126,7 @@ export class EvolutionService {
   }
 
   async logout(instanceName: string) {
-    const apiKey = this.configService.get<string>('APIKEY');
+    const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
         apikey: apiKey
@@ -134,7 +139,7 @@ export class EvolutionService {
   }
 
   async delete(instanceName: string) {
-    const apiKey = this.configService.get<string>('APIKEY');
+    const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
         apikey: apiKey
@@ -146,15 +151,18 @@ export class EvolutionService {
   }
 
   async sendMessage(request: CreateMessageDto, instanceName: string) {
-    const apiKey = this.configService.get<string>('APIKEY');
+    const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
         apikey: apiKey
       }
     }
-    const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
 
-    return result.data;
+    this.messageGateway.server.emit('message:sent', "Enviou a mensagem pela Evolution");
+
+    // const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
+
+    // return result.data;
 
   }
 
