@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument, Types } from "mongoose";
 
 export type ContactDocument = HydratedDocument<Contact>;
 
@@ -9,10 +9,10 @@ class Badge {
 }
 
 class Message {
-  @Prop({ default: 'sent' })
+  @Prop({ default: "sent" })
   type: string;
 
-  @Prop({ default: 'text' })
+  @Prop({ default: "text" })
   typeMessage: string;
 
   @Prop()
@@ -27,10 +27,10 @@ class Message {
 
 @Schema({ timestamps: true })
 export class Contact {
-  @Prop()
+  @Prop({ default: "Não informado"})
   name: string;
 
-  @Prop({ set: (phone: string) => phone && phone.replace(/\D/g, '') })
+  @Prop({ set: (phone: string) => phone && phone.replace(/\D/g, "") })
   phone: string;
 
   @Prop()

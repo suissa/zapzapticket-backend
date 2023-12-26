@@ -31,7 +31,7 @@ class MessageDto {
 export class CreateContactDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  name: string = "Não informado";
 
   @IsNotEmpty()
   @IsString()
