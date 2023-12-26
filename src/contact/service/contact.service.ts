@@ -11,7 +11,7 @@ export class ContactService {
     @InjectModel(Contact.name)
     private contactModel: Model<Contact>) {}
 
-  async create(request: CreateContactDto): Promise<Contact> {
+  async create(request: CreateContactDtoPartial): Promise<Contact> {
     return await this.contactModel.create(request);
   }
 
@@ -50,7 +50,15 @@ export class ContactService {
     const contact = await this.contactModel.findOne({ phone: request.phone });
 
     if (!contact) {
-      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+      // throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+      const _contact = {
+        name: request.name,
+        phone: request.phone,
+        messages: [],
+      }
+      const result = await this.create(_contact);
+      console.log("Contact Service saved new contact: ", result)
+      return result;
     }
     const message = {
       type: "sent",
