@@ -4,7 +4,6 @@ import { InjectModel } from "@nestjs/mongoose";
 import { ConfigService } from "@nestjs/config";
 import { Evolution } from "../schema/evolution.schema";
 import { MessageGateway } from "../../gateways/message.gateway";
-import { RabbitmqService } from "./rabbitmq.service";
 import { CreateEvolutionDto } from "../dto/create-instance.dto";
 import { CreateMessageDto } from "../dto/create-message.dto";
 import { GetInstanceDto } from "../dto/get-instance.dto";
