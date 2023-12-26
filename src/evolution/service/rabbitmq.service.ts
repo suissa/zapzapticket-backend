@@ -33,7 +33,7 @@ export class RabbitmqService implements OnApplicationBootstrap {
         console.log('Received in RabbitMQ service:', dataObj.phone, dataObj.text, dataObj.instanceName);
         // Process the message here
         // aqui q envia msg pro Evolution Service
-        await this.evolutionService.sendMessageSimple(dataObj.phone, dataObj.text, dataObj.instanceName);
+        await this.evolutionService.sendSimpleMessage(dataObj.phone, dataObj.text, dataObj.instanceName);
         channel.ack(msg);
       }
     };

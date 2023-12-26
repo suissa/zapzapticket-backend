@@ -175,7 +175,7 @@ export class EvolutionService {
 
   }
 
-  async sendMessageSimple(phone: string, text: string, instanceName: string) {
+  async sendSimpleMessage(phone: string, text: string, instanceName: string) {
     const apiKey = this.configService.get<string>("APIKEY");
     const headers = {
       headers: {
@@ -199,7 +199,7 @@ export class EvolutionService {
     //   this.messageGateway.server.emit("message:received", request.number);
     // }, 10000);
     this.messageGateway.server.emit("message:sent", phone);
-    console.log("sendMessageSimple: ", phone, text, instanceName, data);
+    console.log("sendSimpleMessage: ", phone, text, instanceName, data);
     const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, data, headers);
 
     return result.data;
@@ -257,7 +257,7 @@ export class EvolutionService {
       }
     });
 
-      await this.sendMessageSimple(phone, text, instanceName)
+      await this.sendSimpleMessage(phone, text, instanceName)
       console.log("data: ", data, instanceName)
     }
   }
