@@ -23,11 +23,15 @@ import {
   Res,
   Inject
 } from "@nestjs/common";
+import { MessageGateway } from "./gateways/message.gateway";
 import { ClientProxy } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
-  constructor(@Inject('RABBITMQ_SERVICE') private client: ClientProxy) {}
+  constructor(
+    @Inject('RABBITMQ_SERVICE') private client: ClientProxy,
+    private messageGateway: MessageGateway
+  ) {}
 
 
   @Post("messages/send/batch")
@@ -37,7 +41,6 @@ export class AppController {
     const message = { text: JSON.stringify(request) };
 
     const list = request.phones.map(phone => {
-
       const message = JSON.stringify({
         phone: phone,
         text: request.text,
