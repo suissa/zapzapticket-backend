@@ -198,10 +198,13 @@ export class EvolutionService {
     // setTimeout(() => {
     //   this.messageGateway.server.emit("message:received", request.number);
     // }, 10000);
-    this.messageGateway.server.emit("message:sent", phone);
-    console.log("sendSimpleMessage: ", phone, text, instanceName, data);
+
+    // setTimeout(async () => {
+    // }, 10000);
+    // console.log("sendSimpleMessage: ", phone, text, instanceName, data);
     const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, data, headers);
 
+    this.messageGateway.server.emit("message:sent", phone);
     return result.data;
 
   }
