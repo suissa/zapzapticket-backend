@@ -16,6 +16,9 @@ export class Evolution {
 
   @Prop()
   qrcode: boolean;
+
+  @Prop()
+  messagesConsumed: boolean;
 }
 
 export const EvolutionSchema = SchemaFactory.createForClass(Evolution);

@@ -33,8 +33,31 @@ export class AppController {
   @Post("messages/send/batch")
   @HttpCode(HttpStatus.OK)
   async sendBatchMessages(@Body() request: any) {
+    console.log("sendBatchMessages request", request)
     const message = { text: JSON.stringify(request) };
-    await this.client.emit<any>('messages_queue', message);
+
+    const list = request.phones.map(phone => {
+
+      const message = JSON.stringify({
+        phone: phone,
+        text: request.text,
+        instanceName: request.instanceName
+      });
+      return message;
+    })
+
+    let i = 0;
+    let IDInterval = setInterval(async () => {
+      if (i >= list.length) {
+        clearInterval(IDInterval);
+      } else {
+        const message = list[i];
+        i++;
+        await this.client.emit<any>('messages_queue', message);
+        console.log("Controller messages/send/batch enviando message: ", message);
+      }
+    }, 10000);
+
     return 'Mensagem enviada';
   }
 

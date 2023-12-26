@@ -2,26 +2,25 @@ import { BadRequestException, Injectable, Inject } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 // import mongoose, { Model } from "mongoose";
 import { ConfigService } from "@nestjs/config";
-import { MessagePattern, Payload, ClientProxy } from '@nestjs/microservices';
-
 import { Evolution } from "../schema/evolution.schema";
 import { MessageGateway } from "../../gateways/message.gateway";
 import { RabbitmqService } from "./rabbitmq.service";
 import { CreateEvolutionDto } from "../dto/create-instance.dto";
 import { CreateMessageDto } from "../dto/create-message.dto";
 import { GetInstanceDto } from "../dto/get-instance.dto";
-import * as amqp from 'amqplib';
+import * as amqp from "amqplib";
 import axios from "axios";
 
 const SERVER_EVOLUTION = "http://localhost:6666";
 
+
 @Injectable()
 export class EvolutionService {
-  // constructor(@InjectModel(Evolution.name) private evolutionModel: Model<Evolution>) {}
+  private messagesConsumed = false;
+
   constructor(
     private configService: ConfigService,
-    private messageGateway: MessageGateway,
-    private rabbitmqService: RabbitmqService
+    private messageGateway: MessageGateway
   ) {}
 
 
@@ -201,8 +200,8 @@ export class EvolutionService {
     // setTimeout(() => {
     //   this.messageGateway.server.emit("message:received", request.number);
     // }, 10000);
-    // this.messageGateway.server.emit("message:sent", request);
-
+    this.messageGateway.server.emit("message:sent", phone);
+    console.log("sendMessageSimple: ", phone, text, instanceName, data);
     const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, data, headers);
 
     return result.data;
@@ -225,6 +224,9 @@ export class EvolutionService {
     console.log("sendBatchMessages: ", request)
     const { instanceName, text, phones } = request
 
+  const connection = await amqp.connect("amqp://localhost");
+  const channel = await connection.createChannel();
+
   const uniquePhones = this.uniquePhones(phones);
   console.log("uniquePhones: ", uniquePhones)
     for (const phone of uniquePhones) {
@@ -240,22 +242,18 @@ export class EvolutionService {
         }
       }
 
-      this.messageGateway.server.emit("message:received", {phone, text, instanceName});
-
-      
-    const connection = await amqp.connect('amqp://localhost');
-    const channel = await connection.createChannel();
+      this.messageGateway.server.emit("message:received", {phone, text, instanceName})
 
     // Declare a queue to consume from
-    const queueName = 'messages_queue';
+    const queueName = "messages_queue";
     await channel.assertQueue(queueName, { durable: false });
 
     // Consume messages from the queue
     channel.consume(queueName, (msg) => {
-      console.log("consume msg: ", msg)
+      // console.log("consume msg: ", msg)
       if (msg !== null) {
         const data = JSON.parse(msg.content);
-        console.log('Received in Evolution Service:', data);
+        console.log("sendBatchMessages Received in Evolution Service:", data);
         // Process the message here
         channel.ack(msg);
       }
