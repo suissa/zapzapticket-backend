@@ -30,6 +30,13 @@ export class ContactController {
     return this.contactService.findAll();
   }
 
+
+  @Get('/messages')
+  @HttpCode(HttpStatus.OK)
+  getAllMessages() {
+    return this.contactService.getAllMessages();
+  }
+
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {

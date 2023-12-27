@@ -90,4 +90,23 @@ export class ContactService {
     console.log("contact depois: ", contact);
     return await contact.save();
   }
+
+  async getAllMessages(): Promise<any> {
+    const contacts = await this.contactModel.find({}).lean();
+
+    const contactsLastMessage = contacts.map(contact => {
+      const lastMessage = contact.messages.pop();
+
+      return {
+        ...contact,
+        messages: lastMessage ? [lastMessage] : [],
+      };
+    }).filter(contact => contact.messages.length > 0)
+    .sort((a, b) => {
+      return new Date(b.messages[0].createdAt).getTime() - new Date(a.messages[0].createdAt).getTime();
+    });
+
+    return contactsLastMessage;
+  }
+
 }
