@@ -12,16 +12,23 @@ import axios from "axios";
 
 const SERVER_EVOLUTION = "http://localhost:6666";
 
+const groupBy = (xs, key) => xs.reduce((rv, x) => ({
+  ...rv, [x[key]]: [...(rv[x[key]] || []), x]
+}), {});
 
 @Injectable()
 export class EvolutionService {
   private messagesConsumed = false;
+  private SERVER_EVOLUTION: string;
+  private API_KEY: string;
 
   constructor(
     private configService: ConfigService,
     private messageGateway: MessageGateway
-  ) {}
-
+  ) {
+    this.SERVER_EVOLUTION = this.configService.get<string>('SERVER_EVOLUTION');
+    this.API_KEY = this.configService.get<string>("APIKEY");
+  }
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
     console.log("create request", request)
@@ -30,15 +37,15 @@ export class EvolutionService {
     //   "token": "tokenAOIEKdjnj1701477826237",
     //   "qrcode": true
     // }
-
-    const apiKey = this.configService.get<string>("APIKEY");
+    const SERVER_EVOLUTION = this.SERVER_EVOLUTION;
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
       }
     }
     try {
-      const result = await axios.post(`${SERVER_EVOLUTION}/instance/create`, request, headers);
+      const result = await axios.post(`${this.SERVER_EVOLUTION}/instance/create`, request, headers);
       console.log(result);
       return result.data;
     } catch (error) {
@@ -66,14 +73,14 @@ export class EvolutionService {
     //   "qrcode": true
     // }
 
-    const apiKey = this.configService.get<string>("APIKEY");
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
       }
     }
     try {
-      const result = await axios.post(`${SERVER_EVOLUTION}/instance/create`, request, headers);
+      const result = await axios.post(`${this.SERVER_EVOLUTION}/instance/create`, request, headers);
       console.log(result);
       return result.data && result.data.qrcode && result.data.qrcode.base64;
     } catch (error) {
@@ -95,13 +102,13 @@ export class EvolutionService {
   }
 
   async findAll(): Promise<GetInstanceDto[]> {
-    const apiKey = this.configService.get<string>("APIKEY");
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
       }
     }
-    const result = await axios.get(`${SERVER_EVOLUTION}/instance/fetchInstances`, headers);
+    const result = await axios.get(`${this.SERVER_EVOLUTION}/instance/fetchInstances`, headers);
 
     return result.data;
   }
@@ -112,43 +119,43 @@ export class EvolutionService {
         apikey: "B6D711FCDE4D4FD5936544120E713976"
       }
     }
-    const result = await axios.get(`${SERVER_EVOLUTION}/instance/connectionState/${instanceName}`, headers);
+    const result = await axios.get(`${this.SERVER_EVOLUTION}/instance/connectionState/${instanceName}`, headers);
     return result.data;
   }
 
   async findOne(instanceName: string): Promise<Evolution> {
-    const apiKey = this.configService.get<string>("APIKEY");
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
       }
     }
-    const result = await axios.get(`${SERVER_EVOLUTION}/instance/connectionState/${instanceName}`, headers);
+    const result = await axios.get(`${this.SERVER_EVOLUTION}/instance/connectionState/${instanceName}`, headers);
 
     return result.data;
   }
 
   async logout(instanceName: string) {
-    const apiKey = this.configService.get<string>("APIKEY");
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
       }
     }
-    const url = `${SERVER_EVOLUTION}/instance/logout/${instanceName}`
+    const url = `${this.SERVER_EVOLUTION}/instance/logout/${instanceName}`
     const result = await axios.delete(url, headers);
 
     return result.data;
   }
 
   async delete(instanceName: string) {
-    const apiKey = this.configService.get<string>("APIKEY");
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
       }
     }
-    const result = await axios.delete(`${SERVER_EVOLUTION}/instance/delete/${instanceName}`, headers);
+    const result = await axios.delete(`${this.SERVER_EVOLUTION}/instance/delete/${instanceName}`, headers);
 
     return result.data;
   }
@@ -158,7 +165,7 @@ export class EvolutionService {
   }
 
   async sendMessage(request: CreateMessageDto, instanceName: string) {
-    const apiKey = this.configService.get<string>("APIKEY");
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
@@ -169,14 +176,14 @@ export class EvolutionService {
     // }, 10000);
     // this.messageGateway.server.emit("message:sent", request);
 
-    const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
+    const result = await axios.post(`${this.SERVER_EVOLUTION}/message/sendText/${instanceName}`, request, headers);
 
     return result.data;
 
   }
 
   async sendSimpleMessage(phone: string, text: string, instanceName: string) {
-    const apiKey = this.configService.get<string>("APIKEY");
+    const apiKey = this.API_KEY;
     const headers = {
       headers: {
         apikey: apiKey
@@ -202,7 +209,7 @@ export class EvolutionService {
     // setTimeout(async () => {
     // }, 10000);
     // console.log("sendSimpleMessage: ", phone, text, instanceName, data);
-    const result = await axios.post(`${SERVER_EVOLUTION}/message/sendText/${instanceName}`, data, headers);
+    const result = await axios.post(`${this.SERVER_EVOLUTION}/message/sendText/${instanceName}`, data, headers);
 
     this.messageGateway.server.emit("message:sent", phone);
     return result.data;
@@ -268,23 +275,86 @@ export class EvolutionService {
 
   async sendBatchMessagesModules(request: any) {
     console.log("sendBatchMessagesModules: ", request)
-    // const connection = await this.connectionService.findOne(request.connectionId)
-    // const message = await this.messageService.findOne(request.messageId)
-    // const contacts = await this.contactService.findAllById(request.contactIds)
-    // for (const contact of contacts) {
-    //   const data = {
-    //     "number": contact.phone,
-    //     "options": {
-    //       "delay": 1200,
-    //       "presence": "composing",
-    //       "linkPreview": false
-    //     },
-    //     "textMessage": {
-    //       "text": message.text
-    //     }
-    //   }
-    //   await this.sendMessage(data, connection.instanceName)
-    // }
   }
 
+  
+  // async getAllGroups(phone) {
+  //   console.log("\n\n\n\n\ngetAllGroups", {phone});
+  
+  //   if (!phone) {
+  //     return false;
+  //   }
+  //   const numero = await Numero.findOne({ phone });
+  //   // console.log("\n\n\n\n\ngetAllGroups numero:", numero);
+  //   const instance = numero.instancia;
+  //   const url = `${SERVER}/group/fetchAllGroups/${instance}?getParticipants=true`;
+  //   // console.log("\n\n\n\n\ngetAllGroups", {key, url})
+  //   // if (key === "") {
+  //   //   return false;
+  //   // }
+  //   console.log("\n\n\n\n\ngetAllGroups url:", url)
+  //   const response = await axios.get(url, headers);
+  //   GROUPS[instance] = response.data;
+  //   console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
+  //   return response.data;
+  // };
+  
+  // async getAllParticipantsFromGroup(phone, id) {
+    
+  //   console.log("\n\n\n\n\ngetAllParticipantsFromGroup", {phone, id});
+  
+  //   // return false;
+  //   const groups = await this.getAllGroups(phone);
+  //   const groupsGrouped = groupBy(groups, 'id');
+  //   console.log("\n\n getAllParticipantsFromGroup groups:", groups);
+  //   const group = groupsGrouped[id][0];
+  //   console.log("\n\n getAllParticipantsFromGroup group:", group);
+  //   if(!group) {  
+  //     return false;
+  //   }
+  //   console.log("\n\n getAllParticipantsFromGroup group.participants:", group.participants);
+  //   const participants = group
+  //     .participants
+  //     .map(participant => ({
+  //       phone: participant.id.replace(/@c.us/g, '').replace(/@s.whatsapp.net/g, ''),
+  //       admin: participant.admin
+  //     }))
+  //     .sort((a, b) => {
+  //       if (a.admin === b.admin) return 0;
+  //       if (a.admin === null) return 1;
+  //       if (b.admin === null) return -1;
+  //       if (a.admin === 'superadmin') return -1;
+  //       if (b.admin === 'superadmin') return 1;
+  //       if (a.admin === 'admin') return -1;
+  //       if (b.admin === 'superadmin') return 1;
+  //       return 0;
+  //     });
+      
+  //   return participants;
+  // };
+  
+  // async getAllParticipants(groups) {
+  //   console.log("\n\n getAllParticipants groups:", groups);
+  //   let participants = [];
+    
+  //   for (const key in groups) {
+  //     if (groups.hasOwnProperty(key)) {
+  //       const obj = groups[key];
+  //       console.log("\n\n\n");
+  //       console.log(key);
+  //       console.log(obj);
+  //       console.log(obj.id);
+  //       console.log(obj.subject);
+  //       console.log(obj.participants);
+  //       if (!obj.participants) {
+  //         console.log("Não existe participants");
+  //       }
+  //       if (obj.participants.length > 0){
+  //         participants.push(...obj.participants.map(participant => participant.id.replace(/@c.us/g, '').replace(/@s.whatsapp.net/g, '')));
+  //       }
+  //     }
+  //   }
+  //   return participants;
+  // };
+  
 }
