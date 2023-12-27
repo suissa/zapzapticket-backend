@@ -81,8 +81,11 @@ export class WebhookService {
       const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
       const { remoteJid, fromMe, id } = key;
       const { conversation, messageContextInfo } = message;
-      console.log("\n\nsaveMessage conversation: ", conversation, message);
+
       console.log("\n\nsaveMessage message: ", message);
+      console.log("\n\nsaveMessage conversation: ", conversation);
+
+      if (!conversation) return console.log("saveReceivedTextMessageInContact return conversation: ", conversation);
 
       if (fromMe) {
         console.log("Mensagem enviada por mim");
