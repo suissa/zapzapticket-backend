@@ -43,6 +43,13 @@ export class ContactController {
     return this.contactService.findOne(id);
   }
 
+
+  @Patch('/ticketStatus/:id')
+  @HttpCode(HttpStatus.OK)
+  updateTicketStatus(@Param('id') id: string, @Body() request: UpdateContactDto) {
+    return this.contactService.updateTicketStatus(id, request);
+  }
+
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
   update(@Param('id') id: string, @Body() request: UpdateContactDto) {
