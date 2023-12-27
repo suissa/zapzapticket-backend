@@ -21,7 +21,7 @@ export class EvolutionService {
   private messagesConsumed = false;
   private SERVER_EVOLUTION: string;
   private API_KEY: string;
-  private GROUPS: {};
+  private GROUPS: object = {};
 
   constructor(
     private configService: ConfigService,
@@ -29,6 +29,7 @@ export class EvolutionService {
   ) {
     this.SERVER_EVOLUTION = this.configService.get<string>('SERVER_EVOLUTION');
     this.API_KEY = this.configService.get<string>("APIKEY");
+    this.GROUPS = {};
   }
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
@@ -280,7 +281,7 @@ export class EvolutionService {
 
   
   async getAllGroups(instanceName) {
-    console.log("\n\n\n\n\ngetAllGroups", {phone});
+    console.log("\n\n\n\n\ngetAllGroups", {instanceName});
   
     if (!instanceName) {
       return false;
@@ -291,6 +292,7 @@ export class EvolutionService {
         apikey: this.API_KEY
       }
     }
+    // const url = "http://localhost:6666/group/fetchAllGroups/Criptou_Onboarding-5511994649923?getParticipants=true"
     const url = `${this.SERVER_EVOLUTION}/group/fetchAllGroups/${instanceName}?getParticipants=true`;
     // console.log("\n\n\n\n\ngetAllGroups", {key, url})
     // if (key === "") {
@@ -299,7 +301,9 @@ export class EvolutionService {
     console.log("\n\n\n\n\ngetAllGroups url:", url)
     const response = await axios.get(url, headers);
     this.GROUPS[instanceName] = response.data;
-    console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
+
+    // console.log("\n\n\n\n\ngetAllGroups this.GROUPS:", this.GROUPS)
+    // console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
     return response.data;
   };
   
