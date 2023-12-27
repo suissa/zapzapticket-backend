@@ -79,4 +79,10 @@ export class EvolutionController {
   post(@Body() request: CreateMessageDto, @Param("instanceName") instanceName: string) {
     return this.evolutionService.sendMessage(request, instanceName);
   }
+
+  @Get("messages/send/:instanceName")
+  @HttpCode(HttpStatus.OK)
+  getAllGroups(@Param("instanceName") instanceName: string) {
+    return this.evolutionService.getAllGroups(instanceName);
+  }
 }
