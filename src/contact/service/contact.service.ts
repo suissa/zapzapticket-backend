@@ -109,7 +109,7 @@ export class ContactService {
     return contactsLastMessage;
   }
 
-  async updateTicketStatus(id: string, request: UpdateContactDto) {
+  async updateTicketStatus(id: string, request: UpdateContactDto): Promise<any> {
     return await this.contactModel.findByIdAndUpdate(id, request, {
       new: true,
       runValidators: true,
