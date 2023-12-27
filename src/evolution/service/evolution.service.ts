@@ -21,6 +21,7 @@ export class EvolutionService {
   private messagesConsumed = false;
   private SERVER_EVOLUTION: string;
   private API_KEY: string;
+  private GROUPS: {};
 
   constructor(
     private configService: ConfigService,
@@ -278,26 +279,29 @@ export class EvolutionService {
   }
 
   
-  // async getAllGroups(phone) {
-  //   console.log("\n\n\n\n\ngetAllGroups", {phone});
+  async getAllGroups(instanceName) {
+    console.log("\n\n\n\n\ngetAllGroups", {phone});
   
-  //   if (!phone) {
-  //     return false;
-  //   }
-  //   const numero = await Numero.findOne({ phone });
-  //   // console.log("\n\n\n\n\ngetAllGroups numero:", numero);
-  //   const instance = numero.instancia;
-  //   const url = `${SERVER}/group/fetchAllGroups/${instance}?getParticipants=true`;
-  //   // console.log("\n\n\n\n\ngetAllGroups", {key, url})
-  //   // if (key === "") {
-  //   //   return false;
-  //   // }
-  //   console.log("\n\n\n\n\ngetAllGroups url:", url)
-  //   const response = await axios.get(url, headers);
-  //   GROUPS[instance] = response.data;
-  //   console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
-  //   return response.data;
-  // };
+    if (!instanceName) {
+      return false;
+    }
+
+    const headers = {
+      headers: {
+        apikey: this.API_KEY
+      }
+    }
+    const url = `${this.SERVER_EVOLUTION}/group/fetchAllGroups/${instanceName}?getParticipants=true`;
+    // console.log("\n\n\n\n\ngetAllGroups", {key, url})
+    // if (key === "") {
+    //   return false;
+    // }
+    console.log("\n\n\n\n\ngetAllGroups url:", url)
+    const response = await axios.get(url, headers);
+    this.GROUPS[instanceName] = response.data;
+    console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
+    return response.data;
+  };
   
   // async getAllParticipantsFromGroup(phone, id) {
     
