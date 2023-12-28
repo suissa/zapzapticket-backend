@@ -78,7 +78,15 @@ export class ConnectionService {
 
     connections.forEach(async (connection) => {
       const { instanceName, instanceStatus } = connection;
+      console.log("connection: ", connection)
+      console.log("instanceName: ", instanceName)
+      console.log("instanceStatus: ", instanceStatus)
       const instance = instances.find(({instance}) => instance.instanceName == instanceName);
+      console.log("instance: ", instance)
+      if (instance && instance.instance.owner && instanceStatus == false) {
+        const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: true});
+        return true;
+      }
       if (!instance) {
         const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: false});
         return false;
