@@ -23,6 +23,8 @@ export class EvolutionService {
   private API_KEY: string;
   private GROUPS: object = {};
   private HEADERS: object = {};
+  private PROFILES: object = {};
+
 
   constructor(
     private configService: ConfigService,
@@ -36,6 +38,7 @@ export class EvolutionService {
         apikey: this.API_KEY
       }
     }
+    this.PROFILES = {};
   }
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
@@ -287,7 +290,9 @@ export class EvolutionService {
   }
 
   async getProfileData(instanceName: string, number: string) {
-
+    if (this.PROFILES[number]) {
+      return this.PROFILES[number];
+    }
     const url = `${this.SERVER_EVOLUTION}/chat/fetchProfile/${instanceName}`;
 
     const headers = this.HEADERS;
@@ -298,16 +303,18 @@ export class EvolutionService {
     console.log("Evolution Service getProfileData request: ", request)
     console.log("Evolution Service getProfileData instanceName: ", instanceName)
     console.log("Evolution Service getProfileData number: ", number)
-    // const result = await axios.post(url, request, headers);
-    // console.log("Evolution Service getProfileData result.data: ", result.data)
-    // return result.data;
-    return {
-      "wuid": "5511994458797@s.whatsapp.net",
-      "numberExists": true,
-      "picture": "https://pps.whatsapp.net/v/t61.24694-24/65014929_486404898849246_3779686987028496384_n.jpg?ccb=11-4&oh=01_AdS_nUqeRhP3rRAIeKX2OjM56_CFovWHD2hyS-Mp4t5M6Q&oe=659AF59C&_nc_sid=e6ed6c&_nc_cat=111",
-      "status": "http://bit.ly/dmmf-sp-br",
-      "isBusiness": false
-    }
+    const result = await axios.post(url, request, headers);
+    console.log("Evolution Service getProfileData result.data: ", result.data)
+
+    this.PROFILES[number] = result.data;
+    return result.data;
+    // return {
+    //   "wuid": "5511994458797@s.whatsapp.net",
+    //   "numberExists": true,
+    //   "picture": "https://pps.whatsapp.net/v/t61.24694-24/65014929_486404898849246_3779686987028496384_n.jpg?ccb=11-4&oh=01_AdS_nUqeRhP3rRAIeKX2OjM56_CFovWHD2hyS-Mp4t5M6Q&oe=659AF59C&_nc_sid=e6ed6c&_nc_cat=111",
+    //   "status": "http://bit.ly/dmmf-sp-br",
+    //   "isBusiness": false
+    // }
   }
 
   async getAllGroups(instanceName) {
