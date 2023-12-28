@@ -71,7 +71,13 @@ export class ConnectionService {
     // await this.resetAll();
     const connections = await this.connectionModel.find({});
     const instances = await this.evolutionService.findAll();
+    // console.log("connections: ", connections)
     // console.log("instances: ", instances)
+
+    if (connections.length == 0) {
+      // criar a conexao aqui
+      return false;
+    }
 
     connections.forEach(async (connection) => {
       const { instanceName, instanceStatus } = connection;
@@ -80,7 +86,11 @@ export class ConnectionService {
         const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: false});
         return false;
       }
-      return false;
+      if (!instance.instance.owner) {
+        this.evolutionService.delete(instance.instance.instanceName);
+        const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: false});
+        return false;
+      }
     });
   }
 
