@@ -85,4 +85,10 @@ export class EvolutionController {
   getAllGroups(@Param("instanceName") instanceName: string) {
     return this.evolutionService.getAllGroups(instanceName);
   }
+
+  @Get("profile/:instanceName/:number")
+  @HttpCode(HttpStatus.OK)
+  getProfileData(@Param("instanceName") instanceName: string, @Param("number") number: string) {
+    return this.evolutionService.getProfileData(instanceName, number);
+  }
 }
