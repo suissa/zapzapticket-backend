@@ -22,6 +22,7 @@ export class EvolutionService {
   private SERVER_EVOLUTION: string;
   private API_KEY: string;
   private GROUPS: object = {};
+  private HEADERS: object = {};
 
   constructor(
     private configService: ConfigService,
@@ -30,6 +31,11 @@ export class EvolutionService {
     this.SERVER_EVOLUTION = this.configService.get<string>('SERVER_EVOLUTION');
     this.API_KEY = this.configService.get<string>("APIKEY");
     this.GROUPS = {};
+    this.HEADERS = {
+      headers: {
+        apikey: this.API_KEY
+      }
+    }
   }
 
   async create(request: CreateEvolutionDto): Promise<Evolution> {
@@ -279,7 +285,23 @@ export class EvolutionService {
     console.log("sendBatchMessagesModules: ", request)
   }
 
-  
+  async getProfileData(instanceName: string, number: string) {
+
+    const url = `${this.SERVER_EVOLUTION}/chat/fetchProfile/${instanceName}`;
+
+    const headers = this.HEADERS;
+    const request = {
+      number: number
+    }
+    console.log("Evolution Service getProfileData url: ", url)
+    console.log("Evolution Service getProfileData request: ", request)
+    console.log("Evolution Service getProfileData instanceName: ", instanceName)
+    console.log("Evolution Service getProfileData number: ", number)
+    const result = await axios.post(url, request, headers);
+    console.log("Evolution Service getProfileData result.data: ", result.data)
+    return result.data;
+  }
+
   async getAllGroups(instanceName) {
     console.log("\n\n\n\n\ngetAllGroups", {instanceName});
   
