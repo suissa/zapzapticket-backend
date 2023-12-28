@@ -25,7 +25,7 @@ export class ConnectionService {
 
   async findAll(): Promise<Connection[]> {
     await this.findInitiatedConnections();
-    return await this.connectionModel.find().sort({ name: 1 });
+    return await this.connectionModel.find({}).sort({ name: 1 });
   }
 
   async findOne(id: string): Promise<Connection> {
@@ -69,38 +69,18 @@ export class ConnectionService {
 
   async findInitiatedConnections() {
     // await this.resetAll();
+    const connections = await this.connectionModel.find({});
     const instances = await this.evolutionService.findAll();
     // console.log("instances: ", instances)
 
-    instances.forEach(async ({instance}) => {
-      // console.log("instance: ", instance)
-
-      const { instanceName, owner, status } = instance;
-      if (!owner){
-        if (status == "close") {
-          const data = this.evolutionService.delete(instanceName)
-          console.log("DELETADA:", data);
-        }
+    connections.forEach(async (connection) => {
+      const { instanceName, instanceStatus } = connection;
+      const instance = instances.find(({instance}) => instance.instanceName == instanceName);
+      if (!instance) {
+        const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: false});
         return false;
       }
-
-      const [ name, phone ] = instanceName.split("-");
-      const filter = { phone: phone }
-      const update = {
-        $set: {
-          name: name.replace("_", " "),
-          instanceStatus: true,
-          instanceName: instanceName
-        }
-      };
-      const options = {
-        upsert: true,
-        new: true,
-        setDefaultsOnInsert: true
-      };
-
-      const result = await this.connectionModel.findOneAndUpdate(filter, update, options);
-      // console.log("findInitiatedConnections result: ", result)
+      return false;
     });
   }
 
