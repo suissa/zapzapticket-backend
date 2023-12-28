@@ -298,9 +298,16 @@ export class EvolutionService {
     console.log("Evolution Service getProfileData request: ", request)
     console.log("Evolution Service getProfileData instanceName: ", instanceName)
     console.log("Evolution Service getProfileData number: ", number)
-    const result = await axios.post(url, request, headers);
-    console.log("Evolution Service getProfileData result.data: ", result.data)
-    return result.data;
+    // const result = await axios.post(url, request, headers);
+    // console.log("Evolution Service getProfileData result.data: ", result.data)
+    // return result.data;
+    return {
+      "wuid": "5511994458797@s.whatsapp.net",
+      "numberExists": true,
+      "picture": "https://pps.whatsapp.net/v/t61.24694-24/65014929_486404898849246_3779686987028496384_n.jpg?ccb=11-4&oh=01_AdS_nUqeRhP3rRAIeKX2OjM56_CFovWHD2hyS-Mp4t5M6Q&oe=659AF59C&_nc_sid=e6ed6c&_nc_cat=111",
+      "status": "http://bit.ly/dmmf-sp-br",
+      "isBusiness": false
+    }
   }
 
   async getAllGroups(instanceName) {
@@ -362,130 +369,6 @@ export class EvolutionService {
           {
             "id": "13404844601484_1@s.whatsapp.net",
             "admin": null
-          },
-          {
-            "id": "261610937516278_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "151414810656823_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "108632708497553_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "130300818518158_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "14650200584383_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "152316770553949_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "111089362677906_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "257010926878764_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "195429685817566_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "16187849203842_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "252840681435265_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "266541509644427_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "145182880206873_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "165532519129320_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5515991957645@s.whatsapp.net",
-            "admin": "superadmin"
-          },
-          {
-            "id": "148288074449109_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "107193944797375_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "128076092538920_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "150783450460308_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "279185843073057_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "51591331737789_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "43727062065369_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "267091265515701_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "137855632470221_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "155834432626916_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "15084025847953_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "115328579276989_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "213107871850623_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "56783947173945_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "16617496920065_1@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "71846229766158_1@s.whatsapp.net",
-            "admin": null
           }
         ]
       },
@@ -501,159 +384,11 @@ export class EvolutionService {
         "announce": false,
         "participants": [
           {
-            "id": "5511987898097@s.whatsapp.net",
-            "admin": "admin"
-          },
-          {
-            "id": "5511995514105@s.whatsapp.net",
-            "admin": "admin"
-          },
-          {
-            "id": "5511977339690@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511959970997@s.whatsapp.net",
-            "admin": "admin"
-          },
-          {
-            "id": "5511959023682@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5512997012128@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511982328972@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "558499912586@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "351934795583@s.whatsapp.net",
-            "admin": "admin"
-          },
-          {
-            "id": "558899374460@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5521980748370@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "553199466587@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5512996422177@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5521999862382@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "553892064324@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "559691691316@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "351910406953@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "554299453515@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "554497171187@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "556299404467@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511954201205@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511944748831@s.whatsapp.net",
-            "admin": "admin"
-          },
-          {
-            "id": "5511989888929@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511977725547@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5515991957645@s.whatsapp.net",
-            "admin": "admin"
-          },
-          {
-            "id": "554797891287@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511985209011@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "553598919045@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511994649923@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "556293396662@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "553288848151@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511970456740@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "554599194839@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "553799929889@s.whatsapp.net",
-            "admin": null
-          },
-          {
             "id": "5519998362729@s.whatsapp.net",
             "admin": null
           },
           {
             "id": "5511985058572@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511975900451@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "558897613741@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511951980476@s.whatsapp.net",
             "admin": null
           }
         ]
