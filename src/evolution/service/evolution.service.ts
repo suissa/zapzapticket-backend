@@ -109,7 +109,8 @@ export class EvolutionService {
     }
   }
 
-  async findAll(): Promise<GetInstanceDto[]> {
+  // async findAll(): Promise<GetInstanceDto[]> {
+  async findAll(): Promise<any[]> {
     const apiKey = this.API_KEY;
     const headers = {
       headers: {
