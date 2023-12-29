@@ -340,72 +340,74 @@ export class EvolutionService {
     //   return false;
     // }
     console.log("\n\n\n\n\ngetAllGroups url:", url)
-    const response = await axios.get(url, headers);
-    this.GROUPS[instanceName] = response.data;
+    // const response = await axios.get(url, headers);
+    // this.GROUPS[instanceName] = response.data;
 
-    console.log("\n\n\n\n\ngetAllGroups this.GROUPS:", this.GROUPS)
-    console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
-    return response.data;
+    // console.log("\n\n\n\n\ngetAllGroups this.GROUPS:", this.GROUPS)
+    // console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
+    // return response.data;
 
 
-    // const data = [
-    //   {
-    //     "id": "120363085723806000@g.us",
-    //     "subject": "Js de Esquerda",
-    //     "subjectOwner": "5515991957645@s.whatsapp.net",
-    //     "subjectTime": 1678585357,
-    //     "size": 1,
-    //     "creation": 1678585357,
-    //     "owner": "5515991957645@s.whatsapp.net",
-    //     "restrict": false,
-    //     "announce": false,
-    //     "participants": [
-    //       {
-    //         "id": "5515991957645@s.whatsapp.net",
-    //         "admin": "superadmin"
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     "id": "120363085144440772@g.us",
-    //     "subject": "Js de Esquerda",
-    //     "subjectOwner": "5515991957645@s.whatsapp.net",
-    //     "subjectTime": 1678585357,
-    //     "size": 32,
-    //     "creation": 1678585357,
-    //     "owner": "5515991957645@s.whatsapp.net",
-    //     "restrict": false,
-    //     "announce": true,
-    //     "participants": [
-    //       {
-    //         "id": "13404844601484_1@s.whatsapp.net",
-    //         "admin": null
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     "id": "5515991135823-1581107250@g.us",
-    //     "subject": "JS P/ TODOS !Bolsominions",
-    //     "subjectTime": 1623367795,
-    //     "size": 39,
-    //     "creation": 1581107250,
-    //     "desc": "JavaScript é vida E PROIBIDO BOLSOMINIONS!\nPROIBIDO AUDIOS!!!!!!!",
-    //     "descId": "3EB02A1A9D24F33BCCAD",
-    //     "restrict": false,
-    //     "announce": false,
-    //     "participants": [
-    //       {
-    //         "id": "5519998362729@s.whatsapp.net",
-    //         "admin": null
-    //       },
-    //       {
-    //         "id": "5511985058572@s.whatsapp.net",
-    //         "admin": null
-    //       }
-    //     ]
-    //   }
-    // ];
-    // return data;
+    const data = [
+      {
+        "id": "120363085723806000@g.us",
+        "subject": "Js de Esquerda",
+        "subjectOwner": "5515991957645@s.whatsapp.net",
+        "subjectTime": 1678585357,
+        "size": 1,
+        "creation": 1678585357,
+        "owner": "5515991957645@s.whatsapp.net",
+        "restrict": false,
+        "announce": false,
+        "participants": [
+          {
+            "id": "5515991957645@s.whatsapp.net",
+            "admin": "superadmin"
+          }
+        ]
+      },
+      {
+        "id": "120363085144440772@g.us",
+        "subject": "Js de Esquerda",
+        "subjectOwner": "5515991957645@s.whatsapp.net",
+        "subjectTime": 1678585357,
+        "size": 32,
+        "creation": 1678585357,
+        "owner": "5515991957645@s.whatsapp.net",
+        "restrict": false,
+        "announce": true,
+        "participants": [
+          {
+            "id": "13404844601484_1@s.whatsapp.net",
+            "admin": null
+          }
+        ]
+      },
+      {
+        "id": "5515991135823-1581107250@g.us",
+        "subject": "JS P/ TODOS !Bolsominions",
+        "subjectTime": 1623367795,
+        "size": 39,
+        "creation": 1581107250,
+        "desc": "JavaScript é vida E PROIBIDO BOLSOMINIONS!\nPROIBIDO AUDIOS!!!!!!!",
+        "descId": "3EB02A1A9D24F33BCCAD",
+        "restrict": false,
+        "announce": false,
+        "participants": [
+          {
+            "id": "5519998362729@s.whatsapp.net",
+            "admin": null
+          },
+          {
+            "id": "5511985058572@s.whatsapp.net",
+            "admin": null
+          }
+        ]
+      }
+    ];
+
+    this.GROUPS[instanceName] = data;
+    return data;
   };
   
   // async getAllParticipantsFromGroup(phone, id) {
