@@ -27,9 +27,6 @@ class Message {
 
 @Schema({ timestamps: true })
 export class Contact {
-  @Prop()
-  _id: string;
-
   @Prop({ default: "Não informado"})
   name: string;
 
@@ -61,7 +58,7 @@ export class Contact {
   ticketClosedAt: string;
 
   @Prop()
-  conectionId: string;
+  connectionPhone: string;
 
   @Prop()
   groupId: string;
