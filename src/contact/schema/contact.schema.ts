@@ -45,6 +45,9 @@ export class Contact {
   @Prop()
   country: string;
 
+  @Prop({ default: ""})
+  profilePictureUrl: string;
+
   @Prop({ default: "inativo"})
   ticketStatus: string;
 
@@ -53,6 +56,12 @@ export class Contact {
 
   @Prop()
   ticketClosedAt: string;
+
+  @Prop()
+  conectionId: string;
+
+  @Prop()
+  groupId: string;
 
   @Prop({ type: [String] })
   badges: Types.Array<string>;
