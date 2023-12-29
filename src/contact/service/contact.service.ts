@@ -128,6 +128,7 @@ export class ContactService {
   async getContactByPhoneAndConnection(phone: string, connectionPhone: string): Promise<Contact> {
     return this.contactModel.findOne({ phone, connectionPhone });
   }
+
   async importContacts(instanceName: string, request: ImportContactsRequest): Promise<any> {
     console.log("importContacts instanceName", instanceName)
     console.log("importContacts request", request)
