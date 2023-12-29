@@ -23,6 +23,12 @@ export class ContactController {
     return this.contactService.create(request);
   }
 
+  @Post("/import")
+  @HttpCode(HttpStatus.OK)
+  importContacts(@Body() request: CreateContactDto) {
+    return this.contactService.importContacts(request);
+  }
+
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
