@@ -135,4 +135,9 @@ export class ConnectionService {
     console.log("connection depois: ", connection);
     return await connection.save();
   }
+
+
+  async getConnectionByInstanceName(instanceName: string): Promise<Connection> {
+    return await this.connectionModel.findOne({ instanceName });
+  }
 }

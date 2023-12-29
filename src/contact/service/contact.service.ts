@@ -4,12 +4,15 @@ import { Contact } from '../schema/contact.schema';
 import mongoose, { Model } from 'mongoose';
 import { UpdateContactDto } from '../dto/update-contact.dto';
 import { CreateContactDto, CreateContactDtoPartial } from '../dto/create-contact.dto';
+import { ConnectionService } from 'src/connection/service/connection.service';
 
 @Injectable()
 export class ContactService {
   constructor(
     @InjectModel(Contact.name)
-    private contactModel: Model<Contact>) {}
+    private contactModel: Model<Contact>,
+    private connectionService: ConnectionService
+  ) {}
 
   async create(request: CreateContactDtoPartial): Promise<Contact> {
     return await this.contactModel.create(request);
@@ -116,4 +119,52 @@ export class ContactService {
     });
   }
 
+  async getContactByPhoneAndConnection(phone: string, connectionPhone: string): Promise<Contact> {
+    return this.contactModel.findOne({ phone, connectionPhone });
+  }
+  async importContacts(instanceName: string, numbers: [], groupId: string): Promise<any> {
+    console.log("importContacts instanceName", instanceName)
+    console.log("importContacts numbers", numbers)
+    console.log("importContacts groupId", groupId)
+    
+    // pegar o connectionId
+    const connection = await this.connectionService.getConnectionByInstanceName(instanceName);
+    console.log("importContacts connection", connection);
+    if (!connection) {
+      // throw new NotFoundException(`Connection with instanceName ${instanceName} not found`);
+      console.log(`connection ${instanceName} not found!`);
+      return false;
+    }
+    const connectionPhone = connection.phone;
+
+    for (const phone of numbers) {
+      const contact = {
+        phone,
+        groupId,
+        connectionPhone
+      };
+  
+      const findContact = await this.getContactByPhoneAndConnection(phone, connectionPhone);
+      if (findContact) {
+        console.log("importContacts Contact ja existe", findContact);
+        return false;
+      }
+      console.log("importContacts contact", contact);
+      const result = await this.create(contact);
+      console.log("importContacts result", result);
+    }
+
+    // numbers.forEach(async phone => {
+    //   const contact = {
+    //     phone,
+    //     groupId,
+    //     connectionId
+    //   }
+    //   console.log("importContacts contact", contact);
+    //   const result = await this.createContact(contact);
+    //   console.log("importContacts result", result);
+
+    // });
+    return true;
+  }
 }
