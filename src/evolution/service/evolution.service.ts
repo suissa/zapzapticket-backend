@@ -308,13 +308,6 @@ export class EvolutionService {
 
     this.PROFILES[number] = result.data;
     return result.data;
-    // return {
-    //   "wuid": "5511994458797@s.whatsapp.net",
-    //   "numberExists": true,
-    //   "picture": "https://pps.whatsapp.net/v/t61.24694-24/65014929_486404898849246_3779686987028496384_n.jpg?ccb=11-4&oh=01_AdS_nUqeRhP3rRAIeKX2OjM56_CFovWHD2hyS-Mp4t5M6Q&oe=659AF59C&_nc_sid=e6ed6c&_nc_cat=111",
-    //   "status": "http://bit.ly/dmmf-sp-br",
-    //   "isBusiness": false
-    // }
   }
 
   async getAllGroups(instanceName) {
@@ -333,81 +326,78 @@ export class EvolutionService {
         apikey: this.API_KEY
       }
     }
-    // const url = "http://localhost:6666/group/fetchAllGroups/Criptou_Onboarding-5511994649923?getParticipants=true"
+
     const url = `${this.SERVER_EVOLUTION}/group/fetchAllGroups/${instanceName}?getParticipants=true`;
     console.log("\n\n\n\n\ngetAllGroups", {url})
-    // if (key === "") {
-    //   return false;
-    // }
-    console.log("\n\n\n\n\ngetAllGroups url:", url)
-    // const response = await axios.get(url, headers);
-    // this.GROUPS[instanceName] = response.data;
 
-    // console.log("\n\n\n\n\ngetAllGroups this.GROUPS:", this.GROUPS)
-    // console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
-    // return response.data;
+    const response = await axios.get(url, headers);
+    this.GROUPS[instanceName] = response.data;
+
+    console.log("\n\n\n\n\ngetAllGroups this.GROUPS:", this.GROUPS)
+    console.log("\n\n\n\n\ngetAllGroups response.data:", response.data)
+    return response.data;
 
 
-    const data = [
-      {
-        "id": "120363085723806000@g.us",
-        "subject": "Js de Esquerda",
-        "subjectOwner": "5515991957645@s.whatsapp.net",
-        "subjectTime": 1678585357,
-        "size": 1,
-        "creation": 1678585357,
-        "owner": "5515991957645@s.whatsapp.net",
-        "restrict": false,
-        "announce": false,
-        "participants": [
-          {
-            "id": "5515991957645@s.whatsapp.net",
-            "admin": "superadmin"
-          }
-        ]
-      },
-      {
-        "id": "120363085144440772@g.us",
-        "subject": "Js de Esquerda",
-        "subjectOwner": "5515991957645@s.whatsapp.net",
-        "subjectTime": 1678585357,
-        "size": 32,
-        "creation": 1678585357,
-        "owner": "5515991957645@s.whatsapp.net",
-        "restrict": false,
-        "announce": true,
-        "participants": [
-          {
-            "id": "13404844601484_1@s.whatsapp.net",
-            "admin": null
-          }
-        ]
-      },
-      {
-        "id": "5515991135823-1581107250@g.us",
-        "subject": "JS P/ TODOS !Bolsominions",
-        "subjectTime": 1623367795,
-        "size": 39,
-        "creation": 1581107250,
-        "desc": "JavaScript é vida E PROIBIDO BOLSOMINIONS!\nPROIBIDO AUDIOS!!!!!!!",
-        "descId": "3EB02A1A9D24F33BCCAD",
-        "restrict": false,
-        "announce": false,
-        "participants": [
-          {
-            "id": "5519998362729@s.whatsapp.net",
-            "admin": null
-          },
-          {
-            "id": "5511985058572@s.whatsapp.net",
-            "admin": null
-          }
-        ]
-      }
-    ];
+    // const data = [
+    //   {
+    //     "id": "120363085723806000@g.us",
+    //     "subject": "Js de Esquerda",
+    //     "subjectOwner": "5515991957645@s.whatsapp.net",
+    //     "subjectTime": 1678585357,
+    //     "size": 1,
+    //     "creation": 1678585357,
+    //     "owner": "5515991957645@s.whatsapp.net",
+    //     "restrict": false,
+    //     "announce": false,
+    //     "participants": [
+    //       {
+    //         "id": "5515991957645@s.whatsapp.net",
+    //         "admin": "superadmin"
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "id": "120363085144440772@g.us",
+    //     "subject": "Js de Esquerda",
+    //     "subjectOwner": "5515991957645@s.whatsapp.net",
+    //     "subjectTime": 1678585357,
+    //     "size": 32,
+    //     "creation": 1678585357,
+    //     "owner": "5515991957645@s.whatsapp.net",
+    //     "restrict": false,
+    //     "announce": true,
+    //     "participants": [
+    //       {
+    //         "id": "13404844601484_1@s.whatsapp.net",
+    //         "admin": null
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     "id": "5515991135823-1581107250@g.us",
+    //     "subject": "JS P/ TODOS !Bolsominions",
+    //     "subjectTime": 1623367795,
+    //     "size": 39,
+    //     "creation": 1581107250,
+    //     "desc": "JavaScript é vida E PROIBIDO BOLSOMINIONS!\nPROIBIDO AUDIOS!!!!!!!",
+    //     "descId": "3EB02A1A9D24F33BCCAD",
+    //     "restrict": false,
+    //     "announce": false,
+    //     "participants": [
+    //       {
+    //         "id": "5519998362729@s.whatsapp.net",
+    //         "admin": null
+    //       },
+    //       {
+    //         "id": "5511985058572@s.whatsapp.net",
+    //         "admin": null
+    //       }
+    //     ]
+    //   }
+    // ];
 
-    this.GROUPS[instanceName] = data;
-    return data;
+    // this.GROUPS[instanceName] = data;
+    // return data;
   };
   
   // async getAllParticipantsFromGroup(phone, id) {
