@@ -22,6 +22,9 @@ class Message {
 
 @Schema({ timestamps: true })
 export class Connection {
+  @Prop({ type: Types.ObjectId })
+  _id: Types.ObjectId;
+
   @Prop()
   name: string;
 
