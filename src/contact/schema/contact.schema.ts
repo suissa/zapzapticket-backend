@@ -27,6 +27,9 @@ class Message {
 
 @Schema({ timestamps: true })
 export class Contact {
+  @Prop()
+  _id: string;
+
   @Prop({ default: "Não informado"})
   name: string;
 
