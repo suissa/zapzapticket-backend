@@ -5,6 +5,12 @@ import mongoose, { Model } from 'mongoose';
 import { UpdateContactDto } from '../dto/update-contact.dto';
 import { CreateContactDto, CreateContactDtoPartial } from '../dto/create-contact.dto';
 import { ConnectionService } from 'src/connection/service/connection.service';
+import { throwError } from 'rxjs';
+
+interface ImportContactsRequest {
+  groupId: string;
+  participants: Record<string, string>;
+}
 
 @Injectable()
 export class ContactService {
@@ -26,7 +32,7 @@ export class ContactService {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
+      throw new Bthrow new adRequestException('Please enter correct id.');
     }
 
     return await this.contactModel.findOne({ _id: id });
@@ -122,49 +128,43 @@ export class ContactService {
   async getContactByPhoneAndConnection(phone: string, connectionPhone: string): Promise<Contact> {
     return this.contactModel.findOne({ phone, connectionPhone });
   }
-  async importContacts(instanceName: string, numbers: [], groupId: string): Promise<any> {
+  async importContacts(instanceName: string, request: ImportContactsRequest): Promise<any> {
     console.log("importContacts instanceName", instanceName)
-    console.log("importContacts numbers", numbers)
-    console.log("importContacts groupId", groupId)
-    
-    // pegar o connectionId
+    console.log("importContacts request", request)
+    console.log("importContacts request.participants", request.participants)
+    const { groupId, participants } = request;
     const connection = await this.connectionService.getConnectionByInstanceName(instanceName);
-    console.log("importContacts connection", connection);
+
     if (!connection) {
       // throw new NotFoundException(`Connection with instanceName ${instanceName} not found`);
       console.log(`connection ${instanceName} not found!`);
       return false;
     }
+
     const connectionPhone = connection.phone;
 
-    for (const phone of numbers) {
+    for (const [key, value] of Object.entries(participants)) {
       const contact = {
-        phone,
+        phone: key.replace("@s.whatsapp.net", ""),
+        profilePictureUrl: value,
         groupId,
         connectionPhone
       };
-  
-      const findContact = await this.getContactByPhoneAndConnection(phone, connectionPhone);
+
+      const findContact = await this.getContactByPhoneAndConnection(value, connectionPhone);
+
       if (findContact) {
         console.log("importContacts Contact ja existe", findContact);
         return false;
       }
-      console.log("importContacts contact", contact);
-      const result = await this.create(contact);
-      console.log("importContacts result", result);
+
+      try {
+        const result = await this.create(contact);
+        console.log("importContacts result", result);
+      } catch (error) {
+        throw new BadRequestException("Erro ao importar contatos");
+      }
     }
-
-    // numbers.forEach(async phone => {
-    //   const contact = {
-    //     phone,
-    //     groupId,
-    //     connectionId
-    //   }
-    //   console.log("importContacts contact", contact);
-    //   const result = await this.createContact(contact);
-    //   console.log("importContacts result", result);
-
-    // });
-    return true;
+    return await this.contactModel.find({ connectionPhone });
   }
 }
