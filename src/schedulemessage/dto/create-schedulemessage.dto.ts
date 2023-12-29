@@ -5,8 +5,17 @@ export class CreateScheduleMessageDto {
   text: string;
 
   @IsNotEmpty()
-  title: string;
+  from: string;
+
+  @IsNotEmpty()
+  to: string;
+
+  @IsNotEmpty()
+  dateToSend: Date;
 
   @IsOptional()
   isActive: boolean = true;
+
+  @IsOptional()
+  sended: boolean = false;
 }
