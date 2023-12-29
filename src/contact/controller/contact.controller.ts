@@ -23,10 +23,10 @@ export class ContactController {
     return this.contactService.create(request);
   }
 
-  @Post("/import")
+  @Post("/import/:instanceName")
   @HttpCode(HttpStatus.OK)
-  importContacts(@Body() request: CreateContactDto) {
-    return this.contactService.importContacts(request);
+  importContacts(@Body() request: any, @Param('instanceName') instanceName: string) {
+    return this.contactService.importContacts(instanceName, request);
   }
 
   @Get()
