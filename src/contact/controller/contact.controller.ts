@@ -26,8 +26,7 @@ export class ContactController {
   @Post("/import/:instanceName")
   @HttpCode(HttpStatus.OK)
   importContacts(@Body() request: any, @Param('instanceName') instanceName: string) {
-    const { numbers, groupId } = request;
-    return this.contactService.importContacts(instanceName, numbers, groupId);
+    return this.contactService.importContacts(instanceName, request);
   }
 
   @Get()
