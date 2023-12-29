@@ -3,9 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Contact } from '../schema/contact.schema';
 import mongoose, { Model } from 'mongoose';
 import { UpdateContactDto } from '../dto/update-contact.dto';
-import { CreateContactDto, CreateContactDtoPartial } from '../dto/create-contact.dto';
+import { CreateContactDtoPartial } from '../dto/create-contact.dto';
 import { ConnectionService } from 'src/connection/service/connection.service';
-import { throwError } from 'rxjs';
+
+
 
 interface ImportContactsRequest {
   groupId: string;
@@ -32,7 +33,7 @@ export class ContactService {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new Bthrow new adRequestException('Please enter correct id.');
+      throw new BadRequestException('Please enter correct id.');
     }
 
     return await this.contactModel.findOne({ _id: id });
