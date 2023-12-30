@@ -2,19 +2,27 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 
-export type MessageDocument = HydratedDocument<Message>;
+export type ScheduleMessageDocument = HydratedDocument<ScheduleMessage>;
 
 @Schema({ timestamps: true })
-export class Message {
+export class ScheduleMessage {
   @Prop()
   text: string;
 
   @Prop()
-  title: string;
+  from: string;
+
+  @Prop()
+  to: string;
+
+  @Prop()
+  dateToSend: Date;
 
   @Prop({ default: true})
   isActive: boolean;
 
+  @Prop({ default: false})
+  sended: boolean;
 }
 
-export const MessageSchema = SchemaFactory.createForClass(Message);
+export const ScheduleMessageSchema = SchemaFactory.createForClass(ScheduleMessage);
