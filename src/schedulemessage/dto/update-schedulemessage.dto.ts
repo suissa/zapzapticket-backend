@@ -5,7 +5,13 @@ export class UpdateScheduleMessagetDto {
   text: string;
 
   @IsOptional()
-  title: string;
+  from: string;
+
+  @IsOptional()
+  to: string;
+
+  @IsOptional()
+  dateToSend: Date;
 
   @IsOptional()
   isActive: boolean = false;
