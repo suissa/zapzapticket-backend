@@ -39,6 +39,10 @@ export class ContactService {
     return await this.contactModel.findOne({ _id: id });
   }
 
+  async findOneByPhone(phone: string): Promise<Contact> {
+    return await this.contactModel.findOne({ phone });
+  }
+
   async update(id: string, request: UpdateContactDto) {
     return await this.contactModel.findByIdAndUpdate(id, request, {
       new: true,
