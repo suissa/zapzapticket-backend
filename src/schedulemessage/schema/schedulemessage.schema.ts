@@ -23,6 +23,9 @@ export class ScheduleMessage {
 
   @Prop({ default: false})
   sended: boolean;
+
+  @Prop()
+  sendedAt: Date;
 }
 
 export const ScheduleMessageSchema = SchemaFactory.createForClass(ScheduleMessage);
