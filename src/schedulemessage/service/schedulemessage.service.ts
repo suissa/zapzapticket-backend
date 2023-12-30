@@ -84,29 +84,34 @@ export class ScheduleMessageService {
     const nowInUTC3 = new Date(now.getTime() + offsetInHours * 60 * 60 * 1000);
     console.log("nowInUTC3", nowInUTC3);
 
-    const filteredMessages = this.messages.filter(message => message.dateToSend > nowInUTC3);
+    const filteredMessages = this.messages.filter(message => message.dateToSend < nowInUTC3);
     console.log("filteredMessages: ", filteredMessages);
     this.messages = filteredMessages;
 
     for (const message of this.messages) {
       console.log("message:", message);
-      const contact = await this.contactService.findOneByPhone(message.phone);
+      const contact = await this.contactService.findOneByPhone(message.to);
       console.log("contact:", contact);
-      const connection = await this.connectionService.findOneByPhone(message.phone);
+      const connection = await this.connectionService.findOneByPhone(message.from);
       console.log("connection:", connection);
-      // if (contact && connection) {
-      //   console.log("contact && connection");
-      //   const result = await this.evolutionService.sendMessage(connection.instanceName, message.message);
-      //   console.log("result:", result);
-      //   if (result) {
-      //     const request = {
-      //       sended: true,
-      //       sendedAt: new Date(),
-      //     };
-      //     const updatedMessage = await this.update(message._id, request);
-      //     console.log("updatedMessage:", updatedMessage);
-      //   }
-      // }
+      const text = message.text
+                          .replace("@contact-name", contact.name)
+                          .replace("Não informado", "")
+                          .replace("@connection-name", connection.name);
+      console.log("text:", text);
+      if (contact && connection) {
+        console.log("contact && connection");
+        const result = await this.evolutionService.sendSimpleMessage(contact.phone, text, connection.instanceName);
+        console.log("result:", result);
+        if (result) {
+          const request = {
+            sended: true,
+            sendedAt: new Date(),
+          };
+          // const updatedMessage = await this.update(message._id, request);
+          // console.log("updatedMessage:", updatedMessage);
+        }
+      }
     }
   }
 
