@@ -18,4 +18,7 @@ export class CreateScheduleMessageDto {
 
   @IsOptional()
   sended: boolean = false;
+  
+  @IsOptional()
+  sendedAt: Date;
 }
