@@ -38,6 +38,10 @@ export class ConnectionService {
     return await this.connectionModel.findOne({ _id: id });
   }
 
+  async findOneByPhone(phone: string): Promise<Connection> {
+    return await this.connectionModel.findOne({ phone });
+  }
+
   async update(id: string, request: UpdateConnectionDto) {
     return await this.connectionModel.findByIdAndUpdate(id, request, {
       new: true,
