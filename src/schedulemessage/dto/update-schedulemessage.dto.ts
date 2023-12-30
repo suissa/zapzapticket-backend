@@ -17,5 +17,8 @@ export class UpdateScheduleMessagetDto {
   isActive: boolean = false;
 
   @IsOptional()
+  sended: boolean = false;
+
+  @IsOptional()
   sendedAt: Date;
 }

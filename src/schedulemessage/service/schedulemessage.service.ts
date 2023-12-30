@@ -58,7 +58,7 @@ export class ScheduleMessageService {
     return await this.schedulemessageModel.findOne({ _id: id });
   }
 
-  async update(id: string, request: UpdateScheduleMessagetDto) {
+  async update(id: string, request: Partial<UpdateScheduleMessagetDto>) {
     return await this.schedulemessageModel.findByIdAndUpdate(id, request, {
       new: true,
       runValidators: true,
@@ -104,12 +104,12 @@ export class ScheduleMessageService {
         const result = await this.evolutionService.sendSimpleMessage(contact.phone, text, connection.instanceName);
         console.log("result:", result);
         if (result) {
-          const request = {
+          const request: Partial<UpdateScheduleMessagetDto> = {
             sended: true,
             sendedAt: new Date(),
           };
-          // const updatedMessage = await this.update(message._id, request);
-          // console.log("updatedMessage:", updatedMessage);
+          const updatedMessage = await this.update(message._id, request);
+          console.log("updatedMessage:", updatedMessage);
         }
       }
     }
