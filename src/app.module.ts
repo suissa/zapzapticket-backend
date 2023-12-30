@@ -10,11 +10,14 @@ import { ConnectionModule } from "./connection/connection.module";
 import { ContactModule } from "./contact/contact.module";
 import { UserModule } from "./user/user.module";
 import { MessageModule } from "./message/message.module";
+import { ScheduleMessageModule } from "./schedulemessage/schedulemessage.module";
 import { WebhookModule } from "./webhook/webhook.module";
 import { MessageGateway }  from "./gateways/message.gateway";
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({ envFilePath: ".env", isGlobal: true }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -40,6 +43,7 @@ import { MessageGateway }  from "./gateways/message.gateway";
     ConnectionModule,
     ContactModule,
     MessageModule,
+    ScheduleMessageModule,
     UserModule,
     WebhookModule,
     MessageGateway
