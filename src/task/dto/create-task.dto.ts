@@ -5,7 +5,7 @@ export class CreateTaskDto {
   text: string;
 
   @IsNotEmpty()
-  title: string;
+  userEmail: string;
 
   @IsOptional()
   isActive: boolean = true;

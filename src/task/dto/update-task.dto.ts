@@ -5,7 +5,7 @@ export class UpdateTasktDto {
   text: string;
 
   @IsOptional()
-  title: string;
+  userEmail: string;
 
   @IsOptional()
   isActive: boolean = false;
