@@ -12,8 +12,8 @@ export class Tag {
   @Prop({ default: "#ff0000"})
   color: string;
 
-  @Prop({ default: true})
-  isActive: boolean;
+  @Prop()
+  adminEmail: string;
 
 }
 

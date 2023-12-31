@@ -6,4 +6,7 @@ export class CreateTagDto {
 
   @IsNotEmpty()
   color: string = "#ff0000";
+
+  @IsNotEmpty()
+  adminEmail: string;
 }
