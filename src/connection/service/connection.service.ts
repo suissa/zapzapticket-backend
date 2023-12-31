@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, NotFoundException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Connection } from '../schema/connection.schema';
 import mongoose, { Model } from 'mongoose';
@@ -25,7 +25,7 @@ export class ConnectionService {
 
   async findAll(): Promise<Connection[]> {
     await this.findInitiatedConnections();
-    return await this.connectionModel.find();
+    return await this.connectionModel.find({}).sort({ name: 1 });
   }
 
   async findOne(id: string): Promise<Connection> {
@@ -36,6 +36,10 @@ export class ConnectionService {
     }
 
     return await this.connectionModel.findOne({ _id: id });
+  }
+
+  async findOneByPhone(phone: string): Promise<Connection> {
+    return await this.connectionModel.findOne({ phone });
   }
 
   async update(id: string, request: UpdateConnectionDto) {
@@ -68,39 +72,76 @@ export class ConnectionService {
   }
 
   async findInitiatedConnections() {
-    // await this.resetAll();
+    const connections = await this.connectionModel.find({});
     const instances = await this.evolutionService.findAll();
-    console.log("instances: ", instances)
 
-    instances.forEach(async ({instance}) => {
-      console.log("instance: ", instance)
+    if (connections.length == 0) {
+      // criar a conexao aqui
+      return false;
+    }
 
-      const { instanceName, owner, status } = instance;
-      if (!owner){
-        if (status == "close") {
-          const data = this.evolutionService.delete(instanceName)
-          console.log("DELETADA:", data);
-        }
+    connections.forEach(async (connection) => {
+      const { instanceName, instanceStatus } = connection;
+      const instance = instances.find(({instance}) => instance.instanceName == instanceName);
+
+      if (instance && instance.instance.owner && instanceStatus == false) {
+        const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: true});
+        return true;
+      }
+      if (!instance) {
+        const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: false});
         return false;
       }
-
-      const [ name, phone ] = instanceName.split("-");
-      const filter = { phone: phone }
-      const update = {
-        $set: {
-          name: name.replace("_", " "),
-          instanceStatus: true,
-          instanceName: instanceName
-        }
-      };
-      const options = {
-        upsert: true,
-        new: true,
-        setDefaultsOnInsert: true
-      };
-
-      const result = await this.connectionModel.findOneAndUpdate(filter, update, options);
-      console.log("findInitiatedConnections result: ", result)
+      if (!instance.instance.owner) {
+        this.evolutionService.delete(instance.instance.instanceName);
+        const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: false});
+        return false;
+      }
     });
+  }
+
+  async saveSentTextMessage(request: any): Promise<any> {
+    console.log("request: ", request);
+    const connection = await this.connectionModel.findOne({ phone: request.phone });
+
+    console.log("connection: ", connection);
+    if (!connection) {
+      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+    }
+    const message = {
+      type: "sent",
+      typeMessage: "text",
+      text: request.message,
+      createdAt: new Date(),
+      phone: request.phoneReply,
+    }
+    connection.messages.push(message);
+    console.log("connection depois: ", connection);
+    return await connection.save();
+  }
+
+  async saveReceivedTextMessage(request: any): Promise<any> {
+    console.log("request: ", request);
+    const connection = await this.connectionModel.findOne({ phone: request.phone });
+
+    console.log("connection: ", connection);
+    if (!connection) {
+      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+    }
+    const message = {
+      type: "received",
+      typeMessage: "text",
+      text: request.message,
+      createdAt: new Date(),
+      phone: request.phoneReply,
+    }
+    connection.messages.push(message);
+    console.log("connection depois: ", connection);
+    return await connection.save();
+  }
+
+
+  async getConnectionByInstanceName(instanceName: string): Promise<Connection> {
+    return await this.connectionModel.findOne({ instanceName });
   }
 }

@@ -16,7 +16,7 @@ export class MessageService {
   }
 
   async findAll(): Promise<Message[]> {
-    return await this.messageModel.find();
+    return await this.messageModel.find().sort({ createdAt: -1 });
   }
 
   async findOne(id: string): Promise<Message> {

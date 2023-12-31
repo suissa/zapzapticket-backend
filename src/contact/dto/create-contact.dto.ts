@@ -31,13 +31,14 @@ class MessageDto {
 export class CreateContactDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  name: string = "Não informado";
 
   @IsNotEmpty()
   @IsString()
   phone: string;
 
   @IsString()
+  @IsOptional()
   status: string = "Lista fria";
 
   @IsString()
@@ -53,6 +54,7 @@ export class CreateContactDto {
   country: string;
 
   @IsString()
+  @IsOptional()
   ticketStatus: string = "inativo";
 
   @IsString()
@@ -74,3 +76,5 @@ export class CreateContactDto {
   @IsOptional()
   messages: MessageDto[];
 }
+
+export type CreateContactDtoPartial = Partial<CreateContactDto>;

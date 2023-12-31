@@ -23,6 +23,12 @@ export class ContactController {
     return this.contactService.create(request);
   }
 
+  @Post("/import/:instanceName")
+  @HttpCode(HttpStatus.OK)
+  importContacts(@Body() request: any, @Param('instanceName') instanceName: string) {
+    return this.contactService.importContacts(instanceName, request);
+  }
+
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
@@ -30,10 +36,24 @@ export class ContactController {
     return this.contactService.findAll();
   }
 
+
+  @Get('/messages')
+  @HttpCode(HttpStatus.OK)
+  getAllMessages() {
+    return this.contactService.getAllMessages();
+  }
+
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
     return this.contactService.findOne(id);
+  }
+
+
+  @Patch('/ticketStatus/:id')
+  @HttpCode(HttpStatus.OK)
+  updateTicketStatus(@Param('id') id: string, @Body() request: any) {
+    return this.contactService.updateTicketStatus(id, request);
   }
 
   @Patch(':id')

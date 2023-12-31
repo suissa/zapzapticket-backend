@@ -63,14 +63,39 @@ export class EvolutionController {
 
   // @Post("messages/send/batch")
   // @HttpCode(HttpStatus.OK)
+<<<<<<< HEAD
   // sendBatchMessages(@Body() request: CreateMessageDto) {
   //   return this.evolutionService.sendBatchMessages(request);
   // }
 
+=======
+  // sendBatchMessages(@Body() request: any) {
+  //   console.log("controller request: ", request)
+  //   return this.evolutionService.sendBatchMessages(request);
+  // }
+
+  @Post("messages/send/queue")
+  @HttpCode(HttpStatus.OK)
+  sendMessagesToQueue(@Body() request: any, @Res() res: any) {
+    return this.evolutionService.sendBatchMessages(request);
+  }
+
+>>>>>>> develop
   @Post("messages/send/:instanceName")
   @HttpCode(HttpStatus.OK)
   post(@Body() request: CreateMessageDto, @Param("instanceName") instanceName: string) {
     return this.evolutionService.sendMessage(request, instanceName);
   }
 
+  @Get("groups/:instanceName")
+  @HttpCode(HttpStatus.OK)
+  getAllGroups(@Param("instanceName") instanceName: string) {
+    return this.evolutionService.getAllGroups(instanceName);
+  }
+
+  @Get("profile/:instanceName/:number")
+  @HttpCode(HttpStatus.OK)
+  getProfileData(@Param("instanceName") instanceName: string, @Param("number") number: string) {
+    return this.evolutionService.getProfileData(instanceName, number);
+  }
 }
