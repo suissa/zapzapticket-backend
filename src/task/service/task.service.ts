@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Task } from '../schema/task.schema';
-import mongoose, { Model } from 'mongoose';
-import { UpdateTasktDto } from '../dto/update-task.dto';
-import { CreateTaskDto } from '../dto/create-task.dto';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Task } from "../schema/task.schema";
+import mongoose, { Model } from "mongoose";
+import { UpdateTasktDto } from "../dto/update-task.dto";
+import { CreateTaskDto } from "../dto/create-task.dto";
 
 @Injectable()
 export class TaskService {
@@ -19,15 +19,20 @@ export class TaskService {
     return await this.taskModel.find().sort({ createdAt: -1 });
   }
 
+  async findActives(): Promise<Task[]> {
+    return await this.taskModel.find({ isActive: true }).sort({ createdAt: -1 });
+  }
+
   async findOne(id: string): Promise<Task> {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
+      throw new BadRequestException("Please enter correct id.");
     }
 
     return await this.taskModel.findOne({ _id: id });
   }
+
 
   async update(id: string, request: UpdateTasktDto) {
     return await this.taskModel.findByIdAndUpdate(id, request, {
