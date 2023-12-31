@@ -36,10 +36,6 @@ export class TagService {
     });
   }
 
-  async updateAll(request: UpdateTagtDto) {
-    return await this.tagModel.updateMany({}, request);
-  }
-
   async delete(id: string) {
     return await this.tagModel.findByIdAndDelete(id);
   }

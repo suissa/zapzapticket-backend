@@ -26,7 +26,6 @@ export class TagController {
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
-    console.log('findAll');
     return this.tagService.findAll();
   }
 
