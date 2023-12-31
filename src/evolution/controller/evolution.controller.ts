@@ -63,12 +63,6 @@ export class EvolutionController {
 
   // @Post("messages/send/batch")
   // @HttpCode(HttpStatus.OK)
-<<<<<<< HEAD
-  // sendBatchMessages(@Body() request: CreateMessageDto) {
-  //   return this.evolutionService.sendBatchMessages(request);
-  // }
-
-=======
   // sendBatchMessages(@Body() request: any) {
   //   console.log("controller request: ", request)
   //   return this.evolutionService.sendBatchMessages(request);
@@ -80,7 +74,6 @@ export class EvolutionController {
     return this.evolutionService.sendBatchMessages(request);
   }
 
->>>>>>> develop
   @Post("messages/send/:instanceName")
   @HttpCode(HttpStatus.OK)
   post(@Body() request: CreateMessageDto, @Param("instanceName") instanceName: string) {
