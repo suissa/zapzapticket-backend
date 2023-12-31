@@ -32,7 +32,7 @@ export class TaskController {
 
   @Get("/actives")
   @HttpCode(HttpStatus.OK)
-  findOne(@Param("id") id: string) {
+  findActives(@Param("id") id: string) {
     return this.taskService.findOne(id);
   }
 
