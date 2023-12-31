@@ -13,6 +13,7 @@ import { UserModule } from "./user/user.module";
 import { MessageModule } from "./message/message.module";
 import { ScheduleMessageModule } from "./schedulemessage/schedulemessage.module";
 import { TagModule } from "./tag/tag.module";
+import { TaskModule } from "./task/task.module";
 import { WebhookModule } from "./webhook/webhook.module";
 import { MessageGateway }  from "./gateways/message.gateway";
 
@@ -46,6 +47,7 @@ import { MessageGateway }  from "./gateways/message.gateway";
     MessageModule,
     ScheduleMessageModule,
     TagModule,
+    TaskModule,
     UserModule,
     WebhookModule,
     MessageGateway
