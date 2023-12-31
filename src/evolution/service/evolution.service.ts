@@ -30,7 +30,7 @@ export class EvolutionService {
     private configService: ConfigService,
     private messageGateway: MessageGateway
   ) {
-    this.SERVER_EVOLUTION = this.configService.get<string>('SERVER_EVOLUTION');
+    this.SERVER_EVOLUTION = this.configService.get<string>("SERVER_EVOLUTION");
     this.API_KEY = this.configService.get<string>("APIKEY");
     this.GROUPS = {};
     this.HEADERS = {
@@ -406,7 +406,7 @@ export class EvolutionService {
   
   //   // return false;
   //   const groups = await this.getAllGroups(phone);
-  //   const groupsGrouped = groupBy(groups, 'id');
+  //   const groupsGrouped = groupBy(groups, "id");
   //   console.log("\n\n getAllParticipantsFromGroup groups:", groups);
   //   const group = groupsGrouped[id][0];
   //   console.log("\n\n getAllParticipantsFromGroup group:", group);
@@ -417,17 +417,17 @@ export class EvolutionService {
   //   const participants = group
   //     .participants
   //     .map(participant => ({
-  //       phone: participant.id.replace(/@c.us/g, '').replace(/@s.whatsapp.net/g, ''),
+  //       phone: participant.id.replace(/@c.us/g, "").replace(/@s.whatsapp.net/g, ""),
   //       admin: participant.admin
   //     }))
   //     .sort((a, b) => {
   //       if (a.admin === b.admin) return 0;
   //       if (a.admin === null) return 1;
   //       if (b.admin === null) return -1;
-  //       if (a.admin === 'superadmin') return -1;
-  //       if (b.admin === 'superadmin') return 1;
-  //       if (a.admin === 'admin') return -1;
-  //       if (b.admin === 'superadmin') return 1;
+  //       if (a.admin === "superadmin") return -1;
+  //       if (b.admin === "superadmin") return 1;
+  //       if (a.admin === "admin") return -1;
+  //       if (b.admin === "superadmin") return 1;
   //       return 0;
   //     });
       
@@ -451,7 +451,7 @@ export class EvolutionService {
   //         console.log("Não existe participants");
   //       }
   //       if (obj.participants.length > 0){
-  //         participants.push(...obj.participants.map(participant => participant.id.replace(/@c.us/g, '').replace(/@s.whatsapp.net/g, '')));
+  //         participants.push(...obj.participants.map(participant => participant.id.replace(/@c.us/g, "").replace(/@s.whatsapp.net/g, "")));
   //       }
   //     }
   //   }

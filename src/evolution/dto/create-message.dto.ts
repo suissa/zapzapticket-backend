@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsBoolean, IsOptional, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsBoolean, IsOptional, IsString, IsNumber } from "class-validator";
 
 class OptionsDto {
   @IsNotEmpty()

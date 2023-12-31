@@ -8,12 +8,12 @@ import {
   Param,
   Patch,
   Post,
-} from '@nestjs/common';
-import { UserService } from '../service/user.service';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUsertDto } from '../dto/update-user.dto';
+} from "@nestjs/common";
+import { UserService } from "../service/user.service";
+import { CreateUserDto } from "../dto/create-user.dto";
+import { UpdateUsertDto } from "../dto/update-user.dto";
 
-@Controller('users')
+@Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -26,37 +26,37 @@ export class UserController {
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
-    console.log('findAll');
+    console.log("findAll");
     return this.userService.findAll();
   }
 
   @Get("/all")
   @HttpCode(HttpStatus.OK)
   findAllWithNoActive() {
-    console.log('findAllWithNoActive');
+    console.log("findAllWithNoActive");
     return this.userService.findAllWithNoActive();
   }
-  @Get(':id')
+  @Get(":id")
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string) {
+  findOne(@Param("id") id: string) {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: string, @Body() request: UpdateUsertDto) {
+  update(@Param("id") id: string, @Body() request: UpdateUsertDto) {
     return this.userService.update(id, request);
   }
 
-  @Delete(':id')
+  @Delete(":id")
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id') id: string) {
+  delete(@Param("id") id: string) {
     return this.userService.delete(id);
   }
 
-  @Delete('soft/:id')
+  @Delete("soft/:id")
   @HttpCode(HttpStatus.OK)
-  softDelete(@Param('id') id: string) {
+  softDelete(@Param("id") id: string) {
     return this.userService.softDelete(id);
   }
 }

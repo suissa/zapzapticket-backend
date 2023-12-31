@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Message } from '../schema/message.schema';
-import mongoose, { Model } from 'mongoose';
-import { UpdateMessagetDto } from '../dto/update-message.dto';
-import { CreateMessageDto } from '../dto/create-message.dto';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Message } from "../schema/message.schema";
+import mongoose, { Model } from "mongoose";
+import { UpdateMessagetDto } from "../dto/update-message.dto";
+import { CreateMessageDto } from "../dto/create-message.dto";
 
 @Injectable()
 export class MessageService {
@@ -23,7 +23,7 @@ export class MessageService {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
+      throw new BadRequestException("Please enter correct id.");
     }
 
     return await this.messageModel.findOne({ _id: id });

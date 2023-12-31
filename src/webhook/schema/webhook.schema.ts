@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory, raw } from "@nestjs/mongoose";
+import { Document } from "mongoose";
 
 export type WebhookDocument = Document & Webhook;
 
@@ -47,22 +47,22 @@ export class Webhook {
 export const WebhookSchema = SchemaFactory.createForClass(Webhook);
 
 
-// event: 'messages.upsert',
-// instance: 'Criptou_Onboarding-5511994649923',
+// event: "messages.upsert",
+// instance: "Criptou_Onboarding-5511994649923",
 // data: {
   // key: {
-    // remoteJid: '5515991957645@s.whatsapp.net',
+    // remoteJid: "5515991957645@s.whatsapp.net",
     // fromMe: false,
-    // id: '3A33205B05E2CC04FFC9'
+    // id: "3A33205B05E2CC04FFC9"
   // },
-  // pushName: 'Jean Suissa 🤓',
-  // message: { conversation: 'alo', messageContextInfo: [Object] },
-  // messageType: 'conversation',
+  // pushName: "Jean Suissa 🤓",
+  // message: { conversation: "alo", messageContextInfo: [Object] },
+  // messageType: "conversation",
   // messageTimestamp: 1703445782,
-  // owner: 'Criptou_Onboarding-5511994649923',
-  // source: 'ios'
+  // owner: "Criptou_Onboarding-5511994649923",
+  // source: "ios"
 // },
-// date_time: '2023-12-24T16:23:02.277Z',
-// sender: '5511994649923@s.whatsapp.net',
-// server_url: 'localhost',
-// apikey: 'B6D711FCDE4D4FD5936544120E713976'
+// date_time: "2023-12-24T16:23:02.277Z",
+// sender: "5511994649923@s.whatsapp.net",
+// server_url: "localhost",
+// apikey: "B6D711FCDE4D4FD5936544120E713976"

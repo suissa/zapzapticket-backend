@@ -1,5 +1,5 @@
-// import { Controller, Get } from '@nestjs/common';
-// import { AppService } from './app.service';
+// import { Controller, Get } from "@nestjs/common";
+// import { AppService } from "./app.service";
 
 // @Controller()
 // export class AppController {
@@ -24,12 +24,12 @@ import {
   Inject
 } from "@nestjs/common";
 import { MessageGateway } from "./gateways/message.gateway";
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy } from "@nestjs/microservices";
 
 @Controller()
 export class AppController {
   constructor(
-    @Inject('RABBITMQ_SERVICE') private client: ClientProxy,
+    @Inject("RABBITMQ_SERVICE") private client: ClientProxy,
     private messageGateway: MessageGateway
   ) {}
 
@@ -56,18 +56,18 @@ export class AppController {
       } else {
         const message = list[i];
         i++;
-        await this.client.emit<any>('messages_queue', message);
+        await this.client.emit<any>("messages_queue", message);
         console.log("Controller messages/send/batch enviando message: ", message);
       }
     }, 10000);
 
-    return 'Mensagem enviada';
+    return "Mensagem enviada";
   }
 
-  @Post('send')
+  @Post("send")
   async sendMessage() {
-    const message = { text: 'Hello RabbitMQ!' };
-    await this.client.emit<any>('messages_queue', message);
-    return 'Mensagem enviada';
+    const message = { text: "Hello RabbitMQ!" };
+    await this.client.emit<any>("messages_queue", message);
+    return "Mensagem enviada";
   }
 }

@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from "mongoose";
 
 
 export type UserDocument = HydratedDocument<User>;
@@ -18,7 +18,7 @@ export class User {
   @Prop()
   email: string;
 
-  @Prop({ set: (phone: string) => phone && phone.replace(/\D/g, '') })
+  @Prop({ set: (phone: string) => phone && phone.replace(/\D/g, "") })
   phone: string;
 
   @Prop()

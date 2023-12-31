@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, Min } from 'class-validator';
+import { IsNotEmpty, IsOptional, Min } from "class-validator";
 
 export class UpdateUsertDto {
 }

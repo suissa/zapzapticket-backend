@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { User } from '../schema/user.schema';
-import mongoose, { Model } from 'mongoose';
-import { UpdateUsertDto } from '../dto/update-user.dto';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { User } from "../schema/user.schema";
+import mongoose, { Model } from "mongoose";
+import { UpdateUsertDto } from "../dto/update-user.dto";
+import { CreateUserDto } from "../dto/create-user.dto";
 
 @Injectable()
 export class UserService {
@@ -27,7 +27,7 @@ export class UserService {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
+      throw new BadRequestException("Please enter correct id.");
     }
 
     return await this.userModel.findOne({ _id: id });

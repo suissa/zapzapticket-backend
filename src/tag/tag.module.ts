@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { TagService } from './service/tag.service';
-import { TagController } from './controller/tag.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Tag, TagSchema } from './schema/tag.schema';
+import { Module } from "@nestjs/common";
+import { TagService } from "./service/tag.service";
+import { TagController } from "./controller/tag.controller";
+import { MongooseModule } from "@nestjs/mongoose";
+import { Tag, TagSchema } from "./schema/tag.schema";
 
 @Module({
   imports: [

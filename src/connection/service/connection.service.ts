@@ -1,9 +1,9 @@
-import { BadRequestException, NotFoundException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Connection } from '../schema/connection.schema';
-import mongoose, { Model } from 'mongoose';
-import { UpdateConnectionDto } from '../dto/update-connection.dto';
-import { CreateConnectionDto } from '../dto/create-connection.dto';
+import { BadRequestException, NotFoundException, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Connection } from "../schema/connection.schema";
+import mongoose, { Model } from "mongoose";
+import { UpdateConnectionDto } from "../dto/update-connection.dto";
+import { CreateConnectionDto } from "../dto/create-connection.dto";
 import { EvolutionService } from "../../evolution/service/evolution.service"
 
 @Injectable()
@@ -32,7 +32,7 @@ export class ConnectionService {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
+      throw new BadRequestException("Please enter correct id.");
     }
 
     return await this.connectionModel.findOne({ _id: id });

@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Tag } from '../schema/tag.schema';
-import mongoose, { Model } from 'mongoose';
-import { UpdateTagtDto } from '../dto/update-tag.dto';
-import { CreateTagDto } from '../dto/create-tag.dto';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Tag } from "../schema/tag.schema";
+import mongoose, { Model } from "mongoose";
+import { UpdateTagtDto } from "../dto/update-tag.dto";
+import { CreateTagDto } from "../dto/create-tag.dto";
 
 @Injectable()
 export class TagService {
@@ -23,7 +23,7 @@ export class TagService {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
+      throw new BadRequestException("Please enter correct id.");
     }
 
     return await this.tagModel.findOne({ _id: id });

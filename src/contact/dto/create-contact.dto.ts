@@ -1,5 +1,5 @@
-import { IsString, IsNotEmpty, IsArray, IsOptional, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsString, IsNotEmpty, IsArray, IsOptional, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 
 class BadgeDto {
   @IsString()
@@ -9,11 +9,11 @@ class BadgeDto {
 class MessageDto {
   @IsString()
   @IsOptional()
-  type: string = 'sent';
+  type: string = "sent";
 
   @IsString()
   @IsOptional()
-  typeMessage: string = 'text';
+  typeMessage: string = "text";
 
   @IsString()
   @IsOptional()

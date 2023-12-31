@@ -1,13 +1,13 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument, Types } from "mongoose";
 
 export type ConnectionDocument = HydratedDocument<Connection>;
 
 class Message {
-  @Prop({ default: 'sent' })
+  @Prop({ default: "sent" })
   type: string;
 
-  @Prop({ default: 'text' })
+  @Prop({ default: "text" })
   typeMessage: string;
 
   @Prop()

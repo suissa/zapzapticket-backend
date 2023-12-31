@@ -1,10 +1,10 @@
-import { BadRequestException, NotFoundException, Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Contact } from '../schema/contact.schema';
-import mongoose, { Model } from 'mongoose';
-import { UpdateContactDto } from '../dto/update-contact.dto';
-import { CreateContactDtoPartial } from '../dto/create-contact.dto';
-import { ConnectionService } from 'src/connection/service/connection.service';
+import { BadRequestException, NotFoundException, Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Contact } from "../schema/contact.schema";
+import mongoose, { Model } from "mongoose";
+import { UpdateContactDto } from "../dto/update-contact.dto";
+import { CreateContactDtoPartial } from "../dto/create-contact.dto";
+import { ConnectionService } from "src/connection/service/connection.service";
 
 
 
@@ -37,7 +37,7 @@ export class ContactService {
     const isValidId = mongoose.isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter correct id.');
+      throw new BadRequestException("Please enter correct id.");
     }
 
     return await this.contactModel.findOne({ _id: id });

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { ContactService } from '../../contact/service/contact.service';
-import { ConnectionService } from '../../connection/service/connection.service';
+import { ContactService } from "../../contact/service/contact.service";
+import { ConnectionService } from "../../connection/service/connection.service";
 
 @Injectable()
 export class WebhookService {

@@ -38,7 +38,7 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   @SubscribeMessage("message")
   handleMessage(@MessageBody() data: any): void {
-    console.log('Mensagem recebida:', data);
+    console.log("Mensagem recebida:", data);
 
     // Aqui você pode adicionar qualquer lógica adicional que desejar
 

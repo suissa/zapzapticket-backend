@@ -8,12 +8,12 @@ import {
   Param,
   Patch,
   Post,
-} from '@nestjs/common';
-import { ContactService } from '../service/contact.service';
-import { CreateContactDto } from '../dto/create-contact.dto';
-import { UpdateContactDto } from '../dto/update-contact.dto';
+} from "@nestjs/common";
+import { ContactService } from "../service/contact.service";
+import { CreateContactDto } from "../dto/create-contact.dto";
+import { UpdateContactDto } from "../dto/update-contact.dto";
 
-@Controller('contacts')
+@Controller("contacts")
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
@@ -25,46 +25,46 @@ export class ContactController {
 
   @Post("/import/:instanceName")
   @HttpCode(HttpStatus.OK)
-  importContacts(@Body() request: any, @Param('instanceName') instanceName: string) {
+  importContacts(@Body() request: any, @Param("instanceName") instanceName: string) {
     return this.contactService.importContacts(instanceName, request);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
-    console.log('findAll');
+    console.log("findAll");
     return this.contactService.findAll();
   }
 
 
-  @Get('/messages')
+  @Get("/messages")
   @HttpCode(HttpStatus.OK)
   getAllMessages() {
     return this.contactService.getAllMessages();
   }
 
-  @Get(':id')
+  @Get(":id")
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id') id: string) {
+  findOne(@Param("id") id: string) {
     return this.contactService.findOne(id);
   }
 
 
-  @Patch('/ticketStatus/:id')
+  @Patch("/ticketStatus/:id")
   @HttpCode(HttpStatus.OK)
-  updateTicketStatus(@Param('id') id: string, @Body() request: any) {
+  updateTicketStatus(@Param("id") id: string, @Body() request: any) {
     return this.contactService.updateTicketStatus(id, request);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   @HttpCode(HttpStatus.OK)
-  update(@Param('id') id: string, @Body() request: UpdateContactDto) {
+  update(@Param("id") id: string, @Body() request: UpdateContactDto) {
     return this.contactService.update(id, request);
   }
 
-  @Delete(':id')
+  @Delete(":id")
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id') id: string) {
+  delete(@Param("id") id: string) {
     return this.contactService.delete(id);
   }
 }

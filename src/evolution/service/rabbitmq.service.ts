@@ -1,7 +1,7 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { EvolutionService } from './evolution.service';
-import * as amqp from 'amqplib';
+import { Injectable, OnApplicationBootstrap } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { EvolutionService } from "./evolution.service";
+import * as amqp from "amqplib";
 
 @Injectable()
 export class RabbitmqService implements OnApplicationBootstrap {
@@ -16,9 +16,9 @@ export class RabbitmqService implements OnApplicationBootstrap {
   }
 
   async consumeMessages() {
-    const connection = await amqp.connect('amqp://localhost');
+    const connection = await amqp.connect("amqp://localhost");
     const channel = await connection.createChannel();
-    const queueName = this.configService.get<string>('RABBITMQ_QUEUE_NAME');
+    const queueName = this.configService.get<string>("RABBITMQ_QUEUE_NAME");
 
     await channel.assertQueue(queueName, { durable: false });
 
@@ -29,8 +29,8 @@ export class RabbitmqService implements OnApplicationBootstrap {
         const obj = msg.content.toString();
         const { data } = JSON.parse(obj);
         const dataObj = JSON.parse(data);
-        console.log('Received in RabbitMQ service:', data);
-        console.log('Received in RabbitMQ service:', dataObj.phone, dataObj.text, dataObj.instanceName);
+        console.log("Received in RabbitMQ service:", data);
+        console.log("Received in RabbitMQ service:", dataObj.phone, dataObj.text, dataObj.instanceName);
         // Process the message here
         // aqui q envia msg pro Evolution Service
         await this.evolutionService.sendSimpleMessage(dataObj.phone, dataObj.text, dataObj.instanceName);
