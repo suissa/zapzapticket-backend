@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -11,9 +12,9 @@ import { ContactModule } from "./contact/contact.module";
 import { UserModule } from "./user/user.module";
 import { MessageModule } from "./message/message.module";
 import { ScheduleMessageModule } from "./schedulemessage/schedulemessage.module";
+import { TagModule } from "./tag/tag.module";
 import { WebhookModule } from "./webhook/webhook.module";
 import { MessageGateway }  from "./gateways/message.gateway";
-import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ContactModule,
     MessageModule,
     ScheduleMessageModule,
+    TagModule,
     UserModule,
     WebhookModule,
     MessageGateway
