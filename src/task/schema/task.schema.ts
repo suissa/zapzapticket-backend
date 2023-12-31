@@ -10,7 +10,7 @@ export class Task {
   text: string;
 
   @Prop()
-  title: string;
+  userEmail: string;
 
   @Prop({ default: true})
   isActive: boolean;
