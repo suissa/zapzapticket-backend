@@ -109,7 +109,7 @@ export class ContactService {
     return await contact.save();
   }
 
-  async getAllMessages(): Promise<any> {
+  async getFirstMessages(): Promise<any> {
     const contacts = await this.contactModel.find({}).lean();
 
     const contactsLastMessage = contacts.map(contact => {
@@ -126,6 +126,19 @@ export class ContactService {
 
     return contactsLastMessage;
   }
+
+  async getAllMessages(): Promise<any> {
+    const contacts = await this.contactModel.find({}).lean();
+
+    const contactsLastMessage = contacts
+      .filter(contact => contact.messages.length > 0)
+      .sort((a, b) => {
+        return new Date(b.messages[0].createdAt).getTime() - new Date(a.messages[0].createdAt).getTime();
+      });
+
+    return contactsLastMessage;
+  }
+
 
   async updateTicketStatus(id: string, request: UpdateContactDto): Promise<any> {
     return await this.contactModel.findByIdAndUpdate(id, request, {
