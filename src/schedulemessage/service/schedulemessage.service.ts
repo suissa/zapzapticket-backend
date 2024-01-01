@@ -74,7 +74,7 @@ export class ScheduleMessageService {
   }
 
   async handleScheduleMessage() {
-    this.logger.debug("Called once after 5 seconds");
+    this.logger.debug("handleScheduleMessage");
     this.messages = await this.findAllBySended(false);
 
     const now = new Date();
@@ -115,10 +115,10 @@ export class ScheduleMessageService {
     }
   }
 
-  @Timeout(5000)
-  async handleTimeout() {
-    return await this.handleScheduleMessage();
-  }
+  // @Timeout(5000)
+  // async handleTimeout() {
+  //   return await this.handleScheduleMessage();
+  // }
 
   @Cron("10 * * * * *")
   async handleCron() {
