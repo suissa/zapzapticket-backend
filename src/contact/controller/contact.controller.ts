@@ -39,6 +39,12 @@ export class ContactController {
 
   @Get("/messages")
   @HttpCode(HttpStatus.OK)
+  getFirstMessages() {
+    return this.contactService.getFirstMessages();
+  }
+
+  @Get("/messages/all")
+  @HttpCode(HttpStatus.OK)
   getAllMessages() {
     return this.contactService.getAllMessages();
   }
