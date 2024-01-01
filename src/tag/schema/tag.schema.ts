@@ -12,7 +12,8 @@ export class Tag {
   @Prop({ default: "#ff0000"})
   color: string;
 
-  @Prop()
+  // adminEmail tem q pegar o email do usuário logado
+  @Prop({ default: "admin@admin.com" })
   adminEmail: string;
 
 }

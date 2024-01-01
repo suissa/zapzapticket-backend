@@ -30,6 +30,9 @@ export class User {
   @Prop()
   country: string;
 
+  @Prop({ default: "admin@admin.com" })
+  adminEmail: string;
+
   @Prop({ enum: LevelEnum, default: LevelEnum.NORMAL })
   level: LevelEnum;
 

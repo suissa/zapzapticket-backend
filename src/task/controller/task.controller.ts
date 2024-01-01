@@ -32,8 +32,8 @@ export class TaskController {
 
   @Get("/actives")
   @HttpCode(HttpStatus.OK)
-  findActives(@Param("id") id: string) {
-    return this.taskService.findOne(id);
+  findActives() {
+    return this.taskService.findActives();
   }
 
   @Get(":id")

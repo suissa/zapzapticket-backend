@@ -4,8 +4,9 @@ export class CreateTaskDto {
   @IsNotEmpty()
   text: string;
 
-  @IsNotEmpty()
-  userEmail: string;
+  // userEmail tem q pegar o email do usuário logado
+  // @IsNotEmpty()
+  // userEmail: string;
 
   @IsOptional()
   isActive: boolean = true;

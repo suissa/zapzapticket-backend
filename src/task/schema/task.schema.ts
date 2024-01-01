@@ -9,7 +9,8 @@ export class Task {
   @Prop()
   text: string;
 
-  @Prop()
+  // userEmail tem q pegar o email do usuário logado
+  @Prop({ default: "admin@admin.com" })
   userEmail: string;
 
   @Prop({ default: true})
