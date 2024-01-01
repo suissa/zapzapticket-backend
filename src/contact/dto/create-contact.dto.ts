@@ -37,6 +37,10 @@ export class CreateContactDto {
   @IsString()
   phone: string;
 
+  @IsNotEmpty()
+  @IsString()
+  email: string;
+
   @IsString()
   @IsOptional()
   status: string = "Lista fria";
