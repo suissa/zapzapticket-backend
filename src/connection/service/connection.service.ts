@@ -104,7 +104,7 @@ export class ConnectionService {
     console.log("request: ", request);
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
-    console.log("connection: ", connection);
+    console.log("Connection saveSentTextMessage onnection.instanceName: ", connection.instanceName);
     if (!connection) {
       throw new NotFoundException(`Contact with phone ${request.phone} not found`);
     }
@@ -116,7 +116,7 @@ export class ConnectionService {
       phone: request.phoneReply,
     }
     connection.messages.push(message);
-    console.log("connection depois: ", connection);
+    // console.log("connection depois: ", connection);
     return await connection.save();
   }
 
@@ -124,7 +124,7 @@ export class ConnectionService {
     console.log("request: ", request);
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
-    console.log("connection: ", connection);
+    console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection.instanceName);
     if (!connection) {
       throw new NotFoundException(`Contact with phone ${request.phone} not found`);
     }
@@ -136,7 +136,7 @@ export class ConnectionService {
       phone: request.phoneReply,
     }
     connection.messages.push(message);
-    console.log("connection depois: ", connection);
+    // console.log("connection depois: ", connection);
     return await connection.save();
   }
 
