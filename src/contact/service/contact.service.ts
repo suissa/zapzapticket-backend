@@ -64,9 +64,10 @@ export class ContactService {
 
 
   async saveSentTextMessage(request: any): Promise<any> {
-    console.log("request: ", request);
+    console.log("saveSentTextMessage request: ", request);
     const contact = await this.contactModel.findOne({ phone: request.phone });
 
+    console.log("saveSentTextMessage contact.name: ", contact.name);
     if (!contact) {
       // throw new NotFoundException(`Contact with phone ${request.phone} not found`);
       const _contact = {
@@ -90,8 +91,9 @@ export class ContactService {
   }
 
   async saveReceivedTextMessage(request: any): Promise<any> {
-    console.log("request: ", request);
+    console.log("saveReceivedTextMessage request: ", request);
     const contact = await this.contactModel.findOne({ phone: request.phone });
+    console.log("saveSentTextMessage contact.name: ", contact.name);
 
     console.log("contact: ", contact);
     if (!contact) {
