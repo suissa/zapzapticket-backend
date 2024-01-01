@@ -57,6 +57,10 @@ export class CreateContactDto {
   @IsOptional()
   country: string;
 
+  @IsNotEmpty()
+  @IsString()
+  profilePictureUrl: string = "/images/avatar-01.png";
+
   @IsString()
   @IsOptional()
   ticketStatus: string = "inativo";
