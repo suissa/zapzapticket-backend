@@ -34,6 +34,9 @@ export class Contact {
   phone: string;
 
   @Prop()
+  email: string;
+
+  @Prop()
   status: string = "Lista fria";
 
   @Prop()
@@ -45,7 +48,7 @@ export class Contact {
   @Prop()
   country: string;
 
-  @Prop({ default: ""})
+  @Prop({ default: "/images/avatar-01.png"})
   profilePictureUrl: string;
 
   @Prop({ default: "inativo"})
