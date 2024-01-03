@@ -12,6 +12,7 @@ import {
 import { ConnectionService } from "../service/connection.service";
 import { CreateConnectionDto } from "../dto/create-connection.dto";
 import { UpdateConnectionDto } from "../dto/update-connection.dto";
+import { MessageConnectionDto } from "../dto/message-connection.dto";
 
 @Controller("connections")
 export class ConnectionController {
@@ -21,6 +22,12 @@ export class ConnectionController {
   @HttpCode(HttpStatus.OK)
   create(@Body() request: CreateConnectionDto) {
     return this.connectionService.create(request);
+  }
+
+  @Post("/message/send")
+  @HttpCode(HttpStatus.OK)
+  sendMessage(@Body() request: MessageConnectionDto) {
+    return this.connectionService.sendMessage(request);
   }
 
   @Get()

@@ -3,14 +3,12 @@ import { InjectModel } from "@nestjs/mongoose";
 // import mongoose, { Model } from "mongoose";
 import { ConfigService } from "@nestjs/config";
 import { Evolution } from "../schema/evolution.schema";
-import { MessageGateway } from "../../gateways/message.gateway";
-import { CreateEvolutionDto } from "../dto/create-instance.dto";
-import { CreateMessageDto } from "../dto/create-message.dto";
-import { GetInstanceDto } from "../dto/get-instance.dto";
+import { MessageGateway } from "src/gateways/message.gateway";
+import { CreateEvolutionDto } from "src/evolution/dto/create-instance.dto";
+import { CreateMessageDto } from "src/evolution/dto/create-message.dto";
+import { GetInstanceDto } from "src/evolution/dto/get-instance.dto";
 import * as amqp from "amqplib";
 import axios from "axios";
-
-const SERVER_EVOLUTION = "http://localhost:6666";
 
 const groupBy = (xs, key) => xs.reduce((rv, x) => ({
   ...rv, [x[key]]: [...(rv[x[key]] || []), x]
@@ -28,7 +26,7 @@ export class EvolutionService {
 
   constructor(
     private configService: ConfigService,
-    private messageGateway: MessageGateway
+    private messageGateway: MessageGateway,
   ) {
     this.SERVER_EVOLUTION = this.configService.get<string>("SERVER_EVOLUTION");
     this.API_KEY = this.configService.get<string>("APIKEY");
@@ -195,6 +193,7 @@ export class EvolutionService {
   }
 
   async sendSimpleMessage(phone: string, text: string, instanceName: string) {
+    console.log("sendSimpleMessage: ", phone, text, instanceName)
     const apiKey = this.API_KEY;
     const headers = {
       headers: {
@@ -214,17 +213,19 @@ export class EvolutionService {
       }
     }
 
-    // setTimeout(() => {
-    //   this.messageGateway.server.emit("message:received", request.number);
-    // }, 10000);
+    const url = `${this.SERVER_EVOLUTION}/message/sendText/${instanceName}`;
+    console.log("sendSimpleMessage url: ", url);
+    console.log("sendSimpleMessage data: ", data);
+    console.log("sendSimpleMessage headers: ", headers);
+    try {
+      const result = await axios.post(url, data, headers);
 
-    // setTimeout(async () => {
-    // }, 10000);
-    // console.log("sendSimpleMessage: ", phone, text, instanceName, data);
-    const result = await axios.post(`${this.SERVER_EVOLUTION}/message/sendText/${instanceName}`, data, headers);
-
-    this.messageGateway.server.emit("message:sent", phone);
-    return result.data;
+      this.messageGateway.server.emit("message:sent", phone);
+      // salva q foi received no contact e sent da connection
+      return result.data;
+    } catch (error) {
+      console.log("sendSimpleMessage error: ", error);
+    }
 
   }
 

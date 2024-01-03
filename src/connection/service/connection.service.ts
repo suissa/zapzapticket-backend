@@ -2,9 +2,9 @@ import { BadRequestException, NotFoundException, Injectable } from "@nestjs/comm
 import { InjectModel } from "@nestjs/mongoose";
 import { Connection } from "../schema/connection.schema";
 import mongoose, { Model } from "mongoose";
-import { UpdateConnectionDto } from "../dto/update-connection.dto";
-import { CreateConnectionDto } from "../dto/create-connection.dto";
-import { EvolutionService } from "../../evolution/service/evolution.service"
+import { UpdateConnectionDto } from "src/connection/dto/update-connection.dto";
+import { CreateConnectionDto } from "src/connection/dto/create-connection.dto";
+import { EvolutionService } from "src/evolution/service/evolution.service"
 
 @Injectable()
 export class ConnectionService {
@@ -104,9 +104,29 @@ export class ConnectionService {
     console.log("request: ", request);
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
-    console.log("Connection saveSentTextMessage onnection.instanceName: ", connection.instanceName);
+    console.log("Connection saveSentTextMessage connection.instanceName: ", connection.instanceName);
     if (!connection) {
-      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+      throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+    }
+    const message = {
+      type: "sent",
+      typeMessage: "text",
+      text: request.message,
+      createdAt: new Date(),
+      phone: request.phoneReply,
+    }
+    connection.messages.push(message);
+    // console.log("connection depois: ", connection);
+    return await connection.save();
+  }
+
+  async saveSentTextMessageWithInstanceName(request: any): Promise<any> {
+    console.log("request: ", request);
+    const connection = await this.connectionModel.findOne({ instanceName: request.instanceName });
+
+    console.log("Connection saveSentTextMessage connection.instanceName: ", connection.instanceName);
+    if (!connection) {
+      throw new NotFoundException(`Connection with phone ${request.phone} not found`);
     }
     const message = {
       type: "sent",
@@ -143,5 +163,13 @@ export class ConnectionService {
 
   async getConnectionByInstanceName(instanceName: string): Promise<Connection> {
     return await this.connectionModel.findOne({ instanceName });
+  }
+
+  async sendMessage(data: any): Promise<any> {
+    const { message, phone, instanceName } = data;
+    console.log("sendMessage data", data);
+    const connection = this.getConnectionByInstanceName(instanceName);
+    const contact = this.findOneByPhone(phone);
+    this.evolutionService.sendSimpleMessage(phone, message, instanceName);
   }
 }

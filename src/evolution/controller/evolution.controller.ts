@@ -30,6 +30,13 @@ export class EvolutionController {
     return this.evolutionService.create(request);
   }
 
+  @Post("connection/send/message")
+  @HttpCode(HttpStatus.OK)
+  sendConnectionMessage(@Body() request: any) {
+    return this.evolutionService.sendSimpleMessage(request.phone, request.text, request.instanceName);
+  }
+
+
   @Get("instances")
   @HttpCode(HttpStatus.OK)
   findAll() {

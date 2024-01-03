@@ -5,7 +5,7 @@ import mongoose, { Model } from "mongoose";
 import { UpdateContactDto } from "../dto/update-contact.dto";
 import { CreateContactDtoPartial } from "../dto/create-contact.dto";
 import { ConnectionService } from "src/connection/service/connection.service";
-
+import { EvolutionService } from "src/evolution/service/evolution.service"
 
 
 interface ImportContactsRequest {
@@ -18,7 +18,8 @@ export class ContactService {
   constructor(
     @InjectModel(Contact.name)
     private contactModel: Model<Contact>,
-    private connectionService: ConnectionService
+    private connectionService: ConnectionService,
+    private evolutionService: EvolutionService,
   ) {}
 
   async create(request: CreateContactDtoPartial): Promise<Contact> {
@@ -135,12 +136,17 @@ export class ContactService {
     const contactsLastMessage = contacts
       .filter(contact => contact.messages.length > 0)
       .sort((a, b) => {
-        return new Date(b.messages[0].createdAt).getTime() - new Date(a.messages[0].createdAt).getTime();
+        // Convertendo as datas das últimas mensagens para timestamps
+        const lastMessageA = new Date(a.messages[a.messages.length - 1].createdAt).getTime();
+        const lastMessageB = new Date(b.messages[b.messages.length - 1].createdAt).getTime();
+        // console.log("\n\nlastMessageA", lastMessageA, a.name, a.messages[0]);
+        // console.log("lastMessageB", lastMessageB, b.name, b.messages[0]);
+        // console.log(" lastMessageB - lastMessageA",  lastMessageB - lastMessageA);
+        return lastMessageB - lastMessageA;
       });
 
     return contactsLastMessage;
   }
-
 
   async updateTicketStatus(id: string, request: UpdateContactDto): Promise<any> {
     return await this.contactModel.findByIdAndUpdate(id, request, {
@@ -191,5 +197,35 @@ export class ContactService {
       }
     }
     return await this.contactModel.find({ connectionPhone });
+  }
+
+
+  async sendMessage(data: any): Promise<any> {
+    const { message, phone, instanceName } = data;
+    console.log("sendMessage data", data);
+    const connection = await this.connectionService.getConnectionByInstanceName(instanceName);
+    const contact = await this.findOneByPhone(phone);
+    console.log("sendMessage connection", connection);
+    console.log("sendMessage contact", contact);
+    if (!connection) {
+      throw new NotFoundException(`Connection with instanceName ${instanceName} not found`);
+    }
+    if (!contact) {
+      throw new NotFoundException(`Contact with phone ${phone} not found`);
+    }
+    const phoneReply = connection.phone;
+    // const name = connection.name;
+    const messageRequest = {
+      message,
+      phone,
+      phoneReply: connection.phone,
+      // name,
+    }
+    console.log("\n\n\nsendMessage messageRequest", messageRequest);
+    const saveReceivedTextMessageResult = await this.saveReceivedTextMessage(messageRequest);
+    console.log("sendMessage saveReceivedTextMessageResult", saveReceivedTextMessageResult);
+    const saveSentTextMessageResult = await this.connectionService.saveSentTextMessageWithInstanceName(data);
+    console.log("sendMessage saveSentTextMessageResult", saveSentTextMessageResult);
+    return this.evolutionService.sendSimpleMessage(phone, message, instanceName);
   }
 }

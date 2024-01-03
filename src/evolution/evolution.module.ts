@@ -15,6 +15,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
   ],
   controllers: [EvolutionController],
   providers: [EvolutionService, RabbitmqService, MessageGateway],
-  exports: [EvolutionService, RabbitmqService],
+  exports: [EvolutionService, RabbitmqService, MessageGateway],
 })
 export class EvolutionModule {}

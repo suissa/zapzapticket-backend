@@ -9,6 +9,10 @@ import {
 import { Server, Socket } from "socket.io";
 // import { EvolutionService } from "../evolution/service/evolution.service"
 
+let MESSAGE = "";
+let PHONE = "";
+let INSTANCENAME = "";
+
 @WebSocketGateway({
   cors: {
     origin: "*",
@@ -28,7 +32,7 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   // Este método é chamado quando um cliente se conecta
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Cliente conectado: ${client.id}`);
+    console.log(`Cliente conectado: ${client.id}`, new Date());
   }
 
   // Este método é chamado quando um cliente se desconecta
@@ -44,6 +48,23 @@ export class MessageGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
     // Emitindo uma resposta para todos os clientes conectados
     this.server.emit("message", { text: "Resposta do servidor para a mensagem recebida." });
+  }
+
+  @SubscribeMessage("message:chat:send")
+  handleMessageChatSend(@MessageBody() data: any): void {
+    console.log("Mensagem para enviar:", data);
+    const { message, phone, instanceName } = JSON.parse(data);
+    if (message == MESSAGE && phone == PHONE && instanceName == INSTANCENAME) {
+      console.log("Mensagem duplicada, ignorar");
+      return;
+    }
+    MESSAGE = message;
+    PHONE = phone;
+    INSTANCENAME = instanceName;
+    // Aqui você pode adicionar qualquer lógica adicional que desejar
+
+    // Emitindo uma resposta para todos os clientes conectados
+    this.server.emit("message", { text: "Resposta do servidor para a mensagem a ser enviada recebida. "+message });
   }
 
 }

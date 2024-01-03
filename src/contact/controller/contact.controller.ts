@@ -28,7 +28,12 @@ export class ContactController {
   importContacts(@Body() request: any, @Param("instanceName") instanceName: string) {
     return this.contactService.importContacts(instanceName, request);
   }
-
+  
+  @Post("/message/send")
+  @HttpCode(HttpStatus.OK)
+  sendMessage(@Body() request: any) {
+    return this.contactService.sendMessage(request);
+  }
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
