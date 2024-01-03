@@ -25,14 +25,17 @@ export class WebhookService {
     const { instance, data, sender } = request;
     const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
     const { remoteJid, fromMe, id } = key;
-    const { conversation, messageContextInfo, extendedTextMessage } = message;
+    const { conversation, messageContextInfo, extendedTextMessage, ephemeralMessage } = message;
     console.log("saveSentTextMessageInContact conversation: ", conversation);
+    console.log("saveSentTextMessageInContact ephemeralMessage: ", ephemeralMessage);
+    console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
     console.log("saveSentTextMessageInContact extendedTextMessage.text: ", extendedTextMessage?.text);
     const dataSave = {
       phone: this.getPhoneByFromWhatsapp(remoteJid),
-      message: conversation || extendedTextMessage.text,
+      message: conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text,
       phoneReply: this.getPhoneByFromWhatsapp(sender)
     }
+    console.log("\n\nsaveSentTextMessageInContact dataSave: ", dataSave);
     const result = await this.contactService.saveSentTextMessage(dataSave);
     return result;
   }
@@ -42,18 +45,20 @@ export class WebhookService {
     const { instance, data, sender } = request;
     const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
     const { remoteJid, fromMe, id } = key;
-    const { conversation, messageContextInfo, extendedTextMessage  } = message;
+    const { conversation, messageContextInfo, extendedTextMessage, ephemeralMessage  } = message;
     console.log("saveReceivedTextMessageInContact conversation: ", conversation);
-    console.log("saveReceivedTextMessageInContact extendedTextMessage.text: ", extendedTextMessage.text);
+    console.log("saveReceivedTextMessageInContact ephemeralMessage: ", ephemeralMessage);
+    console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
+    console.log("saveSentTextMessageInContact extendedTextMessage.text: ", extendedTextMessage?.text);
     const phone = this.getPhoneByFromWhatsapp(remoteJid);
-    const messageText = conversation || extendedTextMessage.text;
+    const messageText = conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text;
     const phoneReply = this.getPhoneByFromWhatsapp(sender);
     const dataSave = {
       phone,
       message: messageText,
       phoneReply
     }
-    console.log("saveReceivedTextMessageInContact dataSave: ", dataSave);
+    console.log("\n\nsaveReceivedTextMessageInContact dataSave: ", dataSave);
     const result = await this.contactService.saveReceivedTextMessage(dataSave);
     return result;
   }
@@ -63,14 +68,17 @@ export class WebhookService {
     const { instance, data, sender } = request;
     const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
     const { remoteJid, fromMe, id } = key;
-    const { conversation, messageContextInfo, extendedTextMessage  } = message;
+    const { conversation, messageContextInfo, extendedTextMessage, ephemeralMessage  } = message;
     console.log("saveSentTextMessageInConnection conversation: ", conversation);
-    console.log("saveSentTextMessageInConnection extendedTextMessage.text: ", extendedTextMessage.text);
+    console.log("saveReceivedTextMessageInContact ephemeralMessage: ", ephemeralMessage);
+    console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
+    console.log("saveSentTextMessageInConnection extendedTextMessage?.text: ", extendedTextMessage?.text);
     const dataSave = {
       phone: this.getPhoneByFromWhatsapp(sender),
-      message: conversation || extendedTextMessage.text,
+      message: conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text,
       phoneReply: this.getPhoneByFromWhatsapp(remoteJid)
     }
+    console.log("\n\nsaveSentTextMessageInConnection dataSave: ", dataSave);
     const result = await this.connectionService.saveSentTextMessage(dataSave);
     return result;
   }
@@ -80,15 +88,19 @@ export class WebhookService {
     const { instance, data, sender } = request;
     const { key, pushName, message, messageType, messageTimestamp, owner, source } = data;
     const { remoteJid, fromMe, id } = key;
-    const { conversation, messageContextInfo, extendedTextMessage  } = message;
+    const { conversation, messageContextInfo, extendedTextMessage, ephemeralMessage  } = message;
     console.log("saveReceivedTextMessageInConnection conversation: ", conversation);
+    console.log("saveSentTextMessageInContact ephemeralMessage: ", ephemeralMessage);
+    console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
     console.log("saveReceivedTextMessageInConnection extendedTextMessage?.text: ", extendedTextMessage?.text);
     const dataSave = {
       phone: this.getPhoneByFromWhatsapp(sender),
-      message: conversation || extendedTextMessage.text,
+      message: conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text,
       phoneReply: this.getPhoneByFromWhatsapp(remoteJid)
     }
+    console.log("\n\nsaveReceivedTextMessageInConnection dataSave: ", dataSave);
     const result = await this.connectionService.saveReceivedTextMessage(dataSave);
+    // console.log("saveReceivedTextMessageInConnection result: ", result);
     return result;
   }
 
