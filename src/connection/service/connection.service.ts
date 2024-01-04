@@ -28,14 +28,19 @@ export class ConnectionService {
     return await this.connectionModel.find({}).sort({ name: 1 });
   }
 
-  async findOne(id: string): Promise<Connection> {
+  async findOne(id: string): Promise<any> {
     const isValidId = mongoose.isValidObjectId(id);
-
+    console.log("findOne id: ", id);
+    console.log("findOne isValidId: ", isValidId);
     if (!isValidId) {
       throw new BadRequestException("Please enter correct id.");
     }
-
-    return await this.connectionModel.findOne({ _id: id });
+    // TA DANDO MERDA NO FINDONE! NAO SEI O PQ soh retorna null
+    // await this.connectionModel.findOne({ _id: id })
+    // await this.connectionModel.findById(id)
+    const result = (await this.connectionModel.find({}).lean()).filter((connection) => connection._id.toString() == id)[0];
+    console.log("findOne result: ", result);
+    return result
   }
 
   async findOneByPhone(phone: string): Promise<Connection> {
@@ -74,13 +79,33 @@ export class ConnectionService {
   async findInitiatedConnections() {
     const connections = await this.connectionModel.find({});
     const instances = await this.evolutionService.findAll();
-
+    // console.log("findInitiatedConnections instances: ", instances);
+    // console.log("findInitiatedConnections connections: ", connections);
     if (connections.length == 0) {
       // criar a conexao aqui
       return false;
     }
-
-    connections.forEach(async (connection) => {
+    // console.log("findInitiatedConnections connections: ", connections);
+    // console.log("findInitiatedConnections instances: ", instances);
+    for (const { instance } of instances) {
+      console.log("findInitiatedConnections instance: ", instance);
+      if (!instance.owner) {
+        this.evolutionService.delete(instance.instanceName);
+      } else {
+        const connection = connections.find(({instanceName}) => instanceName == instance.instanceName);
+        // console.log("findInitiatedConnections connection.name: ", connection.name);
+        if (!connection) {
+          const newConnection = {
+            name: instance.instance.instanceName,
+            phone: instance.instance.owner.replace("@s.whatsapp.net", ""),
+            instanceName: instance.instance.instanceName,
+            instanceStatus: true,
+          }
+          await this.connectionModel.create(newConnection);
+        }
+      }
+    }
+    for (const connection of connections) {
       const { instanceName, instanceStatus } = connection;
       const instance = instances.find(({instance}) => instance.instanceName == instanceName);
 
@@ -97,7 +122,7 @@ export class ConnectionService {
         const result = await this.connectionModel.findOneAndUpdate({_id: connection._id}, {instanceStatus: false});
         return false;
       }
-    });
+    }
   }
 
   async saveSentTextMessage(request: any): Promise<any> {

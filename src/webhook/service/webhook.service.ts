@@ -17,8 +17,7 @@ export class WebhookService {
     return phone;
   }
   getPhoneByFromWhatsapp(remoteJid: string): string {
-    const phone = remoteJid.split("@")[0];
-    return phone;
+    return  remoteJid.split("@")[0];
   }
   async saveSentTextMessageInContact(request: any): Promise<any> {
     console.log("saveReceivedTextMessageInConnection request: ", request);
@@ -36,6 +35,12 @@ export class WebhookService {
       phoneReply: this.getPhoneByFromWhatsapp(sender)
     }
     console.log("\n\nsaveSentTextMessageInContact dataSave: ", dataSave);
+    const dataPushName = {
+      phone: this.getPhoneByFromWhatsapp(remoteJid),
+      pushName
+    }
+    const contactResult = await this.contactService.updatePushNameContactByPhone(dataPushName);
+    console.log("saveSentTextMessageInContact contactResult: ", contactResult);
     const result = await this.contactService.saveSentTextMessage(dataSave);
     return result;
   }

@@ -55,6 +55,13 @@ export class ContactService {
     });
   }
 
+  async updateByPhone(phone: string, request: any) {
+    return await this.contactModel.updateOne( { phone }, request, {
+      new: true,
+      runValidators: true,
+    });
+  }
+
   async updateAll(request: UpdateContactDto) {
     return await this.contactModel.updateMany({}, request);
   }
@@ -96,7 +103,7 @@ export class ContactService {
     const contact = await this.contactModel.findOne({ phone: request.phone });
     console.log("saveSentTextMessage contact.name: ", contact.name);
 
-    console.log("contact: ", contact);
+    // console.log("contact: ", contact);
     if (!contact) {
       throw new NotFoundException(`Contact with phone ${request.phone} not found`);
     }
@@ -108,7 +115,7 @@ export class ContactService {
       phone: request.phoneReply,
     }
     contact.messages.push(message);
-    console.log("contact depois: ", contact);
+    // console.log("contact depois: ", contact);
     return await contact.save();
   }
 
@@ -227,5 +234,36 @@ export class ContactService {
     const saveSentTextMessageResult = await this.connectionService.saveSentTextMessageWithInstanceName(data);
     console.log("sendMessage saveSentTextMessageResult", saveSentTextMessageResult);
     return this.evolutionService.sendSimpleMessage(phone, message, instanceName);
+  }
+
+  async updatePushNameContactByPhone(request: any): Promise<any> {
+    console.log("updatePushNameContactByPhone request", request);
+    const { phone, pushName } = request;
+    const contact = await this.updateByPhone(phone, { name: pushName });
+    console.log("updatePushNameContactByPhone contact", contact);
+    if (!contact) {
+      throw new NotFoundException(`Contact with phone ${phone} not found`);
+    }
+    return await contact
+  }
+
+  async getLastMessages(amount: number): Promise<any> {
+    console.log("getLastMessages amount", amount);
+    const contacts = await this.contactModel.find({}).lean();
+
+    const contactsLastMessage = contacts.map(contact => {
+      const contactMessages = contact.messages.slice(-amount + 1);
+      const lastMessage = contact.messages.pop();
+
+      return {
+        ...contact,
+        messages: lastMessage ? [...contactMessages, lastMessage] : [],
+      };
+    }).filter(contact => contact.messages.length > 0)
+    .sort((a, b) => {
+      return new Date(b.messages[0].createdAt).getTime() - new Date(a.messages[0].createdAt).getTime();
+    });
+
+    return contactsLastMessage;
   }
 }

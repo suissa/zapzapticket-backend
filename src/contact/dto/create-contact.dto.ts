@@ -26,6 +26,10 @@ class MessageDto {
   @IsString()
   @IsOptional()
   phone: string;
+
+  @IsString()
+  @IsOptional()
+  read: boolean = false;
 }
 
 export class CreateContactDto {

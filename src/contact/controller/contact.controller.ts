@@ -28,12 +28,13 @@ export class ContactController {
   importContacts(@Body() request: any, @Param("instanceName") instanceName: string) {
     return this.contactService.importContacts(instanceName, request);
   }
-  
+
   @Post("/message/send")
   @HttpCode(HttpStatus.OK)
   sendMessage(@Body() request: any) {
     return this.contactService.sendMessage(request);
   }
+
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
@@ -52,6 +53,12 @@ export class ContactController {
   @HttpCode(HttpStatus.OK)
   getAllMessages() {
     return this.contactService.getAllMessages();
+  }
+
+  @Get("/messages/last/:amount")
+  @HttpCode(HttpStatus.OK)
+  getLastMessages(@Param("amount") amount: number) {
+    return this.contactService.getLastMessages(amount);
   }
 
   @Get(":id")

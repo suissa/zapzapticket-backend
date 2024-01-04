@@ -23,6 +23,9 @@ class Message {
 
   @Prop()
   phone: string;
+
+  @Prop({ default: false })
+  read: boolean;
 }
 
 @Schema({ timestamps: true })
