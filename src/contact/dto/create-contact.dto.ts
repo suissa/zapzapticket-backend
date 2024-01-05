@@ -77,6 +77,10 @@ export class CreateContactDto {
   @IsOptional()
   ticketClosedAt: string;
 
+  @IsString()
+  @IsOptional()
+  transferedTo: string;
+
   @IsArray()
   @IsString({ each: true })
   @IsOptional()

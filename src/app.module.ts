@@ -11,6 +11,7 @@ import { ConnectionModule } from "./connection/connection.module";
 import { ContactModule } from "./contact/contact.module";
 import { UserModule } from "./user/user.module";
 import { MessageModule } from "./message/message.module";
+import { QueueModule } from "./queue/queue.module";
 import { ScheduleMessageModule } from "./schedulemessage/schedulemessage.module";
 import { TagModule } from "./tag/tag.module";
 import { TaskModule } from "./task/task.module";
@@ -46,6 +47,7 @@ import * as bodyParser from 'body-parser';
     ConnectionModule,
     ContactModule,
     MessageModule,
+    QueueModule,
     ScheduleMessageModule,
     TagModule,
     TaskModule,

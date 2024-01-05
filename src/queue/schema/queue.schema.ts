@@ -2,20 +2,21 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
 
 
-export type TaskDocument = HydratedDocument<Task>;
+export type QueueDocument = HydratedDocument<Queue>;
 
 @Schema({ timestamps: true })
-export class Task {
+export class Queue {
   @Prop()
-  text: string;
+  name: string;
 
+  @Prop({ default: "#000" })
+  color: string;
   // userEmail tem q pegar o email do usuário logado
   @Prop({ default: "admin@admin.com" })
   adminEmail: string;
 
   @Prop({ default: true})
   isActive: boolean;
-
 }
 
-export const TaskSchema = SchemaFactory.createForClass(Task);
+export const QueueSchema = SchemaFactory.createForClass(Queue);

@@ -64,6 +64,9 @@ export class Contact {
   ticketClosedAt: string;
 
   @Prop()
+  transferedTo: string;
+
+  @Prop()
   connectionPhone: string;
 
   @Prop()
