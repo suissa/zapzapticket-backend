@@ -12,6 +12,10 @@ export class QueueService {
     private queueModel: Model<Queue>) {}
 
   async create(request: CreateQueueDto): Promise<Queue> {
+    // pegar o email do usuário logado
+    // const adminEmail = request.adminEmail;
+    const adminEmail = "admin@admin.com"
+    const data = {...request, adminEmail}
     return await this.queueModel.create(request);
   }
 
