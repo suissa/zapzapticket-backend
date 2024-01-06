@@ -174,6 +174,7 @@ export class ConnectionService {
     if (!connection) {
       // throw new NotFoundException(`Contact with phone ${request.phone} not found`);
       console.log("Sem conexao encontrada");
+      return false
     }
     const message = {
       type: "received",
