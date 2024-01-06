@@ -5,6 +5,7 @@ import mongoose, { Model } from "mongoose";
 import { UpdateConnectionDto } from "src/connection/dto/update-connection.dto";
 import { CreateConnectionDto } from "src/connection/dto/create-connection.dto";
 import { EvolutionService } from "src/evolution/service/evolution.service"
+import axios from "axios";
 
 @Injectable()
 export class ConnectionService {
@@ -93,10 +94,17 @@ export class ConnectionService {
     }
     // console.log("findInitiatedConnections connections: ", connections);
     console.log("findInitiatedConnections instances: ", instances);
-    for (const { instance } of instances) {
+    // for (const { instance } of instances) {
+    instances.forEach(async ({ instance }) => {
       console.log("findInitiatedConnections instance: ", instance);
       if (!instance.owner) {
-        this.evolutionService.delete(instance.instanceName);
+        // this.evolutionService.delete(instance.instanceName);
+        try {
+          await axios.delete(`http://localhost:6666/evolution/instances/delete/${instance.instanceName}`);
+        }
+        catch (e) {
+          console.log("findInitiatedConnections e: ", e);
+        }
       } else {
         const connection = connections.find(({instanceName}) => instanceName == instance.instanceName);
         // console.log("findInitiatedConnections connection.name: ", connection.name);
@@ -111,7 +119,7 @@ export class ConnectionService {
           return false;
         }
       }
-    }
+    })
     for (const connection of connections) {
       const { instanceName, instanceStatus } = connection;
       const instance = instances.find(({instance}) => instance.instanceName == instanceName);
