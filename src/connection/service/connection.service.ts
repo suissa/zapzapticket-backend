@@ -96,9 +96,9 @@ export class ConnectionService {
         // console.log("findInitiatedConnections connection.name: ", connection.name);
         if (!connection) {
           const newConnection = {
-            name: instance.instance.instanceName,
-            phone: instance.instance.owner.replace("@s.whatsapp.net", ""),
-            instanceName: instance.instance.instanceName,
+            name: instance.instanceName,
+            phone: instance.owner.replace("@s.whatsapp.net", ""),
+            instanceName: instance.instanceName,
             instanceStatus: true,
           }
           await this.connectionModel.create(newConnection);
