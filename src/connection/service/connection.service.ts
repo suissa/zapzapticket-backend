@@ -92,7 +92,7 @@ export class ConnectionService {
       return false;
     }
     // console.log("findInitiatedConnections connections: ", connections);
-    // console.log("findInitiatedConnections instances: ", instances);
+    console.log("findInitiatedConnections instances: ", instances);
     for (const { instance } of instances) {
       console.log("findInitiatedConnections instance: ", instance);
       if (!instance.owner) {
