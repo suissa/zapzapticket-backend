@@ -61,8 +61,19 @@ export class EvolutionService {
       if (error.response) {
         // A solicitação foi feita e o servidor respondeu com um status fora do intervalo 2xx
         console.error("Error data:", error.response.data);
+        if (error.response.data && error.response.data.message) {
+          // throw new BadRequestException(error.response.data.message[0]);
+          const message = error.response.data.message[0];
+          const data = {
+            message,
+            instanceName: request.instanceName,
+          }
+          // return data;
+          return error.response.data.message[0];
+        }
         console.error("Error status:", error.response.status);
         console.error("Error headers:", error.response.headers);
+        return error.response.data;
       } else if (error.request) {
         // A solicitação foi feita, mas nenhuma resposta foi recebida
         console.error("No response:", error.request);
@@ -71,7 +82,7 @@ export class EvolutionService {
         console.error("Error message:", error.message);
       }
       console.log(error)
-      throw error; // Lançar o erro para cima
+      // throw error; // Lançar o erro para cima
     }
   }
   async createAndReturnQRCode (request: CreateEvolutionDto): Promise<Evolution> {
