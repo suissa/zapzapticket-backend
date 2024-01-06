@@ -132,7 +132,8 @@ export class ConnectionService {
 
     console.log("Connection saveSentTextMessage connection.instanceName: ", connection.instanceName);
     if (!connection) {
-      throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+      // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+      console.log("Sem conexao encontrada");
     }
     const message = {
       type: "sent",
@@ -152,7 +153,8 @@ export class ConnectionService {
 
     console.log("Connection saveSentTextMessage connection.instanceName: ", connection.instanceName);
     if (!connection) {
-      throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+      // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+      console.log("Sem conexao encontrada");
     }
     const message = {
       type: "sent",
@@ -196,8 +198,8 @@ export class ConnectionService {
   async sendMessage(data: any): Promise<any> {
     const { message, phone, instanceName } = data;
     console.log("sendMessage data", data);
-    const connection = this.getConnectionByInstanceName(instanceName);
-    const contact = this.findOneByPhone(phone);
+    // const connection = this.getConnectionByInstanceName(instanceName);
+    // const contact = this.findOneByPhone(phone);
     this.evolutionService.sendSimpleMessage(phone, message, instanceName);
   }
 }
