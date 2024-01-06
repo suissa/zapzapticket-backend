@@ -74,8 +74,7 @@ export class ContactService {
   async saveSentTextMessage(request: any): Promise<any> {
     console.log("saveSentTextMessage request: ", request);
     const contact = await this.contactModel.findOne({ phone: request.phone });
-
-    console.log("saveSentTextMessage contact.name: ", contact.name);
+    
     if (!contact) {
       // throw new NotFoundException(`Contact with phone ${request.phone} not found`);
       const _contact = {
@@ -101,11 +100,13 @@ export class ContactService {
   async saveReceivedTextMessage(request: any): Promise<any> {
     console.log("saveReceivedTextMessage request: ", request);
     const contact = await this.contactModel.findOne({ phone: request.phone });
-    console.log("saveSentTextMessage contact.name: ", contact.name);
+    // console.log("saveSentTextMessage contact.name: ", contact.name);
 
     // console.log("contact: ", contact);
     if (!contact) {
-      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+      // throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+      console.log("Não achou o contato, deveria criar um novo");
+      return false;
     }
     const message = {
       type: "received",
@@ -215,10 +216,14 @@ export class ContactService {
     console.log("sendMessage connection", connection);
     console.log("sendMessage contact", contact);
     if (!connection) {
-      throw new NotFoundException(`Connection with instanceName ${instanceName} not found`);
+      // throw new NotFoundException(`Connection with instanceName ${instanceName} not found`);
+      console.log("Não achou o conexao, deveria criar a novo");
+      return false;
     }
     if (!contact) {
-      throw new NotFoundException(`Contact with phone ${phone} not found`);
+      // throw new NotFoundException(`Contact with phone ${phone} not found`);
+      console.log("Não achou o contato, deveria criar um novo");
+      return false;
     }
     const phoneReply = connection.phone;
     // const name = connection.name;
@@ -242,7 +247,9 @@ export class ContactService {
     const contact = await this.updateByPhone(phone, { name: pushName });
     console.log("updatePushNameContactByPhone contact", contact);
     if (!contact) {
-      throw new NotFoundException(`Contact with phone ${phone} not found`);
+      // throw new NotFoundException(`Contact with phone ${phone} not found`);
+      console.log("Não achou o contato, deveria criar um novo");
+      return false;
     }
     return await contact
   }
