@@ -18,6 +18,9 @@ export class User {
   @Prop()
   email: string;
 
+  @Prop()
+  password: string;
+
   @Prop({ set: (phone: string) => phone && phone.replace(/\D/g, "") })
   phone: string;
 

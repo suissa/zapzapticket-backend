@@ -6,6 +6,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { NestFactory } from "@nestjs/core";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { AuthModule } from "./auth/auth.module";
 import { EvolutionModule } from "./evolution/evolution.module";
 import { ConnectionModule } from "./connection/connection.module";
 import { ContactModule } from "./contact/contact.module";
@@ -54,7 +55,8 @@ console.log("MONGODB_URI", process.env.MONGODB_URI);
     TaskModule,
     UserModule,
     WebhookModule,
-    MessageGateway
+    MessageGateway,
+    // AuthModule
   ],
   controllers: [AppController],
   providers: [AppService, MessageGateway],
