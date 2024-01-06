@@ -178,7 +178,7 @@ export class EvolutionService {
       }
     }
     const url = `${this.SERVER_EVOLUTION}/instance/delete/${instanceName}`
-    console.log("evolution.service delete url: ", url)
+    console.log("\n\n\nevolution.service delete url: ", url)
     const result = await axios.delete(url, headers);
 
     return result.data;
