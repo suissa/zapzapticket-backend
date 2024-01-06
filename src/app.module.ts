@@ -19,6 +19,7 @@ import { WebhookModule } from "./webhook/webhook.module";
 import { MessageGateway }  from "./gateways/message.gateway";
 import * as bodyParser from 'body-parser';
 
+console.log("MONGODB_URI", process.env.MONGODB_URI);
 @Module({
   imports: [
     ScheduleModule.forRoot(),

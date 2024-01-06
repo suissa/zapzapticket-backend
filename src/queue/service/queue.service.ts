@@ -16,7 +16,7 @@ export class QueueService {
     // const adminEmail = request.adminEmail;
     const adminEmail = "admin@admin.com"
     const data = {...request, adminEmail}
-    return await this.queueModel.create(request);
+    return await this.queueModel.create(data);
   }
 
   async findAll(): Promise<Queue[]> {
