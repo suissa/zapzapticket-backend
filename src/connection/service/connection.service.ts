@@ -20,6 +20,11 @@ export class ConnectionService {
   }
 
   async create(request: CreateConnectionDto): Promise<Connection> {
+    const data = { 
+      name: request.name,
+      phone: request.phone,
+      instanceName: `${request.name.replace(" ", "_")}-${request.phone}`,
+      instanceStatus: false };
     return await this.connectionModel.create(request);
   }
 
