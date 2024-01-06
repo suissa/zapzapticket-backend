@@ -50,12 +50,6 @@ export class EvolutionController {
     return this.evolutionService.coonnectionState(params.instance);
   }
 
-  @Get("instances/:instanceName")
-  @HttpCode(HttpStatus.OK)
-  findOne(@Param("instanceName") instanceName: string) {
-    return this.evolutionService.findOne(instanceName);
-  }
-
   @Delete("instances/logout/:instanceName")
   @HttpCode(HttpStatus.OK)
   logout(@Param("instanceName") instanceName: string) {
@@ -68,6 +62,13 @@ export class EvolutionController {
     console.log("delete controller: ", instanceName)
     return this.evolutionService.delete(instanceName);
   }
+  
+  @Get("instances/:instanceName")
+  @HttpCode(HttpStatus.OK)
+  findOne(@Param("instanceName") instanceName: string) {
+    return this.evolutionService.findOne(instanceName);
+  }
+
 
   // @Post("messages/send/batch")
   // @HttpCode(HttpStatus.OK)
