@@ -16,7 +16,7 @@ export class ConnectionService {
     }
 
   private async init() {
-    // await this.findInitiatedConnections();
+    await this.findInitiatedConnections();
   }
 
   async create(request: CreateConnectionDto): Promise<Connection> {
