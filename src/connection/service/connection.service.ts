@@ -73,7 +73,7 @@ export class ConnectionService {
     // const resultDelete = await this.evolutionService.delete(instanceName);
     console.log(resultLogout)
     // console.log(resultDelete)
-    // return await this.connectionModel.findOneAndUpdate({instanceName}, {instanceStatus: false})
+    return await this.connectionModel.findOneAndUpdate({instanceName}, {instanceStatus: false})
   }
 
   async findInitiatedConnections() {

@@ -153,6 +153,7 @@ export class EvolutionService {
       }
     }
     const url = `${this.SERVER_EVOLUTION}/instance/logout/${instanceName}`
+    console.log("evolution.service logout url: ", url)
     const result = await axios.delete(url, headers);
 
     return result.data;
