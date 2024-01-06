@@ -29,6 +29,9 @@ export class WebhookService {
     console.log("saveSentTextMessageInContact ephemeralMessage: ", ephemeralMessage);
     console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
     console.log("saveSentTextMessageInContact extendedTextMessage.text: ", extendedTextMessage?.text);
+    if (!conversation && !extendedTextMessage?.text && !ephemeralMessage?.message?.extendedTextMessage?.text) {
+      return false;
+    }
     const dataSave = {
       phone: this.getPhoneByFromWhatsapp(remoteJid),
       message: conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text,

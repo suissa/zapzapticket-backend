@@ -171,7 +171,8 @@ export class ConnectionService {
 
     // console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
-      throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+      // throw new NotFoundException(`Contact with phone ${request.phone} not found`);
+      console.log("Sem conexao encontrada");
     }
     const message = {
       type: "received",
