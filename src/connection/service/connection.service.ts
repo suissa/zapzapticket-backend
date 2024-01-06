@@ -169,7 +169,7 @@ export class ConnectionService {
     console.log("request: ", request);
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
-    console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection.instanceName);
+    console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       throw new NotFoundException(`Contact with phone ${request.phone} not found`);
     }
