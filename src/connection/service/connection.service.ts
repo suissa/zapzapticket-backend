@@ -95,13 +95,14 @@ export class ConnectionService {
         const connection = connections.find(({instanceName}) => instanceName == instance.instanceName);
         // console.log("findInitiatedConnections connection.name: ", connection.name);
         if (!connection) {
-          const newConnection = {
-            name: instance.instanceName,
-            phone: instance.owner.replace("@s.whatsapp.net", ""),
-            instanceName: instance.instanceName,
-            instanceStatus: true,
-          }
-          await this.connectionModel.create(newConnection);
+          // const newConnection = {
+          //   name: instance.instanceName,
+          //   phone: instance.owner.replace("@s.whatsapp.net", ""),
+          //   instanceName: instance.instanceName,
+          //   instanceStatus: true,
+          // }
+          // await this.connectionModel.create(newConnection);
+          return false;
         }
       }
     }
