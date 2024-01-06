@@ -65,6 +65,7 @@ export class EvolutionController {
   @Delete("instances/delete/:instanceName")
   @HttpCode(HttpStatus.OK)
   delete(@Param("instanceName") instanceName: string) {
+    console.log("delete controller: ", instanceName)
     return this.evolutionService.delete(instanceName);
   }
 
