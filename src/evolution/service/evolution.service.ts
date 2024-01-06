@@ -177,7 +177,9 @@ export class EvolutionService {
         apikey: apiKey
       }
     }
-    const result = await axios.delete(`${this.SERVER_EVOLUTION}/instance/delete/${instanceName}`, headers);
+    const url = `${this.SERVER_EVOLUTION}/instance/delete/${instanceName}`
+    console.log("evolution.service delete url: ", url)
+    const result = await axios.delete(url, headers);
 
     return result.data;
   }
