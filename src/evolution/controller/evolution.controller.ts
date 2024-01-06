@@ -50,19 +50,19 @@ export class EvolutionController {
     return this.evolutionService.coonnectionState(params.instance);
   }
 
-  @Delete("instances/logout/:instanceName")
+  @Delete("logout/:instanceName")
   @HttpCode(HttpStatus.OK)
   logout(@Param("instanceName") instanceName: string) {
     return this.evolutionService.delete(instanceName);
   }
 
-  @Delete("instances/delete/:instanceName")
+  @Delete("delete/:instanceName")
   @HttpCode(HttpStatus.OK)
   delete(@Param("instanceName") instanceName: string) {
     console.log("delete controller: ", instanceName)
     return this.evolutionService.delete(instanceName);
   }
-  
+
   @Get("instances/:instanceName")
   @HttpCode(HttpStatus.OK)
   findOne(@Param("instanceName") instanceName: string) {
