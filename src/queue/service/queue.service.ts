@@ -16,6 +16,7 @@ export class QueueService {
     // const adminEmail = request.adminEmail;
     const adminEmail = "admin@admin.com"
     const data = {...request, adminEmail}
+    console.log("queue service create data: ", data);
     return await this.queueModel.create(data);
   }
 

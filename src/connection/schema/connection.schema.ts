@@ -22,8 +22,6 @@ class Message {
 
 @Schema({ timestamps: true })
 export class Connection {
-  @Prop({ type: Types.ObjectId })
-  _id: Types.ObjectId;
 
   @Prop()
   name: string;
@@ -34,7 +32,7 @@ export class Connection {
   @Prop()
   instanceName: string;
 
-  @Prop()
+  @Prop({ default: false })
   instanceStatus: boolean;
 
   @Prop({ default: true })

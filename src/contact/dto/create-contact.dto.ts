@@ -37,12 +37,12 @@ export class CreateContactDto {
   @IsString()
   name: string = "Não informado";
 
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   phone: string;
 
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   email: string;
 
   @IsString()

@@ -25,7 +25,8 @@ export class ConnectionService {
       phone: request.phone,
       instanceName: `${request.name.replace(" ", "_")}-${request.phone}`,
       instanceStatus: false };
-    return await this.connectionModel.create(request);
+    console.log("create data: ", data);
+    return await this.connectionModel.create(data);
   }
 
   async findAll(): Promise<Connection[]> {
