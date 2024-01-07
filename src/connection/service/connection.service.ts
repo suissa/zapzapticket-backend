@@ -6,7 +6,8 @@ import { UpdateConnectionDto } from "src/connection/dto/update-connection.dto";
 import { CreateConnectionDto } from "src/connection/dto/create-connection.dto";
 import { EvolutionService } from "src/evolution/service/evolution.service"
 import axios from "axios";
-
+// const SERVER_EVOLUTION = process.env.SERVER_EVOLUTION || "http://localhost:6666";
+const SERVER_EVOLUTION = "http://137.184.81.207:6666";
 @Injectable()
 export class ConnectionService {
   constructor(
@@ -86,8 +87,8 @@ export class ConnectionService {
   async findInitiatedConnections() {
     const connections = await this.connectionModel.find({});
     const instances = await this.evolutionService.findAll();
-    // console.log("findInitiatedConnections instances: ", instances);
-    // console.log("findInitiatedConnections connections: ", connections);
+    console.log("findInitiatedConnections instances: ", instances);
+    console.log("findInitiatedConnections connections: ", connections);
     if (connections.length == 0) {
       // criar a conexao aqui
       return false;
@@ -100,7 +101,7 @@ export class ConnectionService {
       if (!instance.owner) {
         // this.evolutionService.delete(instance.instanceName);
         try {
-          await axios.delete(`http://localhost:6666/evolution/instances/delete/${instance.instanceName}`);
+          await axios.delete(`${SERVER_EVOLUTION}/instances/delete/${instance.instanceName}`);
         }
         catch (e) {
           console.log("findInitiatedConnections e: ", e);
@@ -118,6 +119,13 @@ export class ConnectionService {
           // await this.connectionModel.create(newConnection);
           return false;
         }
+         else {
+          console.log("\n\nfindInitiatedConnections else instance.instanceName: ", instance.instanceName);
+          console.log("findInitiatedConnections else connection.instanceName: ", connection.instanceName);
+          console.log("findInitiatedConnections else connection.instanceStatus: ", connection.instanceStatus);
+          const result = await this.connectionModel.findOneAndUpdate({instanceName: instance.instanceName}, {instanceStatus: true});
+          console.log("findInitiatedConnections else result: ", result);
+         }
       }
     })
     for (const connection of connections) {
