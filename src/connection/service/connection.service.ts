@@ -121,9 +121,9 @@ export class ConnectionService {
           return false;
         }
          else {
-          console.log("\n\nfindInitiatedConnections else instance.instanceName: ", instance.instanceName);
-          console.log("findInitiatedConnections else connection.instanceName: ", connection.instanceName);
-          console.log("findInitiatedConnections else connection.instanceStatus: ", connection.instanceStatus);
+          console.log("\n\nfindInitiatedConnections else instance.instanceName: ", instance?.instanceName);
+          console.log("findInitiatedConnections else connection.instanceName: ", connection?.instanceName);
+          console.log("findInitiatedConnections else connection.instanceStatus: ", connection?.instanceStatus);
           const result = await this.connectionModel.findOneAndUpdate({instanceName: instance.instanceName}, {instanceStatus: true});
           console.log("findInitiatedConnections else result: ", result);
          }
@@ -153,7 +153,7 @@ export class ConnectionService {
     console.log("request: ", request);
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
-    console.log("Connection saveSentTextMessage connection.instanceName: ", connection.instanceName);
+    console.log("Connection saveSentTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
       console.log("Sem conexao encontrada");
@@ -174,7 +174,7 @@ export class ConnectionService {
     console.log("request: ", request);
     const connection = await this.connectionModel.findOne({ instanceName: request.instanceName });
 
-    console.log("Connection saveSentTextMessage connection.instanceName: ", connection.instanceName);
+    console.log("Connection saveSentTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
       console.log("Sem conexao encontrada");
