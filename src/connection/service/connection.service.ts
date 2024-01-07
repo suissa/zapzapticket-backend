@@ -101,7 +101,8 @@ export class ConnectionService {
       if (!instance.owner) {
         // this.evolutionService.delete(instance.instanceName);
         try {
-          await axios.delete(`${SERVER_EVOLUTION}/instances/delete/${instance.instanceName}`);
+          // precisa deletar
+          // await axios.delete(`${SERVER_EVOLUTION}/instances/delete/${instance.instanceName}`);
         }
         catch (e) {
           console.log("findInitiatedConnections e: ", e);
