@@ -156,7 +156,15 @@ export class ConnectionService {
     console.log("Connection saveSentTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
-      console.log("Sem conexao encontrada");
+      const data = {
+        name: request.data.pushName,
+        phone: request.instance.split("-")[1],
+        instanceName: request.instance,
+        instanceStatus: true,
+      }
+      console.log("saveSentTextMessage Sem conexao encontrada data ", data);
+      const result = await this.connectionModel.create(data);
+      console.log("saveSentTextMessage Sem conexao encontrada result ", result);
     }
     const message = {
       type: "sent",
@@ -165,7 +173,7 @@ export class ConnectionService {
       createdAt: new Date(),
       phone: request.phoneReply,
     }
-    connection.messages.push(message);
+    connection?.messages.push(message);
     // console.log("connection depois: ", connection);
     return await connection.save();
   }
@@ -174,10 +182,18 @@ export class ConnectionService {
     console.log("request: ", request);
     const connection = await this.connectionModel.findOne({ instanceName: request.instanceName });
 
-    console.log("Connection saveSentTextMessage connection.instanceName: ", connection?.instanceName);
+    console.log("Connection saveSentTextMessageWithInstanceName connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
-      console.log("Sem conexao encontrada");
+      const data = {
+        name: request.data.pushName,
+        phone: request.instance.split("-")[1],
+        instanceName: request.instance,
+        instanceStatus: true,
+      }
+      console.log("saveSentTextMessageWithInstanceName Sem conexao encontrada data ", data);
+      const result = await this.connectionModel.create(data);
+      console.log("saveSentTextMessageWithInstanceName Sem conexao encontrada result ", result);
     }
     const message = {
       type: "sent",
@@ -186,20 +202,27 @@ export class ConnectionService {
       createdAt: new Date(),
       phone: request.phoneReply,
     }
-    connection.messages.push(message);
+    connection?.messages.push(message);
     // console.log("connection depois: ", connection);
     return await connection.save();
   }
 
   async saveReceivedTextMessage(request: any): Promise<any> {
-    console.log("request: ", request);
+    console.log("Connection saveReceivedTextMessage request: ", request);
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
     // console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
-      // throw new NotFoundException(`Contact with phone ${request.phone} not found`);
-      console.log("Sem conexao encontrada");
-      return false
+      // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+      const data = {
+        name: request.data.pushName,
+        phone: request.instance.split("-")[1],
+        instanceName: request.instance,
+        instanceStatus: true,
+      }
+      console.log("saveReceivedTextMessage Sem conexao encontrada data ", data);
+      const result = await this.connectionModel.create(data);
+      console.log("saveReceivedTextMessage Sem conexao encontrada result ", result);
     }
     const message = {
       type: "received",
@@ -208,7 +231,7 @@ export class ConnectionService {
       createdAt: new Date(),
       phone: request.phoneReply,
     }
-    connection.messages.push(message);
+    connection?.messages.push(message);
     // console.log("connection depois: ", connection);
     return await connection.save();
   }
