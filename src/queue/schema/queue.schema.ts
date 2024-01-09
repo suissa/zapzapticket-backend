@@ -9,6 +9,9 @@ export class Queue {
   @Prop()
   name: string;
 
+  @Prop()
+  greeting: string;
+
   @Prop({ default: "#000" })
   color: string;
   // userEmail tem q pegar o email do usuário logado
