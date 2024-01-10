@@ -163,6 +163,15 @@ export class ContactService {
     });
   }
 
+  async updateTicketStatusAccept(id: string, request: UpdateContactDto): Promise<any> {
+    console.log("updateTicketStatusAccept id:", id)
+    console.log("updateTicketStatusAccept request:", request)
+    // return await this.contactModel.findByIdAndUpdate(id, request, {
+    //   new: true,
+    //   runValidators: true,
+    // });
+  }
+
   async getContactByPhoneAndConnection(phone: string, connectionPhone: string): Promise<Contact> {
     return this.contactModel.findOne({ phone, connectionPhone });
   }
@@ -213,8 +222,8 @@ export class ContactService {
     console.log("sendMessage data", data);
     const connection = await this.connectionService.getConnectionByInstanceName(instanceName);
     const contact = await this.findOneByPhone(phone);
-    console.log("sendMessage connection", connection);
-    console.log("sendMessage contact", contact);
+    console.log("sendMessage connection", connection.name);
+    console.log("sendMessage contact", contact.name);
     if (!connection) {
       // throw new NotFoundException(`Connection with instanceName ${instanceName} not found`);
       console.log("Não achou o conexao, deveria criar a novo");

@@ -164,6 +164,7 @@ export class WebhookService {
 
   async receiveWebhook(request: any): Promise<any> {
     try {
+      console.log("messages.upsert: ", request);
       if (request.event === "messages.upsert") {
         console.log("messages.upsert: ", request);
         // this.saveMessage(request)

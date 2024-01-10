@@ -74,6 +74,13 @@ export class ContactController {
     return this.contactService.updateTicketStatus(id, request);
   }
 
+
+  @Patch("/contacts/ticket/accept/:id")
+  @HttpCode(HttpStatus.OK)
+  updateTicketStatusAccept(@Param("id") id: string, @Body() request: any) {
+    return this.contactService.updateTicketStatusAccept(id, request);
+  }
+
   @Patch(":id")
   @HttpCode(HttpStatus.OK)
   update(@Param("id") id: string, @Body() request: UpdateContactDto) {
