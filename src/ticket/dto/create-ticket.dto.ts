@@ -24,8 +24,20 @@ class CreateMessageDto {
 
 export class CreateTicketDto {
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   status: string;
+
+  @IsString()
+  @IsNotEmpty()
+  queue: string = "Atendimento";
+
+  @IsString()
+  @IsNotEmpty()
+  contactId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  companyId: string;
 
   @IsString()
   @IsOptional()
