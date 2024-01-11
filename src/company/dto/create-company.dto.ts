@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsBoolean } from 'class-validator';
 
 export class CreateCompanyDto {
   @IsNotEmpty()
@@ -21,7 +21,7 @@ export class CreateCompanyDto {
   @IsOptional()
   planId: string;  // Representando um ObjectId como string
 
-  @IsString()
+  @IsBoolean()
   @IsOptional()
   campaignsEnabled: boolean;
 
@@ -29,7 +29,11 @@ export class CreateCompanyDto {
   @IsOptional()
   dueDate: string;
 
-  @IsString()
+  @IsBoolean()
   @IsOptional()
-  recurrence: boolean;
+  recurrence: boolean = true;
+
+  @IsBoolean()
+  @IsOptional()
+  isActive: boolean = true;
 }

@@ -7,15 +7,17 @@ import { NestFactory } from "@nestjs/core";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
-import { EvolutionModule } from "./evolution/evolution.module";
+import { CompanyModule } from "./company/company.module";
 import { ConnectionModule } from "./connection/connection.module";
 import { ContactModule } from "./contact/contact.module";
-import { UserModule } from "./user/user.module";
+import { EvolutionModule } from "./evolution/evolution.module";
 import { MessageModule } from "./message/message.module";
+import { PlanModule } from "./plan/plan.module";
 import { QueueModule } from "./queue/queue.module";
 import { ScheduleMessageModule } from "./schedulemessage/schedulemessage.module";
 import { TagModule } from "./tag/tag.module";
 import { TaskModule } from "./task/task.module";
+import { UserModule } from "./user/user.module";
 import { WebhookModule } from "./webhook/webhook.module";
 import { MessageGateway }  from "./gateways/message.gateway";
 import * as bodyParser from 'body-parser';
@@ -45,10 +47,12 @@ console.log("MONGODB_URI", process.env.MONGODB_URI);
         },
       },
     ]),
-    EvolutionModule,
+    CompanyModule,
     ConnectionModule,
     ContactModule,
+    EvolutionModule,
     MessageModule,
+    PlanModule,
     QueueModule,
     ScheduleMessageModule,
     TagModule,

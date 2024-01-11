@@ -13,7 +13,7 @@ import { CompanyService } from "../service/company.service";
 import { CreateCompanyDto } from "../dto/create-company.dto";
 // import { UpdateCompanytDto } from "../dto/update-company.dto";
 
-@Controller("company")
+@Controller("companies")
 export class CompanyController {
   constructor(private readonly taskService: CompanyService) {}
 

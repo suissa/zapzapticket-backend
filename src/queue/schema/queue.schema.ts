@@ -18,8 +18,15 @@ export class Queue {
   @Prop({ default: "admin@admin.com" })
   adminEmail: string;
 
+  @Prop()
+  outOfHoursMessage: string;
+
+  @Prop()
+  schedules: [];
+
   @Prop({ default: true})
   isActive: boolean;
 }
 
 export const QueueSchema = SchemaFactory.createForClass(Queue);
+

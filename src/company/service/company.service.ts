@@ -16,7 +16,10 @@ export class CompanyService {
   }
 
   async findAll(): Promise<Company[]> {
-    return await this.companyModel.find().sort({ createdAt: -1 });
+    return await this.companyModel.find()
+      .populate('planId') // Substitua 'planId' pelo nome do campo que você usa para referenciar o plano
+      .sort({ createdAt: -1 })
+      .exec();
   }
 
   async findActives(): Promise<Company[]> {
