@@ -20,7 +20,7 @@ export class CompanyService {
     const companies = await this.companyModel.find()
       .populate({
         path: "planId", // path é o nome do campo que refere o plano
-        select: "name -_id" // seleciona apenas o campo "name" e exclui o campo "_id" do plano
+        select: "name" // seleciona apenas o campo "name" e exclui o campo "_id" do plano
       }) // Substitua "planId" pelo nome do campo que você usa para referenciar o plano
       .sort({ createdAt: -1 })
       .exec();
