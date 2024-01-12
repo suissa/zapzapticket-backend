@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { HydratedDocument, Types } from "mongoose";
+import { Plan } from "src/company/schema/iPlan";
 
 
 export type CompanyDocument = HydratedDocument<Company>;
@@ -19,7 +20,10 @@ export class Company {
   status: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Plan' })
-  planId: string;
+  planId: Plan | string;
+
+  @Prop()
+  planName: string;
 
   @Prop()
   campaignsEnabled: string;
