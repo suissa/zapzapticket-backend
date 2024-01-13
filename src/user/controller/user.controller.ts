@@ -8,11 +8,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { UserService } from "../service/user.service";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { UpdateUsertDto } from "../dto/update-user.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -36,6 +39,7 @@ export class UserController {
     console.log("findAllWithNoActive");
     return this.userService.findAllWithNoActive();
   }
+
   @Get(":id")
   @HttpCode(HttpStatus.OK)
   findOne(@Param("id") id: string) {

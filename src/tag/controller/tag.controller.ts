@@ -8,11 +8,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { TagService } from "../service/tag.service";
 import { CreateTagDto } from "../dto/create-tag.dto";
 import { UpdateTagtDto } from "../dto/update-tag.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("tags")
 export class TagController {
   constructor(private readonly tagService: TagService) {}
