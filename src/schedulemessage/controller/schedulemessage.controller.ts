@@ -8,11 +8,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { ScheduleMessageService } from "../service/schedulemessage.service";
 import { CreateScheduleMessageDto } from "../dto/create-schedulemessage.dto";
 import { UpdateScheduleMessagetDto } from "../dto/update-schedulemessage.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("schedulemessages")
 export class ScheduleMessageController {
   constructor(private readonly schedulemessageService: ScheduleMessageService) {}
