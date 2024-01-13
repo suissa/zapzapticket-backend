@@ -7,15 +7,16 @@ export class JwtAuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    // try {
+    try {
       const authHeader = request.headers.authorization;
       console.log("jwt-auth.guard authHeader", authHeader)
       const bearerToken = authHeader.split(" ")[1];
+      console.log("jwt-auth.guard bearerToken", bearerToken)
       const result = this.jwtService.verify(bearerToken);
       console.log("jwt-auth.guard result", result)
       return true;
-    // } catch (e) {
-    //   throw new UnauthorizedException("Token inválido ou expirado");
-    // }
+    } catch (e) {
+      throw new UnauthorizedException("Token inválido ou expirado");
+    }
   }
 }
