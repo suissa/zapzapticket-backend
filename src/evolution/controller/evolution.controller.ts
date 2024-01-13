@@ -9,11 +9,14 @@ import {
   Patch,
   Post,
   Res,
+  UseGuards
 } from "@nestjs/common";
 import { EvolutionService } from "../service/evolution.service";
 import { CreateEvolutionDto } from "../dto/create-instance.dto";
 import { CreateMessageDto } from "../dto/create-message.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("evolution")
 export class EvolutionController {
   constructor(private readonly evolutionService: EvolutionService) {}
