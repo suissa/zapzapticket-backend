@@ -8,10 +8,13 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { PlanService } from "../service/plan.service";
 import { CreatePlanDto } from "../dto/create-plan.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("plans")
 export class PlanController {
   constructor(private readonly planService: PlanService) {}

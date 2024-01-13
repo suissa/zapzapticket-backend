@@ -6,7 +6,7 @@ import * as jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { User } from 'src/user/schema/user.schema'; // Ajuste o caminho conforme necessário
 
-const SECRET = "ManoVeioSuissebas#666"
+const SECRET = "ManoVeioPeriferico#666"
 @Injectable()
 export class AuthService {
   constructor(
@@ -28,8 +28,10 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { email: user.email, _id: user._id };
+    const token = jwt.sign(payload, SECRET, { expiresIn: "60m" })
+    console.log("auth.service.ts login token", token)
     return {
-      access_token: jwt.sign(payload, SECRET, { expiresIn: "60m" }),
+      access_token: token,
     };
   }
 }
