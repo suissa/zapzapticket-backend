@@ -8,11 +8,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { TaskService } from "../service/task.service";
 import { CreateTaskDto } from "../dto/create-task.dto";
 import { UpdateTasktDto } from "../dto/update-task.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("tasks")
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
