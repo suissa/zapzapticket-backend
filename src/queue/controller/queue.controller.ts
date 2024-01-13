@@ -8,11 +8,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { QueueService } from "../service/queue.service";
 import { CreateQueueDto } from "../dto/create-queue.dto";
 import { UpdateQueuetDto } from "../dto/update-queue.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("queues")
 export class QueueController {
   constructor(private readonly queueService: QueueService) {}
