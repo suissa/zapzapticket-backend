@@ -8,12 +8,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { ConnectionService } from "../service/connection.service";
 import { CreateConnectionDto } from "../dto/create-connection.dto";
 import { UpdateConnectionDto } from "../dto/update-connection.dto";
 import { MessageConnectionDto } from "../dto/message-connection.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("connections")
 export class ConnectionController {
   constructor(private readonly connectionService: ConnectionService) {}
