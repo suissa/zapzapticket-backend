@@ -8,11 +8,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { ContactService } from "../service/contact.service";
 import { CreateContactDto } from "../dto/create-contact.dto";
 import { UpdateContactDto } from "../dto/update-contact.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("contacts")
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
