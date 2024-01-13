@@ -8,10 +8,13 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards
 } from "@nestjs/common";
 import { TicketService } from "../service/ticket.service";
 import { CreateTicketDto } from "../dto/create-ticket.dto";
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller("tasks")
 export class TicketController {
   constructor(private readonly taskService: TicketService) {}
