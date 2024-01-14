@@ -3,37 +3,23 @@ FROM node:18-alpine AS development
 
 WORKDIR /usr/src/app
 
-COPY src/ src/
+# Copiando arquivos necessários para o projeto
 COPY package*.json ./
 COPY tsconfig*.json ./
 COPY nest-cli.json ./
+COPY src/ src/
+COPY .env ./
 
-RUN npm -v
+# Instalando dependências, incluindo de desenvolvimento
 RUN npm ci
+RUN npm install pm2 -g
 
-COPY src .
+# Expondo a porta que a aplicação utiliza
+EXPOSE 9000
 
-# Estágio de Construção
-FROM node:18-alpine AS build
+# Comando para iniciar a aplicação em modo de desenvolvimento
+CMD ["pm2-runtime", "start", "npm", "--", "run", "start:dev"]
 
-WORKDIR /usr/src/app
-
-COPY --from=development /usr/src/app .
-
-RUN npm run build
-
-ENV NODE_ENV production
-
-RUN npm ci --only=production && npm cache clean --force
-
-# Estágio Final (Produção)
-FROM node:18-alpine AS production
-
-WORKDIR /usr/src/app
-
-COPY --from=build /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/dist ./dist
-
-USER node
-
-CMD ["node", "dist/main.js"]
+# Configurar um health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD curl -f http://localhost:9000/health || exit 1

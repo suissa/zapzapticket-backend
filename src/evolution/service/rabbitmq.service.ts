@@ -16,7 +16,10 @@ export class RabbitmqService implements OnApplicationBootstrap {
   }
 
   async consumeMessages() {
-    const connection = await amqp.connect("amqp://localhost");
+    // const connection = await amqp.connect("amqp://localhost");
+    const rabbitmqUrl = this.configService.get<string>('RABBITMQ_URL') || 'amqp://localhost';
+    console.log("RabbitmqService consumeMessages rabbitmqUrl", rabbitmqUrl);
+    const connection = await amqp.connect(rabbitmqUrl);
     const channel = await connection.createChannel();
     const queueName = this.configService.get<string>("RABBITMQ_QUEUE_NAME");
 

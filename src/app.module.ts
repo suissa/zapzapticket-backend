@@ -23,6 +23,7 @@ import { MessageGateway }  from "./gateways/message.gateway";
 import * as bodyParser from 'body-parser';
 
 console.log("MONGODB_URI", process.env.MONGODB_URI);
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -34,17 +35,21 @@ console.log("MONGODB_URI", process.env.MONGODB_URI);
       }),
       inject: [ConfigService],
     }),
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: "RABBITMQ_SERVICE",
-        transport: Transport.RMQ,
-        options: {
-          urls: ["amqp://localhost:5672"], // Substitua com a URL do seu RabbitMQ
-          queue: "messages_queue",
-          queueOptions: {
-            durable: false,
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configService.get<string>('RABBITMQ_URL') || 'amqp://localhost:5672'],
+            queue: "messages_queue",
+            queueOptions: {
+              durable: false,
+            },
           },
-        },
+        }),
+        inject: [ConfigService],
       },
     ]),
     AuthModule,
