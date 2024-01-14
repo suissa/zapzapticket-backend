@@ -77,11 +77,11 @@ export class ConnectionService {
 
   async shutDown(instanceName: string) {
     console.log("shutDown instanceName: ", instanceName)
-    const resultLogout = await this.evolutionService.logout(instanceName);
+    const resultLogout = await this.connectionModel.findOneAndUpdate({instanceName}, {instanceStatus: false});
     // const resultDelete = await this.evolutionService.delete(instanceName);
     console.log(resultLogout)
     // console.log(resultDelete)
-    return await this.connectionModel.findOneAndUpdate({instanceName}, {instanceStatus: false})
+    return await this.evolutionService.logout(instanceName);
   }
 
   async findInitiatedConnections() {
