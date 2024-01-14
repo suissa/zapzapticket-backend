@@ -15,7 +15,7 @@ import { CreateUserDto } from "../dto/create-user.dto";
 import { UpdateUsertDto } from "../dto/update-user.dto";
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
