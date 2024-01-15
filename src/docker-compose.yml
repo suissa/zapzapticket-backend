@@ -1,0 +1,10 @@
+version: '3'  # Versão do docker-compose
+
+services:
+  nest-zapzapticket:
+    image: suissa/nest-zapzapticket:latest
+    environment:
+      - MONGODB_URI=mongodb://137.184.81.207:27017/whatscrm
+    ports:
+      - "9000:9000"
+    container_name: nest_zapzapticket

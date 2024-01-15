@@ -14,7 +14,7 @@ import { User, UserSchema } from 'src/user/schema/user.schema';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({
       secret: "ManoVeioPeriferico#666",
-      signOptions: { expiresIn: "60m" },
+      signOptions: { expiresIn: "180m" },
       global: true,
     }),
   ],
