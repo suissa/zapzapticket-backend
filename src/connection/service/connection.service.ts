@@ -215,6 +215,9 @@ export class ConnectionService {
     // console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+      if (!request.data) return false
+      if (!request.data?.pushName) return false
+      if (!request.instance) return false
       const data = {
         name: request.data?.pushName,
         phone: request.instance.split("-")[1],
