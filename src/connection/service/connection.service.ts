@@ -215,7 +215,7 @@ export class ConnectionService {
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
       const data = {
-        name: request.data.pushName,
+        name: request.data?.pushName,
         phone: request.instance.split("-")[1],
         instanceName: request.instance,
         instanceStatus: true,
