@@ -30,7 +30,8 @@ import * as bodyParser from 'body-parser';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         // uri: configService.get<string>("MONGODB_URI"),
-        uri: "mongodb://localhost:27017/whatscrm",
+        // uri: "mongodb://localhost:27017/whatscrm",
+        uri: "mongodb://137.184.81.207:27017/whatscrm",
       }),
       inject: [ConfigService],
     }),
