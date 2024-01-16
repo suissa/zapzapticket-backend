@@ -22,8 +22,6 @@ import { WebhookModule } from "./webhook/webhook.module";
 import { MessageGateway }  from "./gateways/message.gateway";
 import * as bodyParser from 'body-parser';
 
-console.log("MONGODB_URI", process.env.MONGODB_URI);
-
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -31,7 +29,8 @@ console.log("MONGODB_URI", process.env.MONGODB_URI);
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>("MONGODB_URI"),
+        // uri: configService.get<string>("MONGODB_URI"),
+        uri: "mongodb://localhost:27017/whatscrm",
       }),
       inject: [ConfigService],
     }),
