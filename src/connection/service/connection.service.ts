@@ -209,6 +209,7 @@ export class ConnectionService {
 
   async saveReceivedTextMessage(request: any): Promise<any> {
     console.log("Connection saveReceivedTextMessage request: ", request);
+    if (!request.message) return false
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
     // console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection?.instanceName);

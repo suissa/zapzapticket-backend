@@ -58,6 +58,9 @@ export class WebhookService {
     console.log("saveReceivedTextMessageInContact ephemeralMessage: ", ephemeralMessage);
     console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
     console.log("saveSentTextMessageInContact extendedTextMessage.text: ", extendedTextMessage?.text);
+    if (!conversation && !extendedTextMessage?.text && !ephemeralMessage?.message?.extendedTextMessage?.text) {
+      return false;
+    }
     const phone = this.getPhoneByFromWhatsapp(remoteJid);
     const messageText = conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text;
     const phoneReply = this.getPhoneByFromWhatsapp(sender);
@@ -81,6 +84,9 @@ export class WebhookService {
     console.log("saveReceivedTextMessageInContact ephemeralMessage: ", ephemeralMessage);
     console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
     console.log("saveSentTextMessageInConnection extendedTextMessage?.text: ", extendedTextMessage?.text);
+    if (!conversation && !extendedTextMessage?.text && !ephemeralMessage?.message?.extendedTextMessage?.text) {
+      return false;
+    }
     const dataSave = {
       phone: this.getPhoneByFromWhatsapp(sender),
       message: conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text,
@@ -101,12 +107,17 @@ export class WebhookService {
     console.log("saveSentTextMessageInContact ephemeralMessage: ", ephemeralMessage);
     console.log("saveSentTextMessageInContact ephemeralMessage?.message?.extendedTextMessage?.text ", ephemeralMessage?.message?.extendedTextMessage?.text)
     console.log("saveReceivedTextMessageInConnection extendedTextMessage?.text: ", extendedTextMessage?.text);
+
+    if (!conversation && !extendedTextMessage?.text && !ephemeralMessage?.message?.extendedTextMessage?.text) {
+      return false;
+    }
     const dataSave = {
       phone: this.getPhoneByFromWhatsapp(sender),
       message: conversation || extendedTextMessage?.text || ephemeralMessage?.message?.extendedTextMessage?.text,
       phoneReply: this.getPhoneByFromWhatsapp(remoteJid)
     }
     console.log("\n\nsaveReceivedTextMessageInConnection dataSave: ", dataSave);
+    if (!dataSave.message) return false;
     const result = await this.connectionService.saveReceivedTextMessage(dataSave);
     // console.log("saveReceivedTextMessageInConnection result: ", result);
     return result;
