@@ -18,8 +18,7 @@ $ npm install
 
 ```bash
 # docker
-docker build --no-cache -f Dockerfile -t nest-zapzapticket .
-docker run --name nest_zapzapticket_1 -p 9000:9000 nest-zapzapticket
+$ docker-compose up --build
 
 # development
 $ npm run start

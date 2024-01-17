@@ -156,10 +156,12 @@ export class ConnectionService {
     console.log("Connection saveSentTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+
+      return false;
       const data = {
         name: request.data.pushName,
         phone: request.instance.split("-")[1],
-        instanceName: request.instance,
+        instanceName: request.instance.split("-")[0],
         instanceStatus: true,
       }
       console.log("saveSentTextMessage Sem conexao encontrada data ", data);
@@ -209,13 +211,17 @@ export class ConnectionService {
 
   async saveReceivedTextMessage(request: any): Promise<any> {
     console.log("Connection saveReceivedTextMessage request: ", request);
+    if (!request.message) return false
     const connection = await this.connectionModel.findOne({ phone: request.phone });
 
     // console.log("Connection saveReceivedTextMessage connection.instanceName: ", connection?.instanceName);
     if (!connection) {
       // throw new NotFoundException(`Connection with phone ${request.phone} not found`);
+      if (!request.data) return false
+      if (!request.data?.pushName) return false
+      if (!request.instance) return false
       const data = {
-        name: request.data.pushName,
+        name: request.data?.pushName,
         phone: request.instance.split("-")[1],
         instanceName: request.instance,
         instanceStatus: true,

@@ -70,4 +70,9 @@ export class AppController {
     await this.client.emit<any>("messages_queue", message);
     return "Mensagem enviada";
   }
+
+  @Get("health")
+  async getHealth(@Res() res) {
+    res.status(HttpStatus.OK).send("OK");
+  }
 }
