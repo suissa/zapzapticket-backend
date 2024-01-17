@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsOptional, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsBoolean, IsObject } from 'class-validator';
 
 export class CreateCompanyDto {
   @IsNotEmpty()
@@ -17,9 +17,13 @@ export class CreateCompanyDto {
   @IsString()
   status: string;
 
+  @IsObject()
+  @IsOptional()
+  planId: {};  // Representando um ObjectId como string
+
   @IsString()
   @IsOptional()
-  planId: string;  // Representando um ObjectId como string
+  planName: string;  // Representando um ObjectId como string
 
   @IsBoolean()
   @IsOptional()
