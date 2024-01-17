@@ -13,7 +13,7 @@ import {
 import { CompanyService } from "../service/company.service";
 import { CreateCompanyDto } from "../dto/create-company.dto";
 // import { UpdateCompanytDto } from "../dto/update-company.dto";
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
 @Controller("companies")
