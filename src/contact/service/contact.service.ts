@@ -57,7 +57,7 @@ export class ContactService {
 
   async updateByPhone(phone: string, request: any) {
     return await this.contactModel.updateOne( { phone }, request, {
-      new: true,
+      // new: true,
       runValidators: true,
     });
   }
