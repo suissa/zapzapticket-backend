@@ -4,8 +4,8 @@ import { Contact } from "../schema/contact.schema";
 import mongoose, { Model } from "mongoose";
 import { UpdateContactDto } from "../dto/update-contact.dto";
 import { CreateContactDtoPartial } from "../dto/create-contact.dto";
-import { ConnectionService } from "src/connection/service/connection.service";
-import { EvolutionService } from "src/evolution/service/evolution.service"
+import { ConnectionService } from "../../connection/service/connection.service";
+import { EvolutionService } from "../../evolution/service/evolution.service"
 
 
 interface ImportContactsRequest {
@@ -57,8 +57,8 @@ export class ContactService {
 
   async updateByPhone(phone: string, request: any) {
     return await this.contactModel.updateOne( { phone }, request, {
-      new: true,
-      runValidators: true,
+      // new: true,
+      // runValidators: true,
     });
   }
 

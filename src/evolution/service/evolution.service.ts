@@ -3,10 +3,10 @@ import { InjectModel } from "@nestjs/mongoose";
 // import mongoose, { Model } from "mongoose";
 import { ConfigService } from "@nestjs/config";
 import { Evolution } from "../schema/evolution.schema";
-import { MessageGateway } from "src/gateways/message.gateway";
-import { CreateEvolutionDto } from "src/evolution/dto/create-instance.dto";
-import { CreateMessageDto } from "src/evolution/dto/create-message.dto";
-import { GetInstanceDto } from "src/evolution/dto/get-instance.dto";
+import { MessageGateway } from "../../gateways/message.gateway";
+import { CreateEvolutionDto } from "../../evolution/dto/create-instance.dto";
+import { CreateMessageDto } from "../../evolution/dto/create-message.dto";
+import { GetInstanceDto } from "../../evolution/dto/get-instance.dto";
 import * as amqp from "amqplib";
 import axios from "axios";
 
