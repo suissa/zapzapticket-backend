@@ -9,8 +9,12 @@ export class AuthController {
   async login(@Body() body: { email: string; password: string}, @Res() res ) {
     const { email, password } = body;
 
+    console.log("auth login email: ", email);
+    console.log("auth login password: ", password);
+    
     // Valida o usuário
     const user = await this.authService.validateUser(email, password);
+    console.log("auth login user: ", user);
     if (!user) {
       return res.json({
         message: "Usuário não encontrado"
