@@ -2,12 +2,12 @@ import { BadRequestException, NotFoundException, Injectable } from "@nestjs/comm
 import { InjectModel } from "@nestjs/mongoose";
 import { Connection } from "../schema/connection.schema";
 import mongoose, { Model } from "mongoose";
-import { UpdateConnectionDto } from "src/connection/dto/update-connection.dto";
-import { CreateConnectionDto } from "src/connection/dto/create-connection.dto";
-import { EvolutionService } from "src/evolution/service/evolution.service"
+import { UpdateConnectionDto } from "../../connection/dto/update-connection.dto";
+import { CreateConnectionDto } from "../../connection/dto/create-connection.dto";
+import { EvolutionService } from "../../evolution/service/evolution.service"
 import axios from "axios";
-// const SERVER_EVOLUTION = process.env.SERVER_EVOLUTION || "http://localhost:6666";
-const SERVER_EVOLUTION = "http://137.184.81.207:6666";
+const SERVER_EVOLUTION = process.env.SERVER_EVOLUTION || "http://localhost:6666";
+// const SERVER_EVOLUTION = "http://137.184.81.207:6666";
 @Injectable()
 export class ConnectionService {
   constructor(

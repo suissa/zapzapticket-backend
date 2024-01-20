@@ -65,21 +65,21 @@ export class CreateContactDto {
   @IsString()
   profilePictureUrl: string = "/images/avatar-01.png";
 
-  @IsString()
-  @IsOptional()
-  ticketStatus: string = "inativo";
+  // @IsString()
+  // @IsOptional()
+  // ticketStatus: string = "inativo";
 
-  @IsString()
-  @IsOptional()
-  ticketCreatedAt: string;
+  // @IsString()
+  // @IsOptional()
+  // ticketCreatedAt: string;
 
-  @IsString()
-  @IsOptional()
-  ticketClosedAt: string;
+  // @IsString()
+  // @IsOptional()
+  // ticketClosedAt: string;
 
-  @IsString()
-  @IsOptional()
-  transferedTo: string;
+  // @IsString()
+  // @IsOptional()
+  // transferedTo: string;
 
   @IsArray()
   @IsString({ each: true })
