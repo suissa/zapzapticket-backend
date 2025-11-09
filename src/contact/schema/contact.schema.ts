@@ -54,20 +54,20 @@ export class Contact {
   @Prop({ default: "/images/avatar-01.png"})
   profilePictureUrl: string;
 
-  @Prop({ default: "inativo"})
-  ticketStatus: string;
+  // @Prop({ default: "inativo"})
+  // ticketStatus: string;
 
-  @Prop()
-  ticketCreatedAt: string;
+  // @Prop()
+  // ticketCreatedAt: string;
 
-  @Prop()
-  ticketClosedAt: string;
+  // @Prop()
+  // ticketClosedAt: string;
 
-  @Prop()
-  transferedTo: string;
+  // @Prop()
+  // transferedTo: string;
 
-  @Prop()
-  connectionPhone: string;
+  // @Prop()
+  // connectionPhone: string;
 
   @Prop()
   groupId: string;
